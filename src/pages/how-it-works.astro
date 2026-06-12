@@ -1,0 +1,90 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Section from "../components/ui/Section.astro";
+import Button from "../components/ui/Button.astro";
+import FeatureCard from "../components/ui/FeatureCard.astro";
+import FAQAccordion from "../components/ui/FAQAccordion.astro";
+import CTASection from "../components/ui/CTASection.astro";
+import HowItWorksInfographic from "../components/infographics/HowItWorksInfographic.astro";
+import { pageMetadata } from "../data/metadata";
+import { selectFaqs } from "../data/faqs";
+
+const processFaqs = selectFaqs([
+  "Why are there minimum terms?",
+  "What do you need from me to start?",
+  "Do you write the content?",
+  "Is Google Ads included?",
+  "How do updates work?",
+]);
+
+const needed = ["Business name", "Contact info", "Services", "Service area", "Hours", "Logo", "Photos if available", "Existing website if any", "Short about text", "Examples of websites you like", "Current domain access if available"];
+const handled = [
+  ["Website structure", "We organize your pages around your services, service area, contact paths, and trust signals so visitors can quickly understand what you do.", "browser"],
+  ["Design", "We create a clean, mobile-friendly layout that looks professional and makes calls or quote requests easy.", "star"],
+  ["Mobile layout", "We make key actions easy to tap, including phone calls, forms, directions, and service links.", "phone"],
+  ["Hosting", "Your plan includes hosting so the site stays online without you managing a separate hosting account.", "cloud"],
+  ["SSL/security", "SSL is included so visitors can browse and submit forms through a secure connection.", "shield"],
+  ["Forms", "We set up a simple contact or quote-request form and route submissions through the site backend.", "mail"],
+  ["Basic SEO", "We set page titles, descriptions, headings, service keywords, internal links, and local relevance signals.", "search"],
+  ["Launch support", "We help with final edits, launch checks, and the handoff needed to go live.", "rocket"],
+  ["Maintenance", "We handle plan-based updates and basic upkeep so the site does not go stale after launch.", "wrench"],
+];
+---
+
+<MainLayout title={pageMetadata.howItWorks.title} description={pageMetadata.howItWorks.description}>
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <h1>A simple website process built for busy business owners.</h1>
+        <p>You do not need to learn web design, hosting, SEO, or ad platforms. Pick a plan, send us the basics, and we handle the build.</p>
+        <div class="hero__actions">
+          <Button href="/contact/" variant="secondary" size="lg">Check My Fit</Button>
+          <Button href="/pricing/" size="lg">View Plans</Button>
+        </div>
+      </div>
+      <div class="hero__media">
+        <img src="/images/hometown-boost/hero-hometown-business-growth.svg" alt="Website launch process visual with a local business and website screen." width="900" height="600" />
+      </div>
+    </div>
+  </section>
+
+  <HowItWorksInfographic />
+
+  <Section title="What we need from you.">
+    <div class="split">
+      <div class="card">
+        <ul class="check-list">
+          {needed.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Timeline expectations</h3>
+        <p>Most simple sites move quickly once business details, photos, and approvals are provided. Larger sites, extra pages, missing content, or delayed approvals can extend the timeline. Before work begins, Hometown Boost will outline the expected scope and next steps.</p>
+      </div>
+    </div>
+  </Section>
+
+  <Section variant="light" title="What we handle.">
+    <div class="grid grid--3">
+      {handled.map(([title, description, icon]) => <FeatureCard title={title} description={description} icon={icon} />)}
+    </div>
+  </Section>
+
+  <Section title="After launch." description="Monthly support keeps the core website work from falling back on your plate.">
+    <div class="grid grid--3">
+      <FeatureCard title="Hosting and maintenance" description="Your site stays hosted, maintained, and cared for." icon="cloud" />
+      <FeatureCard title="Updates by plan" description="Lite includes quarterly small updates; higher plans include more frequent support." icon="wrench" />
+      <FeatureCard title="Optional growth support" description="Higher plans can include profile help, reports, and optional ads." icon="chart" />
+    </div>
+  </Section>
+
+  <Section variant="light" title="Process FAQs" align="center">
+    <FAQAccordion items={processFaqs} />
+  </Section>
+
+  <CTASection
+    title="Ready to start?"
+    primaryCta={{ label: "Check My Fit", href: "/contact/", variant: "secondary" }}
+    secondaryCta={{ label: "View Plans", href: "/pricing/" }}
+  />
+</MainLayout>

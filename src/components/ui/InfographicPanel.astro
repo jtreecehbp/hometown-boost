@@ -1,0 +1,21 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  title: string;
+  points: string[];
+  loading?: "eager" | "lazy";
+}
+
+const { src, alt, title, points, loading = "lazy" } = Astro.props;
+---
+
+<figure class="infographic-panel">
+  <img src={src} alt={alt} width="900" height="1272" loading={loading} decoding="async" />
+  <figcaption>
+    <h3>{title}</h3>
+    <ul class="check-list">
+      {points.map((point) => <li>{point}</li>)}
+    </ul>
+  </figcaption>
+</figure>

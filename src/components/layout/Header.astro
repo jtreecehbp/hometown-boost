@@ -1,0 +1,68 @@
+---
+import Button from "../ui/Button.astro";
+import { navigation } from "../../data/navigation";
+
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+function isCurrent(href: string) {
+  const normalizedHref = href.replace(/\/$/, "") || "/";
+  return currentPath === normalizedHref || (normalizedHref !== "/" && currentPath.startsWith(`${normalizedHref}/`));
+}
+---
+
+<header class="header">
+  <div class="container header__inner">
+    <a href="/" class="brand" aria-label="Hometown Boost home">
+      <span class="brand__mark" aria-hidden="true">
+        <img src="/images/hometown-boost/hometown-boost-logo.webp" alt="" width="84" height="84" />
+      </span>
+      <span class="brand__name">
+        <span>Hometown</span>
+        <span>Boost</span>
+      </span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Open main menu" aria-expanded="false" aria-controls="main-navigation" data-menu-button>
+      <span aria-hidden="true"></span>
+    </button>
+    <nav class="nav" id="main-navigation" aria-label="Main navigation" data-main-menu>
+      {navigation.map((item) => (
+        <a class="nav__link" href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
+          {item.label}
+        </a>
+      ))}
+    </nav>
+    <Button class="header__cta" href="/contact/" variant="secondary" size="sm">Check My Fit</Button>
+  </div>
+</header>
+
+<script>
+  const menuButton = document.querySelector("[data-menu-button]");
+  const menu = document.querySelector("[data-main-menu]");
+
+  if (menuButton instanceof HTMLButtonElement && menu instanceof HTMLElement) {
+    const setMenuOpen = (isOpen: boolean) => {
+      menu.classList.toggle("is-open", isOpen);
+      document.body.classList.toggle("menu-open", isOpen);
+      menuButton.setAttribute("aria-expanded", String(isOpen));
+      menuButton.setAttribute("aria-label", isOpen ? "Close main menu" : "Open main menu");
+    };
+
+    menuButton.addEventListener("click", () => {
+      const isOpen = !menu.classList.contains("is-open");
+      setMenuOpen(isOpen);
+    });
+
+    menu.addEventListener("click", (event) => {
+      if (event.target instanceof HTMLAnchorElement) {
+        setMenuOpen(false);
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && menu.classList.contains("is-open")) {
+        setMenuOpen(false);
+        menuButton.focus();
+      }
+    });
+  }
+</script>

@@ -1,0 +1,209 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Section from "../components/ui/Section.astro";
+import Button from "../components/ui/Button.astro";
+import FeatureCard from "../components/ui/FeatureCard.astro";
+import Icon from "../components/icons/Icon.astro";
+import { pageMetadata } from "../data/metadata";
+import { planInterestOptions, pricingPlans } from "../data/pricingPlans";
+import { siteConfig } from "../data/siteConfig";
+
+const litePlan = pricingPlans[0];
+const startingPriceMonthly = litePlan.priceLabel.replace("/mo", "/month");
+---
+
+<MainLayout title={pageMetadata.contact.title} description={pageMetadata.contact.description}>
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <h1>Ready to make your business look better online?</h1>
+        <p>No pressure. Tell us where your business is starting and we will recommend a clear next step. You do not need to have everything ready before reaching out.</p>
+        <ul class="hero__bullets">
+          <li><span class="icon-circle"><Icon name="dollar" /></span>Plans start at {startingPriceMonthly}</li>
+          <li><span class="icon-circle"><Icon name="shield" /></span>No setup fees</li>
+          <li><span class="icon-circle"><Icon name="cloud" /></span>Hosting included</li>
+        </ul>
+      </div>
+      <div class="hero__media">
+        <img src="/images/hometown-boost/contact-growth-graphic.svg" alt="Contact request form and growth chart illustration." width="720" height="420" />
+      </div>
+    </div>
+  </section>
+
+  <Section>
+    <div class="split">
+      <form
+        class="card lead-form"
+        name="contact"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        action="/thank-you/"
+      >
+        <input type="hidden" name="form-name" value="contact" />
+        <p class="honeypot" aria-hidden="true">
+          <label>
+            Leave this field blank:
+            <input name="bot-field" tabindex="-1" autocomplete="off" />
+          </label>
+        </p>
+
+        <input type="hidden" name="landing_page" id="landing_page" />
+        <input type="hidden" name="source_url" id="source_url" />
+        <input type="hidden" name="referrer" id="referrer" />
+        <input type="hidden" name="utm_source" id="utm_source" />
+        <input type="hidden" name="utm_medium" id="utm_medium" />
+        <input type="hidden" name="utm_campaign" id="utm_campaign" />
+        <input type="hidden" name="utm_content" id="utm_content" />
+        <input type="hidden" name="utm_term" id="utm_term" />
+
+        <h2>Tell us about your business</h2>
+        <p data-source-message class="contact-source-message contact-context">Tell us where your business is starting and we will recommend a clear next step.</p>
+        <p class="note">Prefer email? Reach us at <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.</p>
+
+        <div class="form-grid" style="margin-top: 1.2rem;">
+          <div class="form-field">
+            <label for="name">Name <span aria-hidden="true">*</span></label>
+            <input id="name" name="name" type="text" autocomplete="name" required />
+          </div>
+          <div class="form-field">
+            <label for="businessName">Business Name <span aria-hidden="true">*</span></label>
+            <input id="businessName" name="businessName" type="text" autocomplete="organization" required />
+          </div>
+          <div class="form-field">
+            <label for="email">Email <span aria-hidden="true">*</span></label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="form-field">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" />
+          </div>
+          <div class="form-field full">
+            <label for="websiteUrl">Website URL, if you have one</label>
+            <input id="websiteUrl" name="websiteUrl" type="text" inputmode="url" placeholder="example.com" />
+          </div>
+          <div class="form-field">
+            <label for="industry">Business Type / Industry <span aria-hidden="true">*</span></label>
+            <input id="industry" name="industry" type="text" required />
+          </div>
+          <div class="form-field">
+            <label for="serviceArea">City / Service Area <span aria-hidden="true">*</span></label>
+            <input id="serviceArea" name="serviceArea" type="text" required />
+          </div>
+          <div class="form-field full">
+            <label for="planInterest">Plan Interest</label>
+            <select id="planInterest" name="planInterest">
+              {planInterestOptions.map((option) => <option value={option}>{option}</option>)}
+            </select>
+          </div>
+          <div class="form-field full">
+            <label for="googleAdsInterest">Google Ads Interest</label>
+            <select id="googleAdsInterest" name="googleAdsInterest">
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+              <option value="Not sure yet">Not sure yet</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <label for="message">What should we help with first?</label>
+            <textarea id="message" name="message" rows="5" placeholder="Example: I need a better website, more calls, or help figuring out which plan fits."></textarea>
+          </div>
+        </div>
+        <div class="actions">
+          <Button type="submit" variant="secondary" size="lg">Request My Website Plan</Button>
+        </div>
+        <p class="note submit-note">No obligation. We review the details and reply with the clearest next step.</p>
+      </form>
+
+      <aside class="card">
+        <h2>You are in good hands with clear expectations.</h2>
+        <div class="sidebar-list">
+          {[
+            ["No setup fees", "Start with zero setup fees.", "dollar"],
+            [`Plans start at ${startingPriceMonthly}`, "Lite is the lowest-cost starting point.", "calendar"],
+            ["Hosting included", "Hosting and SSL/security are included.", "cloud"],
+            ["Google Ads available", "Optional add-on when your site or landing page is ready.", "megaphone"],
+            ["No guaranteed rankings or lead promises", "We keep expectations honest and focus on the foundation.", "shield"],
+          ].map(([title, copy, icon]) => (
+            <div class="sidebar-item">
+              <span class="icon-circle"><Icon name={icon} /></span>
+              <div>
+                <h3>{title}</h3>
+                <p>{copy}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </aside>
+    </div>
+  </Section>
+
+  <Section variant="light" title="What happens next?" align="center">
+    <div class="grid grid--3">
+      <FeatureCard title="You submit your info" description="Tell us what your business needs and where you are starting." icon="clipboard" />
+      <FeatureCard title="We review your needs" description="We look at the best plan and add-on fit for your goals." icon="search" />
+      <FeatureCard title="We follow up" description="You get clear next steps without pressure." icon="mail" />
+    </div>
+  </Section>
+
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const planRaw = (params.get("plan") || "").toLowerCase();
+      const serviceRaw = (params.get("service") || "").toLowerCase();
+      const adsRaw = (params.get("ads") || "").toLowerCase();
+      const industryRaw = params.get("industry") || "";
+
+      const planLabels: Record<string, string> = {
+        lite: "Lite",
+        starter: "Starter",
+        growth: "Growth",
+        leader: "Leader",
+      };
+
+      const selectedPlan = planLabels[planRaw] || "";
+      const wantsAds = serviceRaw === "google-ads" || adsRaw === "yes" || adsRaw === "true";
+
+      const planSelect = document.querySelector('[name="planInterest"]');
+      const adsSelect = document.querySelector('[name="googleAdsInterest"]');
+      const industryInput = document.querySelector('[name="industry"]');
+      const sourceMessage = document.querySelector("[data-source-message]");
+
+      if (selectedPlan && planSelect instanceof HTMLSelectElement) {
+        planSelect.value = selectedPlan;
+      }
+
+      if (wantsAds && adsSelect instanceof HTMLSelectElement) {
+        adsSelect.value = "Yes";
+      }
+
+      if (industryRaw && industryInput instanceof HTMLInputElement) {
+        industryInput.value = industryRaw;
+      }
+
+      if (sourceMessage) {
+        if (wantsAds) {
+          sourceMessage.textContent = "You're asking about Google Ads management.";
+        } else if (selectedPlan) {
+          sourceMessage.textContent = `You're asking about Hometown ${selectedPlan}.`;
+        } else if (industryRaw) {
+          sourceMessage.textContent = `You're asking about a website plan for ${industryRaw}.`;
+        } else {
+          sourceMessage.textContent = "Tell us where your business is starting and we will recommend a clear next step.";
+        }
+      }
+
+      const setValue = (id: string, value: string | null) => {
+        const el = document.getElementById(id);
+        if (el instanceof HTMLInputElement) el.value = value || "";
+      };
+
+      setValue("landing_page", window.location.pathname);
+      setValue("source_url", window.location.href);
+      setValue("referrer", document.referrer);
+      ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach((key) => {
+        setValue(key, params.get(key));
+      });
+    })();
+  </script>
+</MainLayout>

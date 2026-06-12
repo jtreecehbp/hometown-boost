@@ -1,0 +1,65 @@
+---
+import Icon from "../icons/Icon.astro";
+
+const steps = [
+  {
+    number: "1",
+    title: "Choose Your Plan",
+    body: "Pick the monthly plan that fits your business and goals.",
+    icon: "clipboard",
+  },
+  {
+    number: "2",
+    title: "Send the Basics",
+    body: "Share your logo, services, service area, photos, and contact info.",
+    icon: "mail",
+  },
+  {
+    number: "3",
+    title: "We Build Your Site",
+    body: "We design a professional, mobile-friendly website built to convert.",
+    icon: "browser",
+  },
+  {
+    number: "4",
+    title: "Review & Launch",
+    body: "You approve the content, we make final edits, and go live.",
+    icon: "rocket",
+  },
+  {
+    number: "5",
+    title: "Maintain & Grow",
+    body: "Hosting, updates, support, and optional local marketing stay handled.",
+    icon: "wrench",
+  },
+];
+---
+
+<section class="infographic-section infographic-section--cream how-it-works-infographic" aria-labelledby="how-it-works-infographic-title">
+  <div class="infographic-wrap">
+    <div class="infographic-heading">
+      <p class="eyebrow">Process</p>
+      <h2 id="how-it-works-infographic-title">How Hometown Boost Works</h2>
+      <p>A simple path to a better website and more local visibility</p>
+    </div>
+
+    <div class="step-grid" aria-label="Hometown Boost process steps">
+      {steps.map((step) => (
+        <article class="step-card">
+          <span class="step-number" aria-hidden="true">{step.number}</span>
+          <div>
+            <span class="infographic-icon" aria-hidden="true"><Icon name={step.icon} /></span>
+            <h3>{step.title}</h3>
+            <p>{step.body}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="infographic-footer-strip">
+      <strong>No setup fee</strong>
+      <span>Hosting included</span>
+      <span>Ongoing support</span>
+    </div>
+  </div>
+</section>

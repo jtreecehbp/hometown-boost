@@ -1,0 +1,44 @@
+---
+import Button from "./Button.astro";
+import Badge from "./Badge.astro";
+import type { PricingPlan } from "../../data/pricingPlans";
+
+interface Props {
+  plan: PricingPlan;
+  featureLimit?: number;
+  showNotIncluded?: boolean;
+}
+
+const { plan, featureLimit, showNotIncluded = false } = Astro.props;
+const features = typeof featureLimit === "number" ? plan.highlights.slice(0, featureLimit) : plan.highlights;
+---
+
+<article class={`card pricing-card ${plan.featured ? "card--highlight" : ""}`}>
+  {plan.badge && <span class="pricing-card__badge"><Badge variant="orange">{plan.badge}</Badge></span>}
+  <div>
+    <h3>{plan.name}</h3>
+    <div class="pricing-card__price" style="margin-top: 0.8rem;">
+      {plan.priceLabel.replace("/mo", "")}<span>/mo</span>
+    </div>
+    <p class="note" style="margin-top: 0.6rem;">{plan.setupFeeLabel} | {plan.minimumTerm}</p>
+    <p class="note" style="margin-top: 0.35rem;">Minimum commitment: {plan.minimumCommitment}</p>
+  </div>
+  <div>
+    <strong>Best for:</strong>
+    <p>{plan.bestFor}</p>
+  </div>
+  <ul class="check-list">
+    {features.map((feature) => <li>{feature}</li>)}
+  </ul>
+  {showNotIncluded && (
+    <div>
+      <strong>Not included:</strong>
+      <ul class="check-list x-list" style="margin-top: 0.5rem;">
+        {plan.notIncluded.map((feature) => <li>{feature}</li>)}
+      </ul>
+    </div>
+  )}
+  <div style="margin-top: auto;">
+    <Button href={plan.ctaHref} variant={plan.featured ? "secondary" : "primary"}>{plan.ctaLabel}</Button>
+  </div>
+</article>

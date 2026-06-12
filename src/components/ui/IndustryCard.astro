@@ -1,0 +1,22 @@
+---
+import Icon from "../icons/Icon.astro";
+
+interface Props {
+  name: string;
+  painPoint: string;
+  suggestedPlan: string;
+  icon?: string;
+  ctaHref?: string;
+  ctaLabel?: string;
+}
+
+const { name, painPoint, suggestedPlan, icon = "storefront", ctaHref, ctaLabel = "Get a plan" } = Astro.props;
+---
+
+<article class="card industry-card">
+  <span class="icon-circle"><Icon name={icon} /></span>
+  <h3>{name}</h3>
+  <p>{painPoint}</p>
+  <span class="industry-card__plan">{suggestedPlan}</span>
+  {ctaHref && <a class="card-link" href={ctaHref}>{ctaLabel}</a>}
+</article>

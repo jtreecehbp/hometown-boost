@@ -1,0 +1,54 @@
+---
+import { getCollection } from "astro:content";
+import MainLayout from "../layouts/MainLayout.astro";
+import Section from "../components/ui/Section.astro";
+import Button from "../components/ui/Button.astro";
+import FeatureCard from "../components/ui/FeatureCard.astro";
+import CTASection from "../components/ui/CTASection.astro";
+import { pageMetadata } from "../data/metadata";
+
+const resources = await getCollection("resources", ({ data }) => data.draft !== true);
+---
+
+<MainLayout title={pageMetadata.resources.title} description={pageMetadata.resources.description}>
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <span class="eyebrow">Resources</span>
+        <h1>Simple website and local marketing resources for hometown businesses.</h1>
+        <p>Practical guides, tips, and tutorials to help you get more leads, look better online, and grow your business one step at a time.</p>
+      </div>
+      <div class="hero__media">
+        <img src="/images/hometown-boost/website-plans-graphic.svg" alt="Website resources and plan graphic." width="720" height="420" />
+      </div>
+    </div>
+  </section>
+
+  <Section title="Start with the basics." align="center">
+    <div class="grid grid--2">
+      {resources.map((resource) => (
+        <article class="card">
+          <span class="eyebrow">{resource.data.category}</span>
+          <h2 style="margin-top: 0.8rem;">{resource.data.title}</h2>
+          <p>{resource.data.description}</p>
+          <Button href={`/resources/${resource.id}/`} variant="outline">Read Resource</Button>
+        </article>
+      ))}
+    </div>
+  </Section>
+
+  <Section variant="light" title="What these resources are meant to do." align="center">
+    <div class="grid grid--3">
+      <FeatureCard title="Explain the basics" description="Plain-English guidance for busy local business owners." icon="clipboard" />
+      <FeatureCard title="Support better decisions" description="Understand when a website, profile help, or ads make sense." icon="search" />
+      <FeatureCard title="Keep expectations honest" description="No fake promises, inflated claims, or guaranteed results." icon="shield" />
+    </div>
+  </Section>
+
+  <CTASection
+    title="Need help putting this into action?"
+    description="Hometown Boost can build, host, maintain, and support the website foundation for you."
+    primaryCta={{ label: "Check My Fit", href: "/contact/", variant: "secondary" }}
+    secondaryCta={{ label: "View Plans", href: "/pricing/" }}
+  />
+</MainLayout>

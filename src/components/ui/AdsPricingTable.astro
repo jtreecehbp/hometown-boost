@@ -1,0 +1,25 @@
+---
+import { googleAdsPricing } from "../../data/pricingPlans";
+---
+
+<div class="table-wrap">
+  <table>
+    <caption>Google Ads pricing examples</caption>
+    <thead>
+      <tr>
+        <th scope="col">Monthly Ad Spend</th>
+        <th scope="col">Management Fee</th>
+        <th scope="col">Total Monthly Investment</th>
+      </tr>
+    </thead>
+    <tbody>
+      {googleAdsPricing.examples.map((example) => (
+        <tr>
+          <td>{example.adSpend}</td>
+          <td>{example.managementFee}</td>
+          <td>{example.totalInvestment}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

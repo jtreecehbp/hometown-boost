@@ -1,0 +1,49 @@
+---
+import Button from "../ui/Button.astro";
+import { googleAdsPricing, pricingPlans } from "../../data/pricingPlans";
+---
+
+<section class="infographic-section pricing-infographic" aria-labelledby="pricing-infographic-title">
+  <div class="infographic-wrap">
+    <div class="infographic-heading">
+      <p class="eyebrow">Simple monthly options</p>
+      <h2 id="pricing-infographic-title">Choose the right Hometown Boost plan</h2>
+      <p>No setup fees. Hosting and maintenance included.</p>
+    </div>
+
+    <div class="plan-grid">
+      {pricingPlans.map((plan) => (
+        <article class={`plan-card ${plan.featured ? "is-featured" : ""}`}>
+          {plan.badge && <p class="plan-badge">{plan.badge}</p>}
+          <h3>{plan.name}</h3>
+          <p class="plan-price">{plan.priceLabel}</p>
+          <p class="plan-term">
+            {plan.setupFeeLabel} | {plan.minimumTerm}
+          </p>
+          <p class="plan-commitment">
+            Minimum commitment: {plan.minimumCommitment}
+          </p>
+          <p class="plan-best-for">{plan.bestFor}</p>
+
+          <ul class="plan-highlights">
+            <li>{plan.websiteSize}</li>
+            {plan.highlights
+              .filter((item) => item !== plan.websiteSize)
+              .slice(0, 4)
+              .map((item) => (
+                <li>{item}</li>
+              ))}
+          </ul>
+
+          <Button href={plan.ctaHref} variant={plan.featured ? "secondary" : "primary"}>{plan.ctaLabel}</Button>
+        </article>
+      ))}
+    </div>
+
+    <div class="ads-callout">
+      <strong>Google Ads management available:</strong>
+      <span>{googleAdsPricing.formulaLabel}</span>
+      <span>{googleAdsPricing.note}</span>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,54 @@
+---
+import { getCollection, render } from "astro:content";
+import MainLayout from "../../layouts/MainLayout.astro";
+import Section from "../../components/ui/Section.astro";
+import Button from "../../components/ui/Button.astro";
+
+export async function getStaticPaths() {
+  const resources = await getCollection("resources", ({ data }) => data.draft !== true);
+  return resources.map((resource) => ({
+    params: { slug: resource.id },
+    props: { resource },
+  }));
+}
+
+const { resource } = Astro.props;
+const { Content } = await render(resource);
+
+const canonical = new URL(`/resources/${resource.id}/`, Astro.site ?? "https://hometownboost.com").toString();
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: resource.data.title,
+  description: resource.data.description,
+  mainEntityOfPage: canonical,
+  publisher: {
+    "@type": "Organization",
+    name: "Hometown Boost",
+  },
+};
+---
+
+<MainLayout title={`${resource.data.title} | Hometown Boost`} description={resource.data.description} canonical={canonical} ogType="article" schema={articleSchema}>
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <span class="eyebrow">{resource.data.category}</span>
+        <h1>{resource.data.title}</h1>
+        <p>{resource.data.description}</p>
+        <div class="hero__actions">
+          <Button href="/resources/" variant="outline">Back to Resources</Button>
+        </div>
+      </div>
+      <div class="hero__media">
+        <img src="/images/hometown-boost/website-plans-graphic.svg" alt="Website and local marketing resource graphic." width="720" height="420" />
+      </div>
+    </div>
+  </section>
+
+  <Section>
+    <article class="resource-content card">
+      <Content />
+    </article>
+  </Section>
+</MainLayout>

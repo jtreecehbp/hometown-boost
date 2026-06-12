@@ -1,0 +1,146 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Section from "../components/ui/Section.astro";
+import Button from "../components/ui/Button.astro";
+import FeatureCard from "../components/ui/FeatureCard.astro";
+import FAQAccordion from "../components/ui/FAQAccordion.astro";
+import AdsPricingTable from "../components/ui/AdsPricingTable.astro";
+import CTASection from "../components/ui/CTASection.astro";
+import AdsPricingFormula from "../components/infographics/AdsPricingFormula.astro";
+import { pageMetadata } from "../data/metadata";
+import { selectFaqs } from "../data/faqs";
+
+const adsFaqs = selectFaqs([
+  "How does Google Ads pricing work?",
+  "Who pays the Google Ads budget?",
+  "Is ad spend included in the management fee?",
+  "Do you guarantee Google Ads results?",
+  "What kind of ads do you manage?",
+]);
+
+const includedDetails = [
+  ["One ad platform", "Management is limited to Google Ads. Social, display, video, and other ad platforms are not part of this starter offer."],
+  ["Google Search Ads", "Campaigns focus on people actively searching for services in your area."],
+  ["One primary campaign", "We start with one focused campaign around your main service category or highest-priority offer."],
+  ["Basic keyword setup", "We build the starting keyword list around your services, location, and likely customer searches."],
+  ["Negative keywords", "We add negative keywords to reduce irrelevant searches and review them during ongoing optimization."],
+  ["Ad copywriting", "We write practical search ads focused on calls, quote requests, service area, and trust."],
+  ["Location targeting", "We target the cities, towns, counties, or radius that match where the business actually serves customers."],
+  ["Basic conversion tracking", "We set up practical tracking where possible, such as form submissions, call clicks, or thank-you page visits."],
+  ["Monthly optimization", "We review search terms, budget pacing, basic bids/settings, and ad performance to improve the campaign over time."],
+  ["Monthly reporting", "We provide a simple report covering spend, traffic, leads or tracked actions where available, and next-step recommendations."],
+];
+
+const fitDetails = [
+  ["Contractors who want more calls", "Best for businesses where a new job can justify the ad spend."],
+  ["Businesses with higher-value jobs", "Works better when the average customer value is high enough to support testing paid search."],
+  ["Companies with a website or landing page ready", "Ads should send traffic to a page that clearly explains the service and makes contact easy."],
+  ["Growth or Leader clients", "Best paired with a stronger website foundation and lead-focused pages."],
+  ["Businesses with a modest monthly ad budget", "Paid search needs enough budget to test, learn, and improve."],
+];
+
+const notFitDetails = [
+  ["Businesses expecting guaranteed leads", "Ads can increase targeted traffic, but results depend on budget, market, competition, offer, landing page, and follow-up."],
+  ["Businesses with no website or weak landing page", "Traffic should not be sent to a page that is slow, unclear, or hard to contact from."],
+  ["Businesses that cannot handle additional calls", "Ads should not run if the business cannot answer calls or respond to leads quickly."],
+  ["Businesses unwilling to test for a few months", "One short test may not provide enough data to improve performance."],
+  ["Businesses with no realistic ad budget", "Very small budgets may not produce enough search volume to learn from."],
+];
+
+const notIncludedDetails = [
+  ["Ad spend itself", "The client pays Google directly for monthly ad spend."],
+  ["Other ad platforms", "Meta, TikTok, display, video, and advanced campaign types are outside this starter offer."],
+  ["Advanced funnels", "Complex landing page funnels, CRM automations, and multi-step campaigns can be quoted separately."],
+  ["Daily hands-on management", "The offer is monthly management, optimization, and reporting, not daily account supervision."],
+  ["Guaranteed lead volume", "No honest ads provider can guarantee lead count, cost per lead, or revenue."],
+  ["Landing page design", "Landing page design is included only when it is part of the selected website plan or quoted separately."],
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: adsFaqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: { "@type": "Answer", text: faq.answer },
+  })),
+};
+---
+
+<MainLayout title={pageMetadata.googleAds.title} description={pageMetadata.googleAds.description} schema={faqSchema}>
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <span class="eyebrow">Google Ads</span>
+        <h1>Google Ads management for local businesses that want leads faster.</h1>
+        <p>We help run simple, targeted Google Search campaigns focused on calls and form leads, without turning it into a complicated agency contract.</p>
+        <div class="hero__actions">
+          <Button href="/contact/?service=google-ads" variant="secondary" size="lg">Ask About Google Ads</Button>
+          <Button href="/pricing/" variant="outline" size="lg">View Website Plans</Button>
+        </div>
+      </div>
+      <div class="hero__media">
+        <img src="/images/hometown-boost/ads-local-search.svg" alt="Google Search Ads and phone call lead illustration." width="720" height="420" />
+      </div>
+    </div>
+  </section>
+
+  <Section title="Simple, responsible pricing." description="Your ad spend goes directly to Google. Hometown Boost charges a separate monthly management fee to set up, monitor, and improve the campaign." align="center">
+    <AdsPricingFormula />
+  </Section>
+
+  <Section variant="light" title="Example pricing based on monthly ad spend." align="center">
+    <AdsPricingTable />
+  </Section>
+
+  <Section title="What is included." align="center">
+    <div class="grid grid--4">
+      {includedDetails.map(([title, description]) => <FeatureCard title={title} description={description} icon="megaphone" />)}
+    </div>
+  </Section>
+
+  <Section variant="cream" title="Who it is for.">
+    <div class="grid grid--3">
+      {fitDetails.map(([title, description]) => (
+        <FeatureCard title={title} description={description} icon="shield" tone="green" />
+      ))}
+    </div>
+  </Section>
+
+  <Section title="Who it is not for.">
+    <div class="grid grid--3">
+      {notFitDetails.map(([title, description]) => (
+        <FeatureCard title={title} description={description} icon="shield" tone="orange" />
+      ))}
+    </div>
+  </Section>
+
+  <Section variant="light" title="Requirements before ads make sense.">
+    <div class="card">
+      <ul class="check-list">
+        <li>Google Ads requires a website or landing page that is ready for traffic.</li>
+        <li>Client pays Google directly.</li>
+        <li>Ad spend is separate.</li>
+        <li>Tracking should be used where possible.</li>
+        <li>3-month minimum is recommended.</li>
+        <li>Results are not guaranteed.</li>
+      </ul>
+    </div>
+  </Section>
+
+  <Section title="What is not included." align="center">
+    <div class="grid grid--3">
+      {notIncludedDetails.map(([title, description]) => <FeatureCard title={title} description={description} icon="shield" tone="orange" />)}
+    </div>
+  </Section>
+
+  <Section variant="cream" title="Google Ads FAQs" align="center">
+    <FAQAccordion items={adsFaqs} />
+  </Section>
+
+  <CTASection
+    title="Want to see if ads make sense for your business?"
+    primaryCta={{ label: "Ask About Google Ads", href: "/contact/?service=google-ads", variant: "secondary" }}
+    secondaryCta={{ label: "View Plans", href: "/pricing/" }}
+  />
+</MainLayout>

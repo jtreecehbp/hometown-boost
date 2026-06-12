@@ -1,0 +1,86 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Section from "../components/ui/Section.astro";
+import Button from "../components/ui/Button.astro";
+import FeatureCard from "../components/ui/FeatureCard.astro";
+import CTASection from "../components/ui/CTASection.astro";
+import { pageMetadata } from "../data/metadata";
+---
+
+<MainLayout title={pageMetadata.about.title} description={pageMetadata.about.description}>
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <span class="eyebrow">About</span>
+        <h1>Digital help for businesses that do not have time for digital headaches.</h1>
+        <p>Hometown Boost was built around a simple idea: local businesses deserve professional websites and marketing support without huge upfront costs or confusing agency talk.</p>
+        <div class="hero__actions">
+          <Button href="/contact/" variant="secondary" size="lg">Check My Fit</Button>
+          <Button href="/pricing/" size="lg">View Plans</Button>
+        </div>
+      </div>
+      <div class="hero__media">
+        <img src="/images/hometown-boost/hero-hometown-business-growth.svg" alt="Hometown storefronts and website screens for local businesses." width="900" height="600" />
+      </div>
+    </div>
+  </section>
+
+  <Section eyebrow="Brand Story" title="Built for businesses like yours.">
+    <div class="split">
+      <div>
+        <p>Hometown Boost was created for local business owners who are tired of choosing between cheap DIY website builders and expensive agency proposals. The goal is simple: give small-town businesses a professional online foundation, keep it maintained, and make it easier for customers to call, request a quote, or understand what you offer.</p>
+        <p>We keep the offer practical: monthly website plans, no setup fees, hosting included, maintenance included, local visibility support, and optional Google Ads management when the foundation is ready.</p>
+      </div>
+      <div class="card">
+        <h3>Plain help, clear plans.</h3>
+        <p>Hometown Boost was built for local business owners who need a professional online presence without a giant upfront website bill or confusing agency process. The focus is simple: clear service pages, fast mobile layouts, hosting and maintenance handled, honest expectations, and practical local visibility support when the business is ready to grow.</p>
+        <p>We do not use fake testimonials, fake guarantees, or mystery pricing. The goal is to make it easier for good local businesses to look credible online and give customers a clear path to call, request a quote, or learn what they offer.</p>
+      </div>
+    </div>
+  </Section>
+
+  <Section variant="light" title="Built for businesses that work with their hands, serve their neighbors, and keep local towns moving.">
+    <div class="grid grid--4">
+      <FeatureCard title="Practical business owners" description="Built for people who have work to do, not time to manage tech." icon="user" />
+      <FeatureCard title="Real local services" description="Trades, shops, and service businesses need clear online basics." icon="wrench" />
+      <FeatureCard title="Simple digital support" description="Website, hosting, maintenance, and local visibility help in one place." icon="cloud" />
+      <FeatureCard title="No big upfront website bill" description="Monthly plans with no setup fees help keep the starting point practical." icon="dollar" />
+    </div>
+  </Section>
+
+  <Section title="What we believe." align="center">
+    <div class="grid grid--5">
+      <FeatureCard title="Plainspoken service" description="Clear answers, clear scope, and no confusing agency talk." icon="mail" />
+      <FeatureCard title="Practical websites" description="Websites should make services, trust, and contact options easy to find." icon="browser" />
+      <FeatureCard title="No fake guarantees" description="No ranking promises, lead promises, or invented proof." icon="shield" />
+      <FeatureCard title="Local-minded marketing" description="Built around service areas, local customers, and real business details." icon="storefront" />
+      <FeatureCard title="Clear pricing" description="Public monthly plans, minimum terms, and no setup fees." icon="dollar" />
+    </div>
+  </Section>
+
+  <Section variant="cream" title="What makes us different." align="center">
+    <div class="grid grid--3">
+      <FeatureCard title="No setup fees" description="Start without a large upfront website bill." icon="dollar" />
+      <FeatureCard title="Clear monthly plans" description="Choose the level of support that fits today." icon="clipboard" />
+      <FeatureCard title="Built for small businesses" description="The offer is designed around local operators." icon="storefront" />
+      <FeatureCard title="Website + local visibility support" description="The foundation and support can grow together." icon="search" />
+      <FeatureCard title="No fake guarantees" description="No guaranteed rankings, lead promises, or invented proof." icon="shield" />
+      <FeatureCard title="Simple upgrade path" description="Move into more support as your needs change." icon="chart" />
+    </div>
+  </Section>
+
+  <Section title="Proof-of-work examples, not fake testimonials." description="Until a business provides real public proof, Hometown Boost uses honest examples of structure and process instead of invented client stories." align="center">
+    <div class="grid grid--4">
+      <FeatureCard title="Sample local service homepage structure" description="Hero, services, service area, trust details, reviews when provided, photos when provided, and clear contact paths." icon="browser" />
+      <FeatureCard title="Example service page layout" description="Service explanation, common customer needs, service area details, proof points, FAQs, and quote-request CTA." icon="clipboard" />
+      <FeatureCard title="Example Google Business Profile cleanup checklist" description="Name, categories, services, hours, website link, photos, description, and contact details aligned with the website." icon="storefront" />
+      <FeatureCard title="Example before/after website improvement concepts" description="Clearer mobile layout, stronger calls to action, faster contact paths, and more useful service content." icon="chart" />
+    </div>
+  </Section>
+
+  <CTASection
+    title="Ready for a website plan that makes sense for your business?"
+    primaryCta={{ label: "Check My Fit", href: "/contact/", variant: "secondary" }}
+    secondaryCta={{ label: "View Plans", href: "/pricing/" }}
+  />
+</MainLayout>

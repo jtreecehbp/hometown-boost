@@ -1,0 +1,19 @@
+---
+import Icon from "../icons/Icon.astro";
+
+interface Props {
+  title: string;
+  summary: string;
+  details?: string;
+  icon?: string;
+}
+
+const { title, summary, details, icon = "star" } = Astro.props;
+---
+
+<article class="card service-card">
+  <span class="icon-circle"><Icon name={icon} /></span>
+  <h3>{title}</h3>
+  <p>{summary}</p>
+  {details && <p class="note">{details}</p>}
+</article>

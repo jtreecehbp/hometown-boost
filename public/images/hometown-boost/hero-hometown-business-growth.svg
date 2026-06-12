@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" role="img" aria-labelledby="title desc">
+  <title id="title">Local business website growth illustration</title>
+  <desc id="desc">Small-town storefronts, a service truck, and website screens with an upward growth arrow.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#dbeafe"/>
+      <stop offset="1" stop-color="#ffffff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#0f172a" flood-opacity=".16"/>
+    </filter>
+  </defs>
+  <rect width="900" height="600" fill="url(#sky)"/>
+  <g fill="#fff">
+    <ellipse cx="160" cy="88" rx="58" ry="22"/>
+    <ellipse cx="530" cy="82" rx="72" ry="26"/>
+    <ellipse cx="770" cy="118" rx="62" ry="22"/>
+  </g>
+  <g opacity=".85">
+    <path d="M715 117h70v18h-70z" fill="#94a3b8"/>
+    <path d="M728 135h44v128h-44z" fill="#cbd5e1"/>
+    <path d="M718 263h64l34 146h-28l-22-105h-32l-22 105h-28z" fill="#64748b"/>
+    <path d="M700 286h100M710 334h80M721 382h58" stroke="#475569" stroke-width="8"/>
+    <ellipse cx="750" cy="107" rx="48" ry="22" fill="#cbd5e1"/>
+    <path d="M718 106c18-34 48-34 64 0" fill="#e2e8f0"/>
+  </g>
+  <g transform="translate(52 260)">
+    <rect x="0" y="50" width="700" height="160" rx="8" fill="#e2e8f0"/>
+    <rect x="28" y="0" width="178" height="210" rx="8" fill="#b45309"/>
+    <rect x="230" y="18" width="180" height="192" rx="8" fill="#9f5220"/>
+    <rect x="436" y="-4" width="206" height="214" rx="8" fill="#b8612b"/>
+    <path d="M24 0h186l-18 42H8zM226 18h188l-20 42H206zM432-4h214l-24 46H412z" fill="#17375e"/>
+    <g fill="#dbeafe">
+      <rect x="50" y="72" width="44" height="60" rx="4"/>
+      <rect x="116" y="72" width="44" height="60" rx="4"/>
+      <rect x="258" y="82" width="44" height="58" rx="4"/>
+      <rect x="326" y="82" width="44" height="58" rx="4"/>
+      <rect x="470" y="76" width="50" height="62" rx="4"/>
+      <rect x="545" y="76" width="50" height="62" rx="4"/>
+    </g>
+    <rect x="60" y="150" width="92" height="60" rx="4" fill="#10243e"/>
+    <rect x="286" y="150" width="76" height="60" rx="4" fill="#10243e"/>
+    <rect x="514" y="148" width="78" height="62" rx="4" fill="#10243e"/>
+  </g>
+  <g transform="translate(116 422)" filter="url(#shadow)">
+    <rect x="0" y="35" width="270" height="76" rx="12" fill="#ffffff"/>
+    <path d="M44 35h102l42 42h60v34H0V69c0-19 17-34 44-34Z" fill="#f8fafc" stroke="#10243e" stroke-width="5"/>
+    <rect x="52" y="48" width="72" height="32" rx="4" fill="#dbeafe"/>
+    <circle cx="68" cy="112" r="26" fill="#10243e"/>
+    <circle cx="212" cy="112" r="26" fill="#10243e"/>
+    <circle cx="68" cy="112" r="11" fill="#f8fafc"/>
+    <circle cx="212" cy="112" r="11" fill="#f8fafc"/>
+  </g>
+  <g transform="translate(392 112)" filter="url(#shadow)">
+    <rect width="332" height="238" rx="18" fill="#10243e"/>
+    <rect x="20" y="26" width="292" height="172" rx="8" fill="#ffffff"/>
+    <rect x="42" y="52" width="134" height="24" rx="4" fill="#2563eb"/>
+    <rect x="42" y="92" width="96" height="10" rx="5" fill="#cbd5e1"/>
+    <rect x="42" y="116" width="132" height="10" rx="5" fill="#cbd5e1"/>
+    <rect x="42" y="144" width="92" height="34" rx="6" fill="#f97316"/>
+    <rect x="198" y="54" width="82" height="112" rx="8" fill="#dbeafe"/>
+    <path d="M190 196h-48l-12 28h72z" fill="#10243e"/>
+    <rect x="105" y="224" width="122" height="12" rx="6" fill="#10243e"/>
+  </g>
+  <g transform="translate(685 210)" filter="url(#shadow)">
+    <rect width="118" height="212" rx="18" fill="#10243e"/>
+    <rect x="12" y="20" width="94" height="168" rx="9" fill="#ffffff"/>
+    <rect x="28" y="44" width="62" height="10" rx="5" fill="#2563eb"/>
+    <rect x="28" y="70" width="62" height="8" rx="4" fill="#cbd5e1"/>
+    <rect x="28" y="90" width="48" height="8" rx="4" fill="#cbd5e1"/>
+    <rect x="28" y="118" width="62" height="34" rx="6" fill="#f97316"/>
+  </g>
+  <path d="M552 433c58-34 110-82 154-146" fill="none" stroke="#f97316" stroke-width="18" stroke-linecap="round"/>
+  <path d="m717 271 12-74-65 36" fill="none" stroke="#f97316" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
