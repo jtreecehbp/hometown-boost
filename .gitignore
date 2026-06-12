@@ -19,6 +19,9 @@ preview-server-*.err.log
 # local QA screenshots
 qa-*.png
 
+# Codex local attachments
+.codex-remote-attachments/
+
 
 # environment variables
 .env
