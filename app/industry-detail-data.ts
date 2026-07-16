@@ -7,7 +7,9 @@ export type IndustrySceneType =
   | "septic"
   | "lawnCare"
   | "repairShop"
-  | "automotive";
+  | "automotive"
+  | "retail"
+  | "professionalServices";
 
 type DetailItem = {
   title: string;
@@ -1640,6 +1642,356 @@ export const industryDetails = {
     ctaBody:
       "Share your service mix, market, shop capacity, appointment process, and growth goals. We’ll identify the clearest customer-path improvements.",
     ctaLabel: "Get My Automotive Game Plan",
+  },
+
+  "retail-businesses": {
+    slug: "retail-businesses",
+    path: "/industries/retail-businesses",
+    name: "Retail Businesses",
+    shortName: "Local retail",
+    metaTitle: "Local Marketing for Retail Businesses",
+    metaDescription:
+      "Local retail marketing that connects nearby discovery, accurate store information, product interest, directions, calls, promotions, and measurable customer actions.",
+    eyebrow: "Local retail marketing",
+    h1: "Turn local discovery into more useful store visits.",
+    heroDescription:
+      "Make products, store details, local trust, and the next customer action easier to find before a shopper decides where to go.",
+    scene: {
+      type: "retail",
+      imagePosition: "88% 58%",
+      accent: "#ef5b24",
+      accentSoft: "#ffd2b8",
+      tilt: "3deg",
+      searchLabel: "local shops near me",
+      signalLabel: "Directions • calls • store actions",
+      objectLabel: "Open locally",
+    },
+    challengeIntro:
+      "Retail customers move between search results, Maps, social posts, product pages, and the storefront. Small gaps in hours, product context, or directions can interrupt that journey before a visit begins.",
+    challenges: [
+      {
+        title: "Discovery does not equal a visit",
+        description:
+          "A shopper may notice the business online but still need a clear reason, current information, and an easy route before choosing to visit.",
+      },
+      {
+        title: "Store details change quickly",
+        description:
+          "Hours, seasonal offers, events, product availability, pickup options, and holiday schedules can become inaccurate across several customer touchpoints.",
+      },
+      {
+        title: "Offline outcomes are harder to connect",
+        description:
+          "Directions, calls, product-page views, and offer engagement show intent, but they do not automatically prove a completed store visit or purchase.",
+      },
+    ],
+    searchIntro:
+      "Local shoppers combine category, product, place, timing, and trust questions. The strongest path answers those questions without pretending every item is always in stock.",
+    searches: [
+      "Store category, product type, brand, or gift idea plus a town or ‘near me’",
+      "Current hours, holiday hours, address, parking, accessibility, and directions",
+      "Product availability, pickup, ordering, returns, events, and seasonal offers",
+      "Recent photos, reviews, store atmosphere, and reasons to choose a local option",
+    ],
+    searchMoment:
+      "A useful retail path moves a shopper from ‘is there a nearby option?’ to ‘I know what this store offers and how to take the next step.’",
+    services: [
+      {
+        title: "Storefront website design",
+        href: "/services#website-design",
+        description:
+          "Organize categories, store details, product context, events, pickup options, and customer actions around real shopping questions.",
+      },
+      {
+        title: "Google Business Profile care",
+        href: "/services#google-business-profile",
+        description:
+          "Keep hours, categories, photos, attributes, offers, and other local details useful when shoppers compare nearby options.",
+      },
+      {
+        title: "Retail-focused local SEO",
+        href: "/services#local-seo",
+        description:
+          "Strengthen relevance for priority products, categories, store experiences, and the geographic market the business serves.",
+      },
+      {
+        title: "Focused local advertising",
+        href: "/services#paid-advertising",
+        description:
+          "Support launches, events, seasonal demand, or high-priority categories when the offer, audience, budget, and measurement plan are ready.",
+      },
+    ],
+    helpIntro:
+      "Hometown Boost connects local discovery, accurate store information, product interest, and practical customer actions without treating every online signal as a confirmed sale.",
+    helpSteps: [
+      {
+        title: "Map the shopping journey",
+        description:
+          "Identify the categories, questions, occasions, and store details that shape a nearby customer’s decision.",
+      },
+      {
+        title: "Keep local information dependable",
+        description:
+          "Coordinate priority website and profile details so customers are less likely to find conflicting hours, offers, or directions.",
+      },
+      {
+        title: "Give product interest a next step",
+        description:
+          "Connect category and promotional content to calls, directions, pickup information, visits, or another action the store can support.",
+      },
+      {
+        title: "Review online and offline context",
+        description:
+          "Use supported digital signals alongside store feedback and business records before deciding what to improve.",
+      },
+    ],
+    measurements: [
+      {
+        title: "Directions and profile actions",
+        description:
+          "Review available direction requests, calls, website actions, and profile engagement as local-intent signals rather than exact foot traffic.",
+      },
+      {
+        title: "Priority category engagement",
+        description:
+          "Track useful visits and actions around the products, categories, events, or seasonal pages the store wants to grow.",
+      },
+      {
+        title: "Calls and customer requests",
+        description:
+          "Measure supported phone, form, pickup, event, or availability inquiries without assuming each became a purchase.",
+      },
+      {
+        title: "Campaign and offer signals",
+        description:
+          "Compare promotion sources, landing-page actions, and available store records when the offer and reporting window are clearly defined.",
+      },
+    ],
+    measurementNote:
+      "Direction requests are not confirmed visits, and visits are not confirmed purchases. Inventory, weather, events, staffing, merchandising, pricing, and point-of-sale records can affect results, so attribution should remain explicit and limited.",
+    faqs: [
+      {
+        question: "Can Hometown Boost work with an existing ecommerce or inventory system?",
+        answer:
+          "Often, yes. The useful approach depends on how the current system publishes products, locations, availability, pickup details, and customer actions. The first step is reviewing those connections and their limits.",
+      },
+      {
+        question: "Does a local retail website need every product listed?",
+        answer:
+          "Not always. Some stores benefit from complete ecommerce inventory, while others need clear categories, featured products, store context, and a dependable way to check availability. The structure should match the operation.",
+      },
+      {
+        question: "Can seasonal promotions be measured?",
+        answer:
+          "Digital sources and customer actions can often be compared over a defined period. Confirmed visits and purchases require appropriate store or point-of-sale records, and the report should state any attribution limits.",
+      },
+      {
+        question: "Do you guarantee store traffic or sales?",
+        answer:
+          "No. Hometown Boost can improve local visibility, customer information, campaign paths, and measurement, but it does not guarantee visits, transactions, revenue, or return on advertising.",
+      },
+    ],
+    related: [
+      {
+        label: "Professional-services marketing",
+        href: "/industries/professional-services",
+        description: "Explore a trust-led customer journey for local expertise and consultation-based services.",
+      },
+      {
+        label: "Automotive marketing",
+        href: "/industries/automotive",
+        description: "See another location-based journey built around calls, directions, trust, and appointments.",
+      },
+      {
+        label: "Google Business Profile management",
+        href: "/services#google-business-profile",
+        description: "Keep local store details useful where nearby shoppers compare options.",
+      },
+      {
+        label: "Local SEO",
+        href: "/services#local-seo",
+        description: "Improve relevance for priority categories, products, and the store’s local market.",
+      },
+    ],
+    ctaTitle: "Make the next local shopping decision easier.",
+    ctaBody:
+      "Share your store model, categories, location, customer journey, seasonal priorities, and current tools. We’ll map the clearest place to begin.",
+    ctaLabel: "Get My Retail Game Plan",
+  },
+
+  "professional-services": {
+    slug: "professional-services",
+    path: "/industries/professional-services",
+    name: "Professional Service Businesses",
+    shortName: "Professional services",
+    metaTitle: "Local Marketing for Professional Services",
+    metaDescription:
+      "Local marketing for professional service businesses that clarifies expertise, builds appropriate trust, improves search visibility, and supports qualified inquiries.",
+    eyebrow: "Professional-services marketing",
+    h1: "Turn expertise into a clear local reason to reach out.",
+    heroDescription:
+      "Help prospective clients understand who you serve, which problems you address, what makes the practice credible, and how to begin a useful conversation.",
+    scene: {
+      type: "professionalServices",
+      imagePosition: "67% 50%",
+      accent: "#317f78",
+      accentSoft: "#c7e8e2",
+      tilt: "-3deg",
+      searchLabel: "local professional near me",
+      signalLabel: "Qualified inquiries • calls • consults",
+      objectLabel: "Expertise, clarified",
+    },
+    challengeIntro:
+      "Professional services are often trust-sensitive, difficult to summarize, and shaped by fit. Prospects may research quietly for a long time before deciding whether a first conversation feels worthwhile.",
+    challenges: [
+      {
+        title: "Expertise can sound abstract",
+        description:
+          "Broad claims and industry language may not help a prospect recognize whether the service fits their actual situation.",
+      },
+      {
+        title: "Trust requires appropriate context",
+        description:
+          "Credentials, experience, process, reviews, and educational content matter, but regulated fields may also require careful disclaimers and claim controls.",
+      },
+      {
+        title: "Lead quality matters more than volume",
+        description:
+          "Geography, service fit, urgency, budget, conflicts, capacity, and other intake criteria can make two inquiries very different business opportunities.",
+      },
+    ],
+    searchIntro:
+      "Prospects combine a service, problem, location, credential, and trust question, then look for signs that the business understands their situation.",
+    searches: [
+      "Professional or service type plus a town, county, region, or ‘near me’",
+      "A specific problem, goal, transaction, life event, or business need",
+      "Credentials, experience, approach, consultation process, and appropriate fees information",
+      "Reviews, educational resources, service fit, availability, and how to make contact",
+    ],
+    searchMoment:
+      "A strong professional-services path helps the right prospect move from uncertainty to an informed first conversation without overstating outcomes or expertise.",
+    services: [
+      {
+        title: "Trust-led website design",
+        href: "/services#website-design",
+        description:
+          "Explain services, fit, process, credentials, locations, educational resources, and inquiry steps in clear client language.",
+      },
+      {
+        title: "Professional-services local SEO",
+        href: "/services#local-seo",
+        description:
+          "Strengthen relevance for priority services, client questions, and the markets the business is qualified and prepared to serve.",
+      },
+      {
+        title: "Reputation management",
+        href: "/services#reputation-management",
+        description:
+          "Support an ethical feedback process and place approved trust signals where they help prospects evaluate fit.",
+      },
+      {
+        title: "Call and inquiry tracking",
+        href: "/services#lead-tracking",
+        description:
+          "Connect supported sources to calls, forms, and consultations while respecting privacy, intake, and attribution limits.",
+      },
+    ],
+    helpIntro:
+      "Hometown Boost turns complex expertise into useful local customer paths, then connects visibility and inquiries to business context the available records can support.",
+    helpSteps: [
+      {
+        title: "Define the right client fit",
+        description:
+          "Clarify services, geography, common needs, capacity, and intake criteria before building more attention.",
+      },
+      {
+        title: "Translate expertise clearly",
+        description:
+          "Organize services and educational content around the questions prospects ask, with appropriate review for regulated claims.",
+      },
+      {
+        title: "Build confidence before contact",
+        description:
+          "Use approved credentials, process explanations, real feedback, and practical next steps without promising a specific outcome.",
+      },
+      {
+        title: "Connect inquiry context",
+        description:
+          "Review calls, forms, consultation starts, response handling, and supported disposition data to improve the path responsibly.",
+      },
+    ],
+    measurements: [
+      {
+        title: "Qualified inquiry signals",
+        description:
+          "Track calls and forms, then use agreed service, geography, timing, and intake criteria when the business can classify them appropriately.",
+      },
+      {
+        title: "Priority-service engagement",
+        description:
+          "Review how prospects use important service, location, process, credential, and educational pages before taking action.",
+      },
+      {
+        title: "Local search visibility",
+        description:
+          "Monitor agreed service and market searches alongside inquiries rather than presenting ranking movement as the whole result.",
+      },
+      {
+        title: "Consultation and follow-up context",
+        description:
+          "Connect scheduled or completed consultations only when privacy-conscious business records support that step.",
+      },
+    ],
+    measurementNote:
+      "Confidentiality, professional obligations, intake screening, conflicts, capacity, consultation attendance, sales follow-up, and offline decisions can limit attribution. Reports should use only appropriate records and avoid exposing sensitive client information.",
+    faqs: [
+      {
+        question: "Can marketing content work for a regulated professional service?",
+        answer:
+          "Often, yes, but claims, testimonials, credentials, disclaimers, privacy, and advertising rules may require review by the business and qualified legal or compliance advisers before publication.",
+      },
+      {
+        question: "Can one website explain several professional services?",
+        answer:
+          "Yes. Clear service pathways can help prospects recognize the right starting point while keeping the broader practice, team, locations, and consultation process connected.",
+      },
+      {
+        question: "How should professional-service lead quality be measured?",
+        answer:
+          "The business should define appropriate, privacy-conscious criteria such as service fit, geography, urgency, capacity, or consultation status. Marketing reports should not expose confidential details or assume every inquiry is qualified.",
+      },
+      {
+        question: "Do you guarantee clients, cases, appointments, or revenue?",
+        answer:
+          "No. Hometown Boost can improve clarity, visibility, customer paths, and supported measurement, but it does not guarantee professional engagements, appointments, matters, revenue, or any client outcome.",
+      },
+    ],
+    related: [
+      {
+        label: "Retail-business marketing",
+        href: "/industries/retail-businesses",
+        description: "See a nearby-customer journey centered on storefront discovery and local action.",
+      },
+      {
+        label: "Contractor marketing",
+        href: "/industries/contractors",
+        description: "Explore another trust-sensitive path where service fit and qualified inquiries matter.",
+      },
+      {
+        label: "Website design",
+        href: "/services#website-design",
+        description: "Turn expertise, process, and service fit into a clearer prospect experience.",
+      },
+      {
+        label: "Call and lead tracking",
+        href: "/services#lead-tracking",
+        description: "Connect inquiries to supported source and intake context responsibly.",
+      },
+    ],
+    ctaTitle: "Make your expertise easier for the right local prospects to understand.",
+    ctaBody:
+      "Tell us about your services, market, intake process, capacity, and professional requirements. We’ll identify the clearest visibility and customer-path improvements.",
+    ctaLabel: "Get My Professional-Services Game Plan",
   },
 } satisfies Record<string, IndustryDetail>;
 

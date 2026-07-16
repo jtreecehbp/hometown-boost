@@ -143,12 +143,12 @@ export default function AboutPage() {
                 <h3>A practical fit</h3>
                 <ul className={styles.checkList}>
                   <li>Equipment dealers</li>
-                  <li>Contractors</li>
+                  <li>Contractors, roofers, and electricians</li>
                   <li>Home-service teams</li>
                   <li>HVAC and plumbing</li>
                   <li>Landscapers</li>
                   <li>Repair shops</li>
-                  <li>Local retail</li>
+                  <li>Local retail, barbers, and salons</li>
                   <li>Professional services</li>
                 </ul>
               </article>

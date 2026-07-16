@@ -77,7 +77,7 @@ const faqItems = [
   {
     question: "Are contracts long term?",
     answer:
-      "The final agreement will state the term, renewal, and cancellation details before work begins. Do not rely on a page summary in place of the signed agreement.",
+      "No. Hometown Boost plans are not built around long-term lock-in. The final agreement will still state the initial term, renewal, and cancellation details before work begins.",
   },
   {
     question: "What about multiple locations?",

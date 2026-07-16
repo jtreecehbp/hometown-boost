@@ -143,8 +143,8 @@ const industries = [
   { name: "Lawn & Landscape", short: "LL", href: "/industries/lawn-care" },
   { name: "Repair Shops", short: "RS", href: "/industries/repair-shops" },
   { name: "Automotive", short: "AU", href: "/industries/automotive" },
-  { name: "Retail", short: "RT", href: "/industries#retail" },
-  { name: "Professional Services", short: "PS", href: "/industries#professional-services" },
+  { name: "Retail", short: "RT", href: "/industries/retail-businesses" },
+  { name: "Professional Services", short: "PS", href: "/industries/professional-services" },
 ];
 
 export default function Home() {
@@ -227,7 +227,7 @@ export default function Home() {
                 </Link>
               </div>
               <ul className="trust-list" aria-label="What to expect">
-                <li><span>✓</span>Straightforward plans</li>
+                <li><span>✓</span>No long-term contracts</li>
                 <li><span>✓</span>Done-for-you support</li>
                 <li><span>✓</span>Results you can measure</li>
               </ul>
@@ -337,7 +337,7 @@ export default function Home() {
               <SectionTitle
                 eyebrow="Built for local businesses"
                 title={<>We understand businesses <em>like yours.</em></>}
-                description="If your growth depends on being known and trusted nearby, Hometown Boost is built for your world."
+                description="From electricians and roofers to barbers, salons, retailers, and professional offices, if growth depends on being known and trusted nearby, Hometown Boost is built for your world."
               />
               <Link className="text-link" href="/industries">
                 Explore all industries <span aria-hidden="true">→</span>

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { access, readFile } from "node:fs/promises";
+import { access, readFile, stat } from "node:fs/promises";
 import test from "node:test";
 
 const serviceRoutes = [
@@ -21,6 +21,8 @@ const industryRoutes = [
   "/industries/lawn-care",
   "/industries/repair-shops",
   "/industries/automotive",
+  "/industries/retail-businesses",
+  "/industries/professional-services",
 ];
 
 const resourceRoutes = [
@@ -95,8 +97,9 @@ test("server-renders the finished Hometown Boost homepage", async () => {
 });
 
 test("keeps the finished shell accessible and free of starter remnants", async () => {
-  const [page, layout, components, css, packageJson] = await Promise.all([
+  const [page, servicesPage, layout, components, css, packageJson] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/services/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/components.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
@@ -104,7 +107,9 @@ test("keeps the finished shell accessible and free of starter remnants", async (
   ]);
 
   assert.match(page, /hometown-hero\.webp/);
+  assert.match(servicesPage, /hometown-services-system\.webp/);
   assert.match(page, /Clear signals/);
+  assert.match(page, /No long-term contracts/);
   assert.match(page, /approved client outcomes become case studies/);
   assert.doesNotMatch(page, /\b(?:[1-9]\d*\.?\d*)%|\$\d+/);
   assert.doesNotMatch(page, /★★★★★/);
@@ -124,17 +129,37 @@ test("keeps the finished shell accessible and free of starter remnants", async (
   assert.doesNotMatch(packageJson, /react-loading-skeleton|WRANGLER_LOG_PATH=/);
 
   await assert.rejects(access(new URL("../app/_sites-preview", import.meta.url)));
+  await assert.rejects(access(new URL("../public/file.svg", import.meta.url)));
+  await assert.rejects(access(new URL("../public/globe.svg", import.meta.url)));
+  await assert.rejects(access(new URL("../public/window.svg", import.meta.url)));
   await access(new URL("../public/hometown-hero.webp", import.meta.url));
+  const servicesAsset = await stat(
+    new URL("../public/hometown-services-system.webp", import.meta.url),
+  );
+  assert.ok(servicesAsset.size < 150_000, "services hero asset should stay lightweight");
   await access(new URL("../public/og.png", import.meta.url));
   await access(new URL("../.openai/hosting.json", import.meta.url));
 });
 
 test("serves the complete expansion with route-specific metadata", async () => {
+  const titles = [];
+  const descriptions = [];
+
   for (const pathname of [...indexableRoutes, ...previewOnlyRoutes]) {
     const response = await render(pathname);
     assert.equal(response.status, 200, pathname);
 
     const html = await response.text();
+    const title = html.match(/<title>([^<]+)<\/title>/i)?.[1];
+    const description = html.match(
+      /<meta name="description" content="([^"]+)"/i,
+    )?.[1];
+
+    assert.ok(title, `missing title: ${pathname}`);
+    assert.ok(description, `missing description: ${pathname}`);
+    assert.ok(description.length >= 50, `short description: ${pathname}`);
+    titles.push(title);
+    descriptions.push(description);
     assert.equal((html.match(/<h1\b/gi) ?? []).length, 1, pathname);
     assert.match(
       html,
@@ -156,6 +181,52 @@ test("serves the complete expansion with route-specific metadata", async () => {
       assert.doesNotMatch(html, /name="robots" content="noindex/i, pathname);
     }
   }
+
+  assert.equal(new Set(titles).size, titles.length, "page titles must be unique");
+  assert.equal(
+    new Set(descriptions).size,
+    descriptions.length,
+    "meta descriptions must be unique",
+  );
+});
+
+test("publishes the retail and professional-services industry expansion", async () => {
+  const [retail, professional, home, industries] = await Promise.all([
+    render("/industries/retail-businesses").then((response) => response.text()),
+    render("/industries/professional-services").then((response) => response.text()),
+    render("/").then((response) => response.text()),
+    render("/industries").then((response) => response.text()),
+  ]);
+
+  assert.match(retail, /Turn local discovery into more useful store visits/i);
+  assert.match(
+    retail,
+    /<title>Local Marketing for Retail Businesses \| Hometown Boost<\/title>/i,
+  );
+  assert.match(
+    retail,
+    /<meta name="description" content="Local retail marketing that connects nearby discovery/i,
+  );
+  assert.match(retail, /"@type":"BreadcrumbList"/);
+  assert.match(retail, /"@type":"FAQPage"/);
+  assert.match(
+    professional,
+    /Turn expertise into a clear local reason to reach out/i,
+  );
+  assert.match(
+    professional,
+    /<title>Local Marketing for Professional Services \| Hometown Boost<\/title>/i,
+  );
+  assert.match(
+    professional,
+    /<meta name="description" content="Local marketing for professional service businesses/i,
+  );
+  assert.match(professional, /"@type":"BreadcrumbList"/);
+  assert.match(professional, /"@type":"FAQPage"/);
+  assert.match(home, /href="\/industries\/retail-businesses"/i);
+  assert.match(home, /href="\/industries\/professional-services"/i);
+  assert.match(industries, /electricians, roofers/i);
+  assert.match(industries, /barbers, salons/i);
 });
 
 test("keeps CTA labels aligned with their destinations", async () => {

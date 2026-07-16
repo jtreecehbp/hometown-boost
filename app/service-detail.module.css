@@ -9,7 +9,7 @@
 }
 
 .hero {
-  overflow: hidden;
+  overflow: visible;
 }
 
 .page :global(.page-hero-art) {
@@ -27,6 +27,12 @@
   pointer-events: none;
   isolation: isolate;
   filter: drop-shadow(0 32px 45px rgba(106, 50, 18, 0.17));
+}
+
+@media (min-width: 901px) {
+  .page :global(.page-hero-has-scene) .scene {
+    transform: translateY(92px);
+  }
 }
 
 .websiteScene {
@@ -1467,6 +1473,20 @@
 
   .sceneTag {
     right: -2%;
+  }
+
+  .sceneGlow,
+  .cursorShape,
+  .phoneShell,
+  .rankPanel,
+  .routeLine,
+  .reviewBack,
+  .quoteBubble,
+  .targetShape,
+  .adSpark,
+  .callWave,
+  .leadPanel {
+    display: none;
   }
 
   .browserShell {

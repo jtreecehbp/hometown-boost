@@ -31,7 +31,7 @@ const industries = [
     href: "/industries/contractors",
     mark: "CT",
     title: "Contractors",
-    challenge: "Seasonal demand, crowded search results, and prospects who need proof before inviting anyone onsite.",
+    challenge: "Contractors—including roofers and electricians—face seasonal demand, crowded search results, and prospects who need proof before inviting anyone onsite.",
     search: "Customers search by project, problem, location, availability, and signs of reliable workmanship.",
     focus: "Service pages, project proof, review growth, Google visibility, and qualified inquiry tracking.",
     help: "We connect the work you do with the specific local searches that can turn into the right projects.",
@@ -108,17 +108,17 @@ const industries = [
   },
   {
     id: "retail",
-    href: "/contact",
+    href: "/industries/retail-businesses",
     mark: "RT",
     title: "Local retail",
-    challenge: "Balancing online discovery with visits, events, promotions, changing hours, and product interest.",
+    challenge: "Retailers and other appointment- or visit-based businesses such as barbers and salons balance online discovery with changing hours, offers, and local trust.",
     search: "Shoppers look for nearby options, hours, products, photos, directions, and reasons to choose local.",
     focus: "Storefront visibility, profile accuracy, direction requests, seasonal content, and website engagement.",
     help: "We help translate local attention into store visits and useful customer actions.",
   },
   {
     id: "professional-services",
-    href: "/contact",
+    href: "/industries/professional-services",
     mark: "PS",
     title: "Professional services",
     challenge: "Longer consideration, trust-sensitive decisions, and services that can be difficult to explain quickly.",
@@ -151,7 +151,7 @@ export default function IndustriesPage() {
           hideDefaultArt
           eyebrow="Built for local businesses"
           title="Built for businesses that depend on local customers."
-          description="From equipment lots to service trucks and neighborhood storefronts, we shape the plan around how your customers actually search, compare, and choose."
+          description="From equipment lots and contractor trucks to electricians, roofers, neighborhood shops, barbers, salons, and professional offices, we shape the plan around how local customers search, compare, and choose."
         >
           <TownScene />
         </PageHero>

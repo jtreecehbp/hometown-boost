@@ -31,6 +31,8 @@ const industryRoutes = [
   "/industries/lawn-care",
   "/industries/repair-shops",
   "/industries/automotive",
+  "/industries/retail-businesses",
+  "/industries/professional-services",
 ] as const;
 
 const resourceRoutes = [

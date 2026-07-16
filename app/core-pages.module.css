@@ -192,7 +192,7 @@
 
 .serviceStack {
   display: grid;
-  gap: 30px;
+  gap: 52px;
   margin-top: 44px;
 }
 
@@ -211,6 +211,128 @@
 
 .servicePanel:nth-child(even) .serviceArt {
   order: 2;
+}
+
+.servicePanel::after {
+  position: absolute;
+  z-index: 3;
+  top: -30px;
+  content: "";
+  pointer-events: none;
+  filter: drop-shadow(0 18px 24px rgba(117, 49, 16, 0.18));
+}
+
+.servicePanel:nth-child(1)::after {
+  left: 12%;
+  width: 96px;
+  height: 64px;
+  border: 7px solid #fff2e7;
+  border-radius: 15px;
+  background:
+    linear-gradient(#f15a24 0 0) 14px 13px / 66% 7px no-repeat,
+    linear-gradient(#ffd3b8 0 0) 14px 29px / 76% 6px no-repeat,
+    linear-gradient(#eadfd6 0 0) 14px 43px / 52% 6px no-repeat,
+    #fff;
+  box-shadow: 0 16px 28px rgba(107, 49, 20, 0.15);
+  transform: rotate(-6deg);
+}
+
+.servicePanel:nth-child(2)::after {
+  right: 12%;
+  width: 72px;
+  height: 72px;
+  border: 13px solid #f15a24;
+  border-radius: 50%;
+  background: rgba(255, 250, 243, 0.78);
+  box-shadow: inset 0 0 0 7px rgba(255, 255, 255, 0.7);
+  transform: rotate(-12deg);
+}
+
+.servicePanel:nth-child(2)::before {
+  position: absolute;
+  z-index: 3;
+  top: 36px;
+  right: calc(12% - 34px);
+  width: 62px;
+  height: 15px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #e24710, #ff8c4d);
+  box-shadow: 0 12px 20px rgba(115, 44, 13, 0.17);
+  content: "";
+  pointer-events: none;
+  transform: rotate(43deg);
+}
+
+.servicePanel:nth-child(3)::after {
+  left: 14%;
+  width: 74px;
+  height: 74px;
+  border: 7px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50% 50% 50% 12px;
+  background:
+    radial-gradient(circle at 50% 50%, #fff8ef 0 15px, transparent 16px),
+    linear-gradient(145deg, #ff8e4c, #df3f0b);
+  box-shadow: -12px 17px 26px rgba(137, 43, 9, 0.21);
+  transform: rotate(-45deg);
+}
+
+.servicePanel:nth-child(4)::after {
+  right: 14%;
+  width: 112px;
+  height: 74px;
+  border: 7px solid #fff1e6;
+  border-radius: 20px 20px 20px 7px;
+  background:
+    radial-gradient(circle at 22px 22px, #fff 0 6px, transparent 7px),
+    linear-gradient(#fff 0 0) 42px 18px / 50px 7px no-repeat,
+    linear-gradient(rgba(255, 255, 255, 0.7) 0 0) 18px 39px / 72px 7px no-repeat,
+    linear-gradient(145deg, #ff8750, #e34610);
+  box-shadow: 0 17px 29px rgba(125, 46, 13, 0.2);
+  transform: rotate(5deg);
+}
+
+.servicePanel:nth-child(5)::after {
+  left: 14%;
+  width: 57px;
+  height: 94px;
+  border: 8px solid #302a26;
+  border-radius: 18px;
+  background:
+    linear-gradient(#3f9d94 0 0) center 62px / 24px 14px no-repeat,
+    linear-gradient(145deg, #fff, #f2ded0);
+  box-shadow: 12px 18px 28px rgba(77, 42, 21, 0.2);
+  transform: rotate(7deg);
+}
+
+.servicePanel:nth-child(6)::after {
+  right: 12%;
+  width: 106px;
+  height: 82px;
+  border: 7px solid #fff1e6;
+  border-radius: 20px;
+  background:
+    linear-gradient(to top, #ffd0b3 0 23px, transparent 24px) 16px bottom / 16px 100% no-repeat,
+    linear-gradient(to top, #f58d55 0 40px, transparent 41px) 43px bottom / 16px 100% no-repeat,
+    linear-gradient(to top, #f15a24 0 58px, transparent 59px) 70px bottom / 16px 100% no-repeat,
+    rgba(255, 255, 255, 0.94);
+  box-shadow: 0 17px 29px rgba(125, 46, 13, 0.17);
+  transform: rotate(-5deg);
+}
+
+.servicePanel:nth-child(7)::after {
+  left: 14%;
+  width: 88px;
+  height: 98px;
+  border: 7px solid #fff1e6;
+  border-radius: 17px;
+  background:
+    linear-gradient(#f15a24 0 0) 15px 17px / 58px 9px no-repeat,
+    linear-gradient(#ffd0b6 0 0) 15px 40px / 48px 7px no-repeat,
+    linear-gradient(#e8ddd5 0 0) 15px 58px / 58px 7px no-repeat,
+    linear-gradient(#b9ded5 0 0) 15px 76px / 39px 7px no-repeat,
+    #fff;
+  box-shadow: 0 17px 29px rgba(125, 46, 13, 0.16);
+  transform: rotate(-6deg);
 }
 
 .serviceCopy {
@@ -532,15 +654,53 @@
 }
 
 .planGrid {
+  position: relative;
   align-items: stretch;
   margin-top: 46px;
 }
 
+.planGrid::before {
+  position: absolute;
+  z-index: 0;
+  top: 46%;
+  right: 4%;
+  left: 4%;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 194, 153, 0.3), #f15a24 48%, rgba(86, 181, 174, 0.42));
+  box-shadow:
+    0 0 0 8px rgba(255, 244, 235, 0.76),
+    0 9px 24px rgba(205, 72, 19, 0.14);
+  content: "";
+  pointer-events: none;
+  transform: rotate(-2deg);
+}
+
 .planCard {
+  z-index: 1;
   display: flex;
   flex-direction: column;
   padding: 35px;
   border-radius: 30px;
+}
+
+.planCard::after {
+  position: absolute;
+  z-index: 3;
+  top: 46%;
+  right: -32px;
+  width: 42px;
+  height: 42px;
+  border: 9px solid #fff5ec;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ff8b48, #e64912);
+  box-shadow: 0 13px 25px rgba(127, 48, 15, 0.19);
+  content: "";
+  pointer-events: none;
+}
+
+.planCard:last-child::after {
+  display: none;
 }
 
 .planCardRecommended {
@@ -1016,6 +1176,12 @@
   perspective: 900px;
 }
 
+@media (min-width: 921px) {
+  .page :global(.page-hero-has-scene) .heroScene {
+    transform: translateY(92px);
+  }
+}
+
 .systemRoute {
   position: absolute;
   inset: 38% -18% 4% 2%;
@@ -1026,6 +1192,36 @@
     0 0 0 15px rgba(255, 166, 102, 0.09),
     0 20px 32px rgba(191, 66, 16, 0.11);
   transform: rotate(-12deg);
+}
+
+.systemRendered {
+  position: absolute;
+  z-index: 1;
+  top: -48px;
+  right: -32%;
+  display: block;
+  width: 225%;
+  pointer-events: none;
+}
+
+.systemRendered img {
+  width: 100%;
+  max-width: none;
+  height: auto;
+  filter: saturate(1.02) contrast(1.01);
+  mix-blend-mode: multiply;
+}
+
+.servicesSystemScene .systemRoute,
+.servicesSystemScene .systemBrowser,
+.servicesSystemScene .systemPin,
+.servicesSystemScene .systemBars {
+  display: none;
+}
+
+.servicesSystemScene .systemCall,
+.servicesSystemScene .systemFeedback {
+  z-index: 7;
 }
 
 .systemBrowser {
@@ -1642,6 +1838,11 @@
     transform: none;
   }
 
+  .planGrid::before,
+  .planCard::after {
+    display: none;
+  }
+
   .storyVisual {
     min-height: 390px;
   }
@@ -1694,6 +1895,16 @@
     border-radius: 25px;
   }
 
+  .serviceStack {
+    gap: 46px;
+  }
+
+  .servicePanel::after,
+  .servicePanel:nth-child(2)::before {
+    scale: 0.78;
+    transform-origin: center;
+  }
+
   .serviceArt {
     min-height: 210px;
   }
@@ -1710,6 +1921,12 @@
     height: 190px;
     transform: rotateY(-7deg) rotateZ(-3deg) scale(0.9);
     transform-origin: left top;
+  }
+
+  .systemRendered {
+    top: 10px;
+    right: -24%;
+    width: 184%;
   }
 
   .systemPin {
@@ -1824,7 +2041,10 @@
 @media (prefers-reduced-motion: no-preference) {
   .scenePanel,
   .industryObject,
-  .storyNote {
+  .storyNote,
+  .servicePanel::after,
+  .servicesSystemScene .systemCall,
+  .servicesSystemScene .systemFeedback {
     animation: slowFloat 7s ease-in-out infinite;
   }
 

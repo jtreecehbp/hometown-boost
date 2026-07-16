@@ -175,6 +175,16 @@
   letter-spacing: -0.04em;
 }
 
+@media (min-width: 981px) {
+  .heroTrustStack {
+    bottom: -4.25rem;
+  }
+
+  .heroGuideStack {
+    bottom: -6.25rem;
+  }
+}
+
 .integritySection {
   position: relative;
   z-index: 3;
@@ -547,8 +557,8 @@
 .resourceGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  margin-top: 3.25rem;
+  gap: 4rem 1rem;
+  margin-top: 4.75rem;
 }
 
 .resourceCard {
@@ -558,11 +568,12 @@
   scroll-margin-top: 2rem;
   flex-direction: column;
   padding: 1.7rem;
-  overflow: hidden;
+  overflow: visible;
   border: 1px solid rgba(76, 49, 31, 0.09);
   border-radius: 1.8rem;
   background: rgba(255, 255, 255, 0.78);
   box-shadow: 0 20px 55px rgba(77, 45, 25, 0.065);
+  isolation: isolate;
 }
 
 .resourceFeatured {
@@ -610,9 +621,10 @@
 
 .articleShape {
   position: relative;
+  z-index: 2;
   width: 7.2rem;
   height: 5.4rem;
-  margin: 2rem 0 1.7rem 0.5rem;
+  margin: 1.25rem 0 2rem -2.4rem;
   border: 1px solid rgba(255, 255, 255, 0.86);
   border-radius: 1.1rem;
   background: linear-gradient(145deg, #ff8a48, #ef4c17);
@@ -1178,6 +1190,11 @@
 
   .resourceCard {
     min-height: 27rem;
+  }
+
+  .resourceGrid {
+    gap-block: 3.75rem;
+    margin-top: 4.25rem;
   }
 
   .resourcePromiseGrid {

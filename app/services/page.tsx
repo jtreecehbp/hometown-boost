@@ -185,10 +185,19 @@ function createServiceStructuredData(siteUrl: string) {
 function ServiceScene() {
   return (
     <div className={`${styles.heroScene} ${styles.servicesSystemScene}`} aria-hidden="true">
+      <picture className={styles.systemRendered}>
+        <img
+          src="/hometown-services-system.webp"
+          alt=""
+          width="1672"
+          height="941"
+          fetchPriority="high"
+        />
+      </picture>
       <div className={styles.systemRoute} />
       <div className={styles.systemBrowser}><i /><i /><span /><span /></div>
       <div className={styles.systemPin} />
-      <div className={`${styles.systemCard} ${styles.systemCall}`}><b>Call path</b><span>Connected</span></div>
+      <div className={`${styles.systemCard} ${styles.systemCall}`}><b>Example path</b><span>Source context</span></div>
       <div className={`${styles.systemCard} ${styles.systemFeedback}`}><i>✓</i><b>Feedback flow</b></div>
       <div className={styles.systemBars}><i /><i /><i /></div>
     </div>
