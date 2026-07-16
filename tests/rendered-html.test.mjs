@@ -108,6 +108,11 @@ test("keeps the finished shell accessible and free of starter remnants", async (
 
   assert.match(page, /hometown-hero\.webp/);
   assert.match(servicesPage, /hometown-services-system\.webp/);
+  assert.match(page, /hometown-route-upper-v1\.webp/);
+  assert.match(page, /hometown-route-lower-v1\.webp/);
+  assert.match(css, /hometown-route-mobile-spine-v3\.webp/);
+  assert.match(page, /journey-chapter-upper/);
+  assert.match(page, /journey-chapter-lower/);
   assert.match(page, /Clear signals/);
   assert.match(page, /No long-term contracts/);
   assert.match(page, /approved client outcomes become case studies/);
@@ -137,8 +142,70 @@ test("keeps the finished shell accessible and free of starter remnants", async (
     new URL("../public/hometown-services-system.webp", import.meta.url),
   );
   assert.ok(servicesAsset.size < 150_000, "services hero asset should stay lightweight");
+  const journeyAssets = await Promise.all([
+    stat(new URL("../public/hometown-route-upper-v1.webp", import.meta.url)),
+    stat(new URL("../public/hometown-route-lower-v1.webp", import.meta.url)),
+    stat(new URL("../public/hometown-route-mobile-spine-v3.webp", import.meta.url)),
+  ]);
+  assert.ok(
+    journeyAssets.every((asset) => asset.size < 180_000),
+    "each homepage journey asset should stay lightweight",
+  );
+  assert.ok(
+    journeyAssets.reduce((total, asset) => total + asset.size, 0) < 400_000,
+    "the homepage journey asset set should stay within its total budget",
+  );
   await access(new URL("../public/og.png", import.meta.url));
   await access(new URL("../.openai/hosting.json", import.meta.url));
+});
+
+test("keeps the homepage highway continuous, bounded, and non-interactive", async () => {
+  const [page, css, html] = await Promise.all([
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    render("/").then((response) => response.text()),
+  ]);
+
+  assert.match(
+    page,
+    /hometown-route-upper-v1\.webp[\s\S]{0,220}loading="lazy"[\s\S]{0,80}decoding="async"/,
+  );
+  assert.match(
+    page,
+    /hometown-route-lower-v1\.webp[\s\S]{0,220}loading="lazy"[\s\S]{0,80}decoding="async"/,
+  );
+  assert.equal((page.match(/className="journey-art/g) ?? []).length, 2);
+  assert.match(css, /\.home-page main#main-content::before\s*\{\s*display:\s*none;/);
+  assert.match(
+    css,
+    /\.home-hero-scene\s*\{[\s\S]*?right:\s*auto;[\s\S]*?left:\s*50%;[\s\S]*?width:\s*min\(1230px, calc\(100% - 36px\)\);/,
+  );
+  const journeyRule = css.match(/\.journey-art\s*\{([\s\S]*?)\n\}/)?.[1] ?? "";
+  assert.match(journeyRule, /pointer-events:\s*none/);
+  assert.doesNotMatch(journeyRule, /position:\s*fixed/);
+  assert.match(css, /background-image:\s*url\("\/hometown-route-mobile-spine-v3\.webp"\)/);
+  assert.match(css, /background-size:\s*100% 25%/);
+  const heroSceneRules = [...css.matchAll(/\.home-hero-scene\s*\{([\s\S]*?)\}/g)];
+  assert.ok(heroSceneRules.length >= 3);
+  for (const [, rule] of heroSceneRules) {
+    assert.doesNotMatch(rule, /right:\s*-\d/);
+  }
+  const heroImageRules = [...css.matchAll(/\.hero-town-image\s*\{([\s\S]*?)\}/g)];
+  for (const [, rule] of heroImageRules) {
+    assert.doesNotMatch(rule, /width:\s*(?:1[1-9]\d|[2-9]\d\d)%/);
+  }
+  const journeyWrappers = [
+    ...html.matchAll(
+      /<div class="journey-art[^"]*" aria-hidden="true">([\s\S]*?)<\/div>/gi,
+    ),
+  ];
+  assert.equal(journeyWrappers.length, 2);
+  for (const [, wrapper] of journeyWrappers) {
+    assert.match(wrapper, /<img[^>]*alt=""/i);
+    assert.doesNotMatch(wrapper, /<(?:a|button)\b/i);
+  }
+  assert.match(html, /src="\/hometown-route-upper-v1\.webp"[^>]*loading="lazy"/i);
+  assert.match(html, /src="\/hometown-route-lower-v1\.webp"[^>]*loading="lazy"/i);
 });
 
 test("serves the complete expansion with route-specific metadata", async () => {

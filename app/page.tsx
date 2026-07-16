@@ -251,6 +251,20 @@ export default function Home() {
           </div>
         </section>
 
+        <div className="journey-chapter journey-chapter-upper">
+          <div className="journey-art journey-art-upper" aria-hidden="true">
+            <picture>
+              <img
+                src="/hometown-route-upper-v1.webp"
+                alt=""
+                width="1024"
+                height="1536"
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
+          </div>
+
         <section className="section services-section" id="services">
           <span className="section-orbit services-orbit" aria-hidden="true" />
           <div className="container">
@@ -306,6 +320,22 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        </div>
+
+        <div className="journey-chapter journey-chapter-lower">
+          <div className="journey-art journey-art-lower" aria-hidden="true">
+            <picture>
+              <img
+                src="/hometown-route-lower-v1.webp"
+                alt=""
+                width="941"
+                height="1672"
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
+          </div>
 
         <section className="section process-section" id="process">
           <div className="container">
@@ -390,6 +420,7 @@ export default function Home() {
         </section>
 
         <FinalCTA />
+        </div>
       </main>
       <SiteFooter />
     </div>

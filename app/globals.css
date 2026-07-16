@@ -121,6 +121,132 @@ main#main-content::before {
   transform: rotate(-2deg);
 }
 
+/* The homepage uses real 3D route chapters instead of the generic site-wide rings. */
+.home-page main#main-content::before {
+  display: none;
+}
+
+.journey-chapter {
+  position: relative;
+  isolation: isolate;
+}
+
+.journey-chapter-lower::before {
+  position: absolute;
+  z-index: 1;
+  top: -44px;
+  left: calc(50% - min(184.5px, calc(15vw - 5.4px)));
+  width: 82px;
+  height: 92px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent 0 5%, rgba(246, 108, 40, 0.34) 8% 18%, rgba(255, 239, 210, 0.94) 20% 29%, rgba(247, 103, 35, 0.72) 31% 42%, rgba(255, 252, 238, 0.98) 44% 54%, rgba(247, 103, 35, 0.72) 56% 67%, rgba(255, 239, 210, 0.94) 69% 78%, rgba(246, 108, 40, 0.34) 80% 90%, transparent 94% 100%);
+  box-shadow: 0 0 24px rgba(244, 81, 30, 0.26);
+  content: "";
+  filter: blur(0.4px);
+  opacity: 0.78;
+  pointer-events: none;
+  transform: translateX(-50%) rotate(1deg);
+}
+
+.journey-chapter > .section,
+.journey-chapter > .final-cta-wrap {
+  position: relative;
+  z-index: 2;
+}
+
+.journey-art {
+  position: absolute;
+  z-index: 0;
+  top: -190px;
+  bottom: 0;
+  left: 50%;
+  display: block;
+  width: min(1230px, calc(100vw - 36px));
+  overflow: clip;
+  border-radius: clamp(28px, 3vw, 44px);
+  opacity: 0.82;
+  pointer-events: none;
+  user-select: none;
+  transform: translateX(-50%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+}
+
+.journey-art-lower {
+  top: 0;
+  bottom: 20px;
+}
+
+.journey-art picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.journey-art img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(1.03) contrast(1.01);
+  mix-blend-mode: multiply;
+}
+
+.journey-art-upper img {
+  object-position: right center;
+}
+
+.home-page .services-orbit,
+.home-page .industries-panel::before,
+.home-page .pricing-teaser::before,
+.home-page .final-cta::before {
+  display: none;
+}
+
+.home-page .final-cta::after {
+  position: absolute;
+  z-index: 1;
+  top: -76px;
+  right: 3%;
+  width: 34%;
+  height: 245px;
+  border: 22px solid rgba(255, 239, 213, 0.58);
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 9px rgba(255, 255, 255, 0.08),
+    0 0 28px rgba(255, 232, 195, 0.26);
+  content: "";
+  pointer-events: none;
+  transform: rotate(16deg);
+}
+
+.home-page .services-section .section-title,
+.home-page .process-section .section-title {
+  isolation: isolate;
+}
+
+.home-page .services-section .section-title::before,
+.home-page .process-section .section-title::before {
+  position: absolute;
+  z-index: -1;
+  inset: -3rem -4rem;
+  background: radial-gradient(ellipse, rgba(255, 250, 242, 0.98) 0 42%, rgba(255, 250, 242, 0.78) 62%, transparent 78%);
+  content: "";
+  pointer-events: none;
+}
+
+.home-page .process-line {
+  opacity: 0;
+}
+
+.home-page .process-grid article,
+.home-page .industries-panel {
+  background-color: rgba(255, 253, 249, 0.92);
+}
+
 .container {
   width: min(1180px, calc(100% - 48px));
   margin-inline: auto;
@@ -578,26 +704,43 @@ main#main-content::before {
   position: absolute;
   z-index: 3;
   top: 58px;
-  right: -6%;
+  right: auto;
   bottom: -75px;
-  left: 28%;
+  left: 50%;
+  width: min(1230px, calc(100% - 36px));
   pointer-events: none;
+  transform: translateX(-50%);
 }
 
 .home-hero-scene picture {
   position: absolute;
   inset: 0;
+  overflow: clip;
+  border: 1px solid rgba(111, 67, 38, 0.1);
+  border-radius: clamp(28px, 3vw, 42px);
+  background: #fff7ed;
+  box-shadow: 0 32px 90px rgba(106, 54, 21, 0.1);
+}
+
+.home-hero-scene picture::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background: linear-gradient(90deg, #fffaf2 0 23%, rgba(255, 250, 242, 0.98) 38%, rgba(255, 250, 242, 0.82) 52%, rgba(255, 250, 242, 0.24) 66%, transparent 76%);
+  content: "";
+  pointer-events: none;
 }
 
 .hero-town-image {
   position: absolute;
-  top: 0;
-  right: -1%;
-  width: 120%;
+  inset: 0;
+  width: 100%;
   max-width: none;
-  height: auto;
+  height: 100%;
   filter: saturate(1.02) contrast(1.01);
   mix-blend-mode: multiply;
+  object-fit: cover;
+  object-position: 72% center;
 }
 
 .floating-card,
@@ -709,7 +852,7 @@ main#main-content::before {
 
 .call-card {
   top: 315px;
-  left: 30%;
+  left: 55%;
   align-items: center;
   gap: 12px;
   width: 152px;
@@ -773,7 +916,7 @@ main#main-content::before {
 }
 
 .analytics-card {
-  right: 10%;
+  right: 7%;
   bottom: 120px;
   flex-direction: column;
   width: 166px;
@@ -813,7 +956,7 @@ main#main-content::before {
 
 .message-bubble {
   bottom: 111px;
-  left: 30%;
+  left: 54%;
   align-items: center;
   justify-content: center;
   gap: 7px;
@@ -861,7 +1004,7 @@ main#main-content::before {
 
 .hero-map-pin {
   top: 112px;
-  left: 42%;
+  left: 63%;
   width: 72px;
   height: 72px;
   animation: pin-float 5s ease-in-out infinite;
@@ -2349,8 +2492,9 @@ main#main-content::before {
   }
 
   .home-hero-scene {
-    right: -16%;
-    left: 26%;
+    right: auto;
+    left: 50%;
+    width: min(1230px, calc(100% - 36px));
   }
 
   .value-strip article {
@@ -2406,13 +2550,19 @@ main#main-content::before {
 
   .home-hero-scene {
     top: 520px;
-    right: -18%;
+    right: auto;
     bottom: -10px;
-    left: -8%;
+    left: 50%;
+    width: calc(100% - 36px);
   }
 
   .hero-town-image {
-    width: 118%;
+    width: 100%;
+    object-position: 77% center;
+  }
+
+  .home-hero-scene picture::after {
+    background: linear-gradient(90deg, rgba(255, 250, 242, 0.42), transparent 12%, transparent 88%, rgba(255, 250, 242, 0.42));
   }
 
   .website-card {
@@ -2422,12 +2572,12 @@ main#main-content::before {
 
   .hero-map-pin {
     top: 82px;
-    left: 44%;
+    left: 63%;
   }
 
   .call-card {
     top: 295px;
-    left: 31%;
+    left: 55%;
   }
 
   .review-card {
@@ -2441,7 +2591,39 @@ main#main-content::before {
 
   .message-bubble {
     bottom: 100px;
-    left: 37%;
+    left: 55%;
+  }
+
+  .journey-art {
+    top: -130px;
+    right: auto;
+    bottom: 0;
+    left: 50%;
+    width: calc(100% - 36px);
+    border-radius: 30px;
+    background-image: url("/hometown-route-mobile-spine-v3.webp");
+    background-position: center top;
+    background-repeat: repeat-y;
+    background-size: 100% 25%;
+    opacity: 0.46;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+  }
+
+  .journey-art-lower {
+    top: 0;
+    bottom: 0;
+  }
+
+  .journey-chapter-lower::before {
+    top: -34px;
+    left: 50%;
+    width: 58px;
+    height: 72px;
+  }
+
+  .journey-art img {
+    display: none;
   }
 
   .value-strip-wrap {
@@ -2587,13 +2769,34 @@ main#main-content::before {
 
   .home-hero-scene {
     top: 622px;
-    right: -65%;
+    right: auto;
     bottom: 0;
-    left: -15%;
+    left: 50%;
+    width: calc(100% - 24px);
   }
 
   .hero-town-image {
-    width: 165%;
+    width: 100%;
+    object-position: 79% center;
+  }
+
+  .journey-art {
+    width: calc(100% - 24px);
+    border-radius: 28px;
+    opacity: 0.44;
+  }
+
+  .journey-art-lower {
+    top: 0;
+    bottom: 0;
+  }
+
+  .home-page .final-cta::after {
+    top: -58px;
+    right: -10%;
+    width: 64%;
+    height: 220px;
+    opacity: 0.72;
   }
 
   .website-card,
