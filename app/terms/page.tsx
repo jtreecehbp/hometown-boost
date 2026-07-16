@@ -11,6 +11,7 @@ export const metadata = createPageMetadata({
   description:
     "Read the draft terms governing use of the Hometown Boost website, including informational content, acceptable use, third-party links, and service disclaimers.",
   path: "/terms",
+  robots: { index: false, follow: true },
 });
 
 function LegalScene() {
@@ -30,6 +31,7 @@ export default function TermsPage() {
       <SiteHeader />
       <main id="main-content" className={styles.main}>
         <PageHero
+          hideDefaultArt
           eyebrow="Draft terms · July 16, 2026"
           title="Website Terms of Use"
           description="These draft terms cover use of the Hometown Boost website. They do not replace a signed services agreement and should receive final legal and business review before launch."

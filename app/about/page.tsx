@@ -44,14 +44,13 @@ const values = [
 
 function AboutScene() {
   return (
-    <div className={styles.heroScene} aria-hidden="true">
-      <div className={styles.sceneStage} />
-      <div className={styles.sceneBlock} />
-      <div className={styles.sceneBlockSmall} />
-      <div className={styles.scenePin} />
-      <div className={styles.scenePanel}>Modern tools. Small-business thinking.</div>
-      <div className={styles.sceneTruck} />
-      <div className={styles.sceneRing} />
+    <div className={`${styles.heroScene} ${styles.aboutHeroScene}`} aria-hidden="true">
+      <div className={styles.storyVisual}>
+        <span className={styles.storyDesk} />
+        <span className={styles.storyScreen} />
+        <span className={styles.storyNote}>Plan • build • improve</span>
+        <span className={styles.storyPin} />
+      </div>
     </div>
   );
 }
@@ -62,6 +61,7 @@ export default function AboutPage() {
       <SiteHeader />
       <main id="main-content" className={styles.main}>
         <PageHero
+          hideDefaultArt
           eyebrow="Why Hometown Boost exists"
           title="Built to help hometown businesses compete and grow."
           description="Local marketing should make the next decision clearer. We bring modern website and visibility work together with practical thinking about calls, customers, reviews, and capacity."
@@ -218,6 +218,7 @@ export default function AboutPage() {
           body="We’ll listen, look for the clearest opportunities, and recommend a practical next step built around the way your business actually works."
           primaryLabel="Get My Free Game Plan"
           secondaryLabel="See How We Measure"
+          secondaryHref="/results"
         />
       </main>
       <SiteFooter />

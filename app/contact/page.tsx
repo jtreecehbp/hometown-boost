@@ -26,15 +26,33 @@ function ContactScene() {
   );
 }
 
+function getSecureDestination(value: string | undefined) {
+  if (!value) return undefined;
+
+  try {
+    const destination = new URL(value.trim());
+    return destination.protocol === "https:" ? destination.toString() : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 export default function ContactPage() {
+  const formAction = getSecureDestination(process.env.CONTACT_FORM_URL);
+  const bookingUrl = getSecureDestination(process.env.BOOKING_URL);
+  const formReady = Boolean(formAction);
+
   return (
     <div className={styles.page}>
       <SiteHeader />
       <main id="main-content" className={styles.main}>
         <PageHero
+          hideDefaultArt
           eyebrow="Free growth game plan"
           title="Let’s build your growth game plan."
           description="Tell us where the business stands, what feels stuck, and what a better next chapter looks like. The first conversation is about clarity—not pressure."
+          secondaryLabel={bookingUrl ? "Book a Free Strategy Call" : "Explore Our Services"}
+          secondaryHref={bookingUrl ?? "/services"}
         >
           <ContactScene />
         </PageHero>
@@ -50,7 +68,12 @@ export default function ContactPage() {
               <div className={styles.formPanel}>
                 <h2>Strategy request</h2>
                 <p>Fields marked with an asterisk are the most useful starting points.</p>
-                <form className={styles.formGrid} aria-describedby="demo-form-note">
+                <form
+                  action={formAction}
+                  method="post"
+                  className={styles.formGrid}
+                  aria-describedby="form-delivery-note"
+                >
                   <div className={styles.field}>
                     <label htmlFor="name">Your name *</label>
                     <input id="name" name="name" type="text" autoComplete="name" required />
@@ -147,11 +170,20 @@ export default function ContactPage() {
                       <label><input type="radio" name="contactPreference" value="either" /> Either is fine</label>
                     </div>
                   </fieldset>
-                  <p className={styles.demoNote} id="demo-form-note">
-                    <strong>Preview form:</strong> This form is displayed for planning and accessibility review, but it does not transmit or store information yet. Secure form delivery and the official contact destination must be connected before launch.
+                  <p className={styles.demoNote} id="form-delivery-note">
+                    {formReady ? (
+                      <><strong>Ready to send:</strong> Your details will be delivered through the secure form destination configured for Hometown Boost.</>
+                    ) : (
+                      <><strong>Preview form:</strong> This form is displayed for planning and accessibility review, but it does not transmit or store information yet. Secure form delivery and the official contact destination must be connected before launch.</>
+                    )}
                   </p>
-                  <button className={styles.demoButton} type="button" disabled aria-describedby="demo-form-note">
-                    Sending will be available at launch
+                  <button
+                    className={styles.demoButton}
+                    type="submit"
+                    disabled={!formReady}
+                    aria-describedby="form-delivery-note"
+                  >
+                    {formReady ? "Send My Strategy Request" : "Sending will be available at launch"}
                   </button>
                 </form>
               </div>

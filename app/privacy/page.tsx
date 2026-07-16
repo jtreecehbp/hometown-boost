@@ -11,6 +11,7 @@ export const metadata = createPageMetadata({
   description:
     "Read the draft Hometown Boost website privacy policy covering information collection, use, sharing, retention, choices, and contact options.",
   path: "/privacy",
+  robots: { index: false, follow: true },
 });
 
 function LegalScene() {
@@ -30,6 +31,7 @@ export default function PrivacyPage() {
       <SiteHeader />
       <main id="main-content" className={styles.main}>
         <PageHero
+          hideDefaultArt
           eyebrow="Draft policy · July 16, 2026"
           title="Privacy Policy"
           description="This draft explains the intended handling of information on the Hometown Boost website. It should be reviewed against the final forms, analytics, advertising tools, vendors, and applicable law before launch."

@@ -58,20 +58,12 @@
     0 0 0 9rem rgba(255, 177, 122, 0.035);
 }
 
-.reviewsHero :global(.page-hero-stars) {
-  display: none;
-}
-
 .reviewsHero :global(.page-hero-window) {
   transform: rotate(5deg) translate(1rem, -0.5rem);
 }
 
 .resourcesHero :global(.page-hero-window) {
   transform: rotate(-4deg) translate(-1rem, -1.25rem);
-}
-
-.resourcesHero :global(.page-hero-stars) {
-  opacity: 0.38;
 }
 
 .heroTrustStack,
@@ -596,7 +588,8 @@
   text-transform: uppercase;
 }
 
-.comingSoon {
+.comingSoon,
+.resourceReady {
   flex: 0 0 auto;
   padding: 0.35rem 0.55rem;
   border: 1px solid rgba(244, 91, 32, 0.14);
@@ -607,6 +600,12 @@
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.resourceReady {
+  border-color: rgba(43, 126, 111, 0.18);
+  background: #eaf7f3;
+  color: #267566;
 }
 
 .articleShape {
@@ -701,6 +700,27 @@
   color: #45423f;
   font-size: 0.84rem;
   line-height: 1.55;
+}
+
+.resourceLink {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 1.25rem;
+  color: #d94714;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.resourceLink span {
+  transition: transform 160ms ease;
+}
+
+.resourceLink:hover span,
+.resourceLink:focus-visible span {
+  transform: translateX(0.25rem);
 }
 
 .resourcePromise {
@@ -1228,12 +1248,18 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .chipNav a {
+  .chipNav a,
+  .resourceLink span {
     transition: none;
   }
 
   .chipNav a:hover,
   .chipNav a:focus-visible {
+    transform: none;
+  }
+
+  .resourceLink:hover span,
+  .resourceLink:focus-visible span {
     transform: none;
   }
 }

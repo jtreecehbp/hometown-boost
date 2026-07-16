@@ -18,6 +18,7 @@ export const metadata = createPageMetadata({
 const industries = [
   {
     id: "equipment-dealers",
+    href: "/industries/equipment-dealers",
     mark: "ED",
     title: "Equipment dealers",
     challenge: "Complex inventory, wide service areas, and shoppers who research long before they visit.",
@@ -27,6 +28,7 @@ const industries = [
   },
   {
     id: "contractors",
+    href: "/industries/contractors",
     mark: "CT",
     title: "Contractors",
     challenge: "Seasonal demand, crowded search results, and prospects who need proof before inviting anyone onsite.",
@@ -36,6 +38,7 @@ const industries = [
   },
   {
     id: "home-services",
+    href: "/industries/home-services",
     mark: "HS",
     title: "Home services",
     challenge: "Urgent needs, short decision windows, and a market where responsiveness matters as much as visibility.",
@@ -44,7 +47,8 @@ const industries = [
     help: "We reduce friction between an urgent search and a useful conversation with your team.",
   },
   {
-    id: "lawn-landscaping",
+    id: "lawn-care",
+    href: "/industries/lawn-care",
     mark: "LL",
     title: "Lawn care and landscaping",
     challenge: "Visual work, changing seasons, route density, and a mix of recurring and project-based customers.",
@@ -53,25 +57,58 @@ const industries = [
     help: "We help fill the right routes and project calendar without treating every click as an equal lead.",
   },
   {
-    id: "repair-automotive",
-    mark: "RA",
-    title: "Repair shops and automotive",
-    challenge: "High-trust decisions, varied services, local competition, and customers who often search under pressure.",
-    search: "Drivers look for a specific repair, nearby availability, strong recent reviews, and signs of honest service.",
-    focus: "Service visibility, Google profile care, review growth, mobile calls, and repeat-customer touchpoints.",
-    help: "We make expertise and trust easier to see before a customer ever reaches the counter.",
+    id: "repair-shops",
+    href: "/industries/repair-shops",
+    mark: "RS",
+    title: "Repair shops",
+    challenge: "High-trust decisions, varied repair needs, local competition, and customers who often search under pressure.",
+    search: "Customers look for the exact repair, nearby availability, recent proof, and signs of careful, honest service.",
+    focus: "Repair-service visibility, profile care, review growth, mobile calls, and repeat-customer touchpoints.",
+    help: "We make expertise and trust easier to see before a customer reaches the counter.",
   },
   {
-    id: "hvac-plumbing-septic",
-    mark: "HP",
-    title: "HVAC, plumbing, and septic",
-    challenge: "Emergency calls, maintenance work, large service areas, and expensive leads in competitive categories.",
-    search: "Customers search by immediate problem, system type, town, response time, and credible local proof.",
-    focus: "High-intent service pages, map visibility, call attribution, reviews, and careful paid search when useful.",
-    help: "We organize urgent and planned services so the right customer can quickly find the right next step.",
+    id: "automotive",
+    href: "/industries/automotive",
+    mark: "AU",
+    title: "Automotive businesses",
+    challenge: "Customers compare specialized services, convenience, reputation, and local availability before they commit.",
+    search: "Drivers search by vehicle need, service type, location, availability, and confidence in the team doing the work.",
+    focus: "Service pages, map visibility, reputation, call paths, and clear measurement from search to appointment.",
+    help: "We connect the services you want to grow with the local signals drivers use to choose a shop.",
+  },
+  {
+    id: "hvac",
+    href: "/industries/hvac",
+    mark: "HV",
+    title: "HVAC companies",
+    challenge: "Emergency calls, seasonal demand, maintenance work, and competitive lead costs across a wide service area.",
+    search: "Homeowners search by system problem, equipment type, town, response time, and credible local proof.",
+    focus: "High-intent service pages, map visibility, call attribution, maintenance messaging, and review growth.",
+    help: "We make urgent and planned HVAC services easier to find, understand, and act on.",
+  },
+  {
+    id: "plumbing",
+    href: "/industries/plumbing",
+    mark: "PL",
+    title: "Plumbing companies",
+    challenge: "A mix of emergencies and planned projects makes speed, clarity, and service-area relevance especially important.",
+    search: "Customers search by immediate symptom, specific service, location, availability, and recent trust signals.",
+    focus: "Problem-led pages, Google profile care, mobile calls, reviews, and practical lead-source tracking.",
+    help: "We shorten the path from a plumbing problem to the right conversation with your team.",
+  },
+  {
+    id: "septic-services",
+    href: "/industries/septic-services",
+    mark: "SS",
+    title: "Septic services",
+    challenge: "Large rural service areas, urgent failures, recurring maintenance, and services customers may not know how to describe.",
+    search: "Property owners search by warning sign, service type, county or town, timing, and local experience.",
+    focus: "Plain-language service content, service-area visibility, calls, reviews, maintenance reminders, and lead quality.",
+    help: "We translate technical septic work into clear customer paths without oversimplifying the service.",
   },
   {
     id: "retail",
+    href: "/contact",
     mark: "RT",
     title: "Local retail",
     challenge: "Balancing online discovery with visits, events, promotions, changing hours, and product interest.",
@@ -81,6 +118,7 @@ const industries = [
   },
   {
     id: "professional-services",
+    href: "/contact",
     mark: "PS",
     title: "Professional services",
     challenge: "Longer consideration, trust-sensitive decisions, and services that can be difficult to explain quickly.",
@@ -92,11 +130,11 @@ const industries = [
 
 function TownScene() {
   return (
-    <div className={styles.heroScene} aria-hidden="true">
-      <div className={styles.sceneStage} />
-      <div className={styles.sceneBlock} />
-      <div className={styles.sceneBlockSmall} />
-      <div className={styles.scenePin} />
+    <div className={`${styles.heroScene} ${styles.townHeroScene}`} aria-hidden="true">
+      <div className={styles.townHeroImage} />
+      <span className={`${styles.townMarker} ${styles.townMarkerDealer}`}>ED</span>
+      <span className={`${styles.townMarker} ${styles.townMarkerService}`}>HV</span>
+      <span className={`${styles.townMarker} ${styles.townMarkerShop}`}>RS</span>
       <div className={styles.scenePanel}>Many local journeys. One clear growth plan.</div>
       <div className={styles.sceneRing} />
       <div className={styles.sceneTruck} />
@@ -110,6 +148,7 @@ export default function IndustriesPage() {
       <SiteHeader />
       <main id="main-content" className={styles.main}>
         <PageHero
+          hideDefaultArt
           eyebrow="Built for local businesses"
           title="Built for businesses that depend on local customers."
           description="From equipment lots to service trucks and neighborhood storefronts, we shape the plan around how your customers actually search, compare, and choose."
@@ -193,8 +232,10 @@ export default function IndustriesPage() {
                     </div>
                   </div>
                   <p className={styles.industryCta}>
-                    <a className={styles.textLink} href="/contact">
-                      Build a plan for {industry.title.toLowerCase()}
+                    <a className={styles.textLink} href={industry.href}>
+                      {industry.href === "/contact"
+                        ? `Build a plan for ${industry.title.toLowerCase()}`
+                        : `Explore ${industry.title.toLowerCase()}`}
                     </a>
                   </p>
                 </article>
@@ -230,6 +271,7 @@ export default function IndustriesPage() {
           body="We’ll look at how customers in your area search, compare, and contact businesses like yours—then map the clearest opportunities."
           primaryLabel="Get My Free Game Plan"
           secondaryLabel="View Our Services"
+          secondaryHref="/services"
         />
       </main>
       <SiteFooter />

@@ -98,6 +98,29 @@ img {
   isolation: isolate;
 }
 
+main#main-content {
+  position: relative;
+  overflow: clip;
+  isolation: isolate;
+}
+
+/* A quiet, site-wide version of the glowing route in the reference artwork. */
+main#main-content::before {
+  position: absolute;
+  z-index: -1;
+  inset: 430px -18vw 260px;
+  content: "";
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 52% 10% at 82% 8%, transparent 55%, rgba(255, 244, 232, 0.95) 55.5% 56.5%, rgba(247, 105, 38, 0.3) 57% 58%, rgba(255, 189, 139, 0.16) 59% 61%, transparent 62%),
+    radial-gradient(ellipse 54% 12% at 20% 34%, transparent 55%, rgba(255, 247, 237, 0.92) 55.5% 56.5%, rgba(247, 105, 38, 0.25) 57% 58%, rgba(255, 183, 129, 0.13) 59% 61%, transparent 62%),
+    radial-gradient(ellipse 58% 11% at 78% 61%, transparent 55%, rgba(255, 247, 237, 0.9) 55.5% 56.5%, rgba(247, 105, 38, 0.22) 57% 58%, rgba(255, 183, 129, 0.12) 59% 61%, transparent 62%),
+    radial-gradient(ellipse 56% 10% at 26% 88%, transparent 55%, rgba(255, 247, 237, 0.88) 55.5% 56.5%, rgba(247, 105, 38, 0.2) 57% 58%, rgba(255, 183, 129, 0.1) 59% 61%, transparent 62%);
+  filter: drop-shadow(0 12px 18px rgba(224, 77, 18, 0.1));
+  opacity: 0.86;
+  transform: rotate(-2deg);
+}
+
 .container {
   width: min(1180px, calc(100% - 48px));
   margin-inline: auto;
@@ -736,12 +759,17 @@ img {
   transform: rotate(-1deg);
 }
 
-.review-stars {
-  margin-bottom: 5px;
-  color: var(--orange);
-  font-size: 0.85rem;
+.review-signal {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  margin-bottom: 7px;
+  border-radius: 50%;
+  color: white;
+  background: var(--orange);
+  font-size: 0.7rem;
   font-style: normal;
-  letter-spacing: 1px;
+  place-items: center;
 }
 
 .analytics-card {
@@ -1105,13 +1133,19 @@ img {
   content: "";
 }
 
-.service-object-stars {
+.service-object-feedback {
   top: -14px;
   left: 90px;
-  color: var(--orange);
-  font-size: 1.18rem;
-  letter-spacing: 4px;
-  text-shadow: 0 7px 11px rgba(185, 55, 9, 0.15);
+  display: grid;
+  width: 36px;
+  height: 36px;
+  border: 7px solid #fff0e4;
+  border-radius: 50%;
+  color: white;
+  background: var(--orange);
+  box-shadow: 0 12px 20px rgba(185, 55, 9, 0.16);
+  font-size: 0.72rem;
+  place-items: center;
   transform: rotate(-4deg);
 }
 
@@ -1899,6 +1933,20 @@ img {
   transform: rotate(-4deg);
 }
 
+.cta-review i {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  margin-bottom: 5px;
+  border-radius: 50%;
+  color: white;
+  background: var(--orange);
+  font-size: 0.72rem;
+  font-style: normal;
+  letter-spacing: 0;
+  place-items: center;
+}
+
 .cta-review b {
   color: var(--ink);
   font-size: 0.62rem;
@@ -2086,19 +2134,42 @@ img {
   height: 29px;
 }
 
-.page-hero-stars {
+.page-hero-feedback {
   position: absolute;
   z-index: 7;
   right: 13px;
   bottom: 35px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
   padding: 18px 22px;
   border: 1px solid var(--line);
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.85);
   box-shadow: var(--shadow-lg);
-  color: var(--orange);
-  letter-spacing: 3px;
   transform: rotate(4deg);
+}
+
+.page-hero-feedback i {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  color: white;
+  background: var(--orange);
+  font-size: 0.72rem;
+  font-style: normal;
+  place-items: center;
+}
+
+.page-hero-feedback b {
+  color: var(--ink);
+  font-size: 0.72rem;
+  letter-spacing: 0;
+}
+
+.page-hero-has-scene .page-hero-art {
+  display: none;
 }
 
 .page-hero-signal {
@@ -2408,6 +2479,12 @@ img {
 }
 
 @media (max-width: 680px) {
+  main#main-content::before {
+    inset: 620px -75vw 180px -65vw;
+    opacity: 0.48;
+    transform: rotate(-4deg);
+  }
+
   .container {
     width: min(100% - 32px, 1180px);
   }

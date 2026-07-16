@@ -7,6 +7,7 @@ import {
   SiteHeader,
 } from "../components";
 import styles from "../core-pages.module.css";
+import { getSiteUrl } from "../site-url";
 
 export const metadata = createPageMetadata({
   title: "Local Marketing Services",
@@ -18,6 +19,7 @@ export const metadata = createPageMetadata({
 const services = [
   {
     id: "website-design",
+    href: "/services/website-design",
     number: "01",
     title: "Website design",
     problem:
@@ -37,6 +39,7 @@ const services = [
   },
   {
     id: "local-seo",
+    href: "/services/local-seo",
     number: "02",
     title: "Local SEO",
     problem:
@@ -56,6 +59,7 @@ const services = [
   },
   {
     id: "google-business-profile",
+    href: "/services/google-business-profile",
     number: "03",
     title: "Google Business Profile management",
     problem:
@@ -75,6 +79,7 @@ const services = [
   },
   {
     id: "reputation-management",
+    href: "/services/reputation-management",
     number: "04",
     title: "Reputation and review growth",
     problem:
@@ -94,6 +99,7 @@ const services = [
   },
   {
     id: "lead-tracking",
+    href: "/services/call-tracking",
     number: "05",
     title: "Call and lead tracking",
     problem:
@@ -113,6 +119,7 @@ const services = [
   },
   {
     id: "paid-advertising",
+    href: "/services/paid-advertising",
     number: "06",
     title: "Paid advertising",
     problem:
@@ -132,6 +139,7 @@ const services = [
   },
   {
     id: "optimization",
+    href: "/contact",
     number: "07",
     title: "Reporting and ongoing optimization",
     problem:
@@ -151,39 +159,46 @@ const services = [
   },
 ] as const;
 
-const serviceStructuredData = {
-  "@context": "https://schema.org",
-  "@graph": services.map((service) => ({
-    "@type": "Service",
-    name: service.title,
-    serviceType: service.title,
-    description: service.solution,
-    provider: {
-      "@type": "Organization",
-      name: "Hometown Boost",
-    },
-    audience: {
-      "@type": "BusinessAudience",
-      audienceType: "Local businesses",
-    },
-  })),
-};
+function createServiceStructuredData(siteUrl: string) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": services.map((service) => ({
+      "@type": "Service",
+      "@id": `${siteUrl}/services#${service.id}`,
+      url: service.href.startsWith("/services/")
+        ? `${siteUrl}${service.href}`
+        : `${siteUrl}/services#${service.id}`,
+      name: service.title,
+      serviceType: service.title,
+      description: service.solution,
+      provider: {
+        "@id": `${siteUrl}/#organization`,
+      },
+      audience: {
+        "@type": "BusinessAudience",
+        audienceType: "Local businesses",
+      },
+    })),
+  };
+}
 
 function ServiceScene() {
   return (
-    <div className={styles.heroScene} aria-hidden="true">
-      <div className={styles.sceneStage} />
-      <div className={styles.sceneBlock} />
-      <div className={styles.sceneBlockSmall} />
-      <div className={styles.scenePin} />
-      <div className={styles.scenePanel}>One connected growth system</div>
-      <div className={styles.sceneRing} />
-      <div className={styles.sceneTruck} />
+    <div className={`${styles.heroScene} ${styles.servicesSystemScene}`} aria-hidden="true">
+      <div className={styles.systemRoute} />
+      <div className={styles.systemBrowser}><i /><i /><span /><span /></div>
+      <div className={styles.systemPin} />
+      <div className={`${styles.systemCard} ${styles.systemCall}`}><b>Call path</b><span>Connected</span></div>
+      <div className={`${styles.systemCard} ${styles.systemFeedback}`}><i>✓</i><b>Feedback flow</b></div>
+      <div className={styles.systemBars}><i /><i /><i /></div>
     </div>
   );
 }
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const siteUrl = await getSiteUrl();
+  const serviceStructuredData = createServiceStructuredData(siteUrl);
+
   return (
     <div className={styles.page}>
       <SiteHeader />
@@ -195,9 +210,12 @@ export default function ServicesPage() {
       />
       <main id="main-content" className={styles.main}>
         <PageHero
+          hideDefaultArt
           eyebrow="Done-for-you local marketing"
           title="Everything your business needs to get found and chosen."
           description="Hometown Boost brings your website, Google visibility, reviews, lead tracking, and ongoing improvements into one practical plan."
+          secondaryLabel="Explore Industries"
+          secondaryHref="/industries"
         >
           <ServiceScene />
         </PageHero>
@@ -253,8 +271,10 @@ export default function ServicesPage() {
                         <p>{service.proof}</p>
                       </div>
                     </div>
-                    <a className={styles.textLink} href="/contact">
-                      Talk through this service
+                    <a className={styles.textLink} href={service.href}>
+                      {service.href === "/contact"
+                        ? "Talk through this service"
+                        : `Explore ${service.title.toLowerCase()}`}
                     </a>
                   </div>
                 </article>
@@ -296,6 +316,7 @@ export default function ServicesPage() {
           body="Tell us what is working, what feels stuck, and where you want the business to go. We’ll help turn that into a straightforward game plan."
           primaryLabel="Get My Free Game Plan"
           secondaryLabel="Explore Industries"
+          secondaryHref="/industries"
         />
       </main>
       <SiteFooter />

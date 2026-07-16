@@ -886,6 +886,18 @@
   opacity: 0.76;
 }
 
+.demoButton:not(:disabled) {
+  cursor: pointer;
+  opacity: 1;
+  transition: box-shadow 180ms ease, transform 180ms ease;
+}
+
+.demoButton:not(:disabled):hover,
+.demoButton:not(:disabled):focus-visible {
+  box-shadow: 0 19px 34px rgba(143, 54, 15, 0.26);
+  transform: translateY(-2px);
+}
+
 .contactAside {
   display: grid;
   gap: 20px;
@@ -993,6 +1005,352 @@
 .page :global(.page-hero-art) {
   opacity: 0.1;
   filter: saturate(0.7);
+}
+
+/* Distinct interior hero scenes, built from independent layers. */
+.servicesSystemScene,
+.townHeroScene,
+.pricingScene,
+.resultsScene,
+.aboutHeroScene {
+  perspective: 900px;
+}
+
+.systemRoute {
+  position: absolute;
+  inset: 38% -18% 4% 2%;
+  border: 9px solid rgba(247, 102, 35, 0.34);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 8px rgba(255, 247, 238, 0.82),
+    0 0 0 15px rgba(255, 166, 102, 0.09),
+    0 20px 32px rgba(191, 66, 16, 0.11);
+  transform: rotate(-12deg);
+}
+
+.systemBrowser {
+  position: absolute;
+  z-index: 3;
+  top: 34px;
+  left: 7%;
+  width: 270px;
+  height: 226px;
+  overflow: hidden;
+  padding: 42px 25px 24px;
+  border: 1px solid rgba(64, 47, 35, 0.11);
+  border-radius: 27px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 34px 55px rgba(94, 47, 20, 0.17);
+  transform: rotateY(-10deg) rotateZ(-4deg);
+}
+
+.systemBrowser::before {
+  position: absolute;
+  top: 18px;
+  left: 22px;
+  color: #f15a24;
+  content: "•••";
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+}
+
+.systemBrowser > i {
+  display: inline-block;
+  width: 48%;
+  height: 82px;
+  margin-right: 2%;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #ffe0cc, #f36c2a);
+}
+
+.systemBrowser > i:nth-child(2) {
+  margin-right: 0;
+  background: linear-gradient(145deg, #cce9e3, #52a69c);
+}
+
+.systemBrowser > span {
+  display: block;
+  width: 78%;
+  height: 9px;
+  margin-top: 18px;
+  border-radius: 999px;
+  background: #eaded5;
+}
+
+.systemBrowser > span:last-child {
+  width: 52%;
+  margin-top: 10px;
+}
+
+.systemPin {
+  position: absolute;
+  z-index: 6;
+  top: -2px;
+  left: 46%;
+  width: 74px;
+  height: 90px;
+  border-radius: 55% 55% 55% 10%;
+  background: linear-gradient(145deg, #ff985c, #ed4610);
+  box-shadow: 0 24px 34px rgba(124, 43, 12, 0.22);
+  transform: rotate(45deg);
+}
+
+.systemPin::after {
+  position: absolute;
+  inset: 22px;
+  border: 7px solid #ffe3d2;
+  border-radius: 50%;
+  content: "";
+}
+
+.systemCard {
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  min-width: 142px;
+  flex-direction: column;
+  padding: 17px 19px;
+  border: 1px solid rgba(65, 47, 34, 0.1);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 23px 40px rgba(87, 43, 18, 0.17);
+}
+
+.systemCard b {
+  font-size: 0.72rem;
+}
+
+.systemCard span {
+  margin-top: 4px;
+  color: #88776b;
+  font-size: 0.62rem;
+}
+
+.systemCall {
+  top: 52px;
+  right: -23px;
+  transform: rotate(6deg);
+}
+
+.systemFeedback {
+  right: 6%;
+  bottom: 32px;
+  flex-direction: row;
+  align-items: center;
+  gap: 9px;
+  transform: rotate(-5deg);
+}
+
+.systemFeedback i {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  color: #fff;
+  background: #f15a24;
+  font-size: 0.7rem;
+  font-style: normal;
+  place-items: center;
+}
+
+.systemBars {
+  position: absolute;
+  z-index: 4;
+  bottom: 25px;
+  left: 31%;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(191, 226, 218, 0.9);
+  box-shadow: 0 24px 40px rgba(43, 94, 88, 0.14);
+  transform: rotate(4deg);
+}
+
+.systemBars i,
+.resultBars i {
+  display: block;
+  width: 18px;
+  border-radius: 7px 7px 3px 3px;
+  background: linear-gradient(180deg, #ff8a49, #e94a12);
+}
+
+.systemBars i:nth-child(1) { height: 28px; }
+.systemBars i:nth-child(2) { height: 53px; }
+.systemBars i:nth-child(3) { height: 78px; }
+
+.townHeroImage {
+  position: absolute;
+  inset: 18px -78px 8px -6px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  border-radius: 42px 42px 92px 42px;
+  background-image:
+    linear-gradient(90deg, rgba(255, 250, 242, 0.18), transparent 35%),
+    url("/hometown-hero.webp");
+  background-position: 72% center;
+  background-size: cover;
+  box-shadow: 0 34px 70px rgba(96, 48, 21, 0.16);
+  transform: perspective(950px) rotateY(-6deg) rotateZ(1deg);
+}
+
+.townHeroImage::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 55%, rgba(232, 87, 22, 0.08));
+}
+
+.townMarker {
+  position: absolute;
+  z-index: 5;
+  display: grid;
+  width: 54px;
+  height: 54px;
+  border: 7px solid #fff2e7;
+  border-radius: 19px 23px 16px 23px;
+  color: #fff;
+  background: linear-gradient(145deg, #ff8e4e, #e6430d);
+  box-shadow: 0 17px 29px rgba(124, 45, 14, 0.22);
+  font-size: 0.68rem;
+  font-weight: 900;
+  place-items: center;
+}
+
+.townMarkerDealer { top: 38px; left: 12%; transform: rotate(-6deg); }
+.townMarkerService { top: 46%; left: 48%; transform: rotate(5deg); }
+.townMarkerShop { right: 3%; bottom: 24%; transform: rotate(-3deg); }
+
+.townHeroScene .scenePanel {
+  top: 18px;
+  right: -35px;
+}
+
+.townHeroScene .sceneRing {
+  z-index: 2;
+  right: -11%;
+  bottom: -5px;
+}
+
+.townHeroScene .sceneTruck {
+  right: -30px;
+  bottom: 24px;
+  transform: scale(0.72) rotate(-3deg);
+}
+
+.pricingStack {
+  position: absolute;
+  top: 48px;
+  left: 3%;
+  width: 85%;
+  height: 310px;
+}
+
+.pricingLayer {
+  position: absolute;
+  display: flex;
+  width: 260px;
+  min-height: 165px;
+  flex-direction: column;
+  padding: 28px;
+  border: 1px solid rgba(70, 49, 35, 0.1);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.93);
+  box-shadow: 0 28px 55px rgba(92, 44, 18, 0.16);
+}
+
+.pricingLayer:nth-child(1) { top: 108px; left: 0; transform: rotate(-8deg); }
+.pricingLayer:nth-child(2) { top: 52px; left: 24%; z-index: 2; transform: rotate(-1deg); }
+.pricingLayer:nth-child(3) { top: 0; left: 48%; z-index: 3; transform: rotate(6deg); }
+
+.pricingLayer b {
+  margin-bottom: 20px;
+  font-size: 0.82rem;
+}
+
+.pricingLayer i {
+  display: block;
+  width: 72%;
+  height: 9px;
+  margin-top: 10px;
+  border-radius: 999px;
+  background: #eaded5;
+}
+
+.pricingLayer i:last-child {
+  width: 48%;
+}
+
+.pricingLayer:nth-child(2) {
+  border-color: rgba(241, 90, 36, 0.28);
+  background: linear-gradient(145deg, #fff, #fff0e5);
+}
+
+.pricingToken {
+  position: absolute;
+  z-index: 6;
+  display: grid;
+  width: 66px;
+  height: 66px;
+  border: 10px solid #fff0e5;
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(145deg, #ff9251, #e94b13);
+  box-shadow: 0 20px 32px rgba(122, 44, 12, 0.2);
+  font-size: 0.73rem;
+  font-weight: 900;
+  place-items: center;
+}
+
+.pricingTokenOne { left: 8%; bottom: 10px; transform: rotate(-10deg); }
+.pricingTokenTwo { right: 5%; bottom: 54px; transform: rotate(9deg); }
+.pricingScene .scenePanel { top: 18px; right: -40px; width: 205px; }
+.pricingScene .sceneRing { right: -8%; bottom: -2px; }
+
+.resultBars {
+  position: absolute;
+  z-index: 3;
+  bottom: 62px;
+  left: 15%;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  padding: 31px 36px 24px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.83);
+  box-shadow: 0 30px 58px rgba(91, 46, 21, 0.15);
+  transform: perspective(850px) rotateY(-7deg) rotateZ(-3deg);
+}
+
+.resultBars i:nth-child(1) { height: 48px; }
+.resultBars i:nth-child(2) { height: 81px; }
+.resultBars i:nth-child(3) { height: 118px; }
+.resultBars i:nth-child(4) { height: 154px; }
+
+.resultLabel {
+  position: absolute;
+  z-index: 5;
+  padding: 13px 16px;
+  border: 1px solid rgba(69, 50, 36, 0.1);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 32px rgba(86, 44, 20, 0.14);
+  color: #5d5148;
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.resultBaseline { left: 5%; bottom: 40px; transform: rotate(-5deg); }
+.resultMeasured { right: 8%; bottom: 70px; transform: rotate(5deg); }
+.resultsScene .scenePanel { top: 25px; right: -26px; }
+
+.aboutHeroScene .storyVisual {
+  min-height: 390px;
+  margin: 16px -36px 0 8px;
+  transform: perspective(900px) rotateY(-5deg) rotateZ(1deg);
 }
 
 .sceneStage {
@@ -1343,6 +1701,89 @@
   .heroScene {
     min-height: 320px;
     margin-inline: -35px;
+  }
+
+  .systemBrowser {
+    top: 52px;
+    left: 14%;
+    width: 225px;
+    height: 190px;
+    transform: rotateY(-7deg) rotateZ(-3deg) scale(0.9);
+    transform-origin: left top;
+  }
+
+  .systemPin {
+    left: 52%;
+    transform: rotate(45deg) scale(0.82);
+  }
+
+  .systemCall {
+    top: 30px;
+    right: 8px;
+  }
+
+  .systemFeedback,
+  .townMarkerService,
+  .pricingTokenTwo,
+  .resultMeasured {
+    display: none;
+  }
+
+  .systemBars {
+    bottom: 10px;
+    left: 41%;
+    transform: rotate(4deg) scale(0.82);
+  }
+
+  .townHeroImage {
+    inset: 28px 8px 12px 14px;
+    background-position: 74% center;
+    transform: rotateZ(1deg);
+  }
+
+  .townMarkerDealer {
+    top: 42px;
+    left: 15%;
+  }
+
+  .townMarkerShop {
+    right: 5%;
+    bottom: 15%;
+  }
+
+  .townHeroScene .scenePanel {
+    top: 14px;
+    right: 4px;
+  }
+
+  .pricingStack {
+    top: 50px;
+    left: 2%;
+    transform: scale(0.8);
+    transform-origin: left top;
+  }
+
+  .pricingScene .scenePanel {
+    top: 11px;
+    right: 6px;
+  }
+
+  .resultBars {
+    bottom: 25px;
+    left: 18%;
+    transform: rotateZ(-3deg) scale(0.78);
+    transform-origin: left bottom;
+  }
+
+  .resultBaseline {
+    left: 10%;
+    bottom: 18px;
+  }
+
+  .aboutHeroScene .storyVisual {
+    min-height: 330px;
+    margin: 22px 8px 0 20px;
+    transform: none;
   }
 
   .sceneStage {

@@ -39,42 +39,42 @@ const services = [
     icon: "▤",
     title: "Website Design",
     text: "Give customers a fast, clear path from first visit to first conversation.",
-    href: "/services#website-design",
+    href: "/services/website-design",
     object: "browser",
   },
   {
     icon: "⌕",
     title: "Local SEO",
     text: "Help nearby customers find your business when they are ready to choose.",
-    href: "/services#local-seo",
+    href: "/services/local-seo",
     object: "search",
   },
   {
     icon: "⌖",
     title: "Google Business Profile",
     text: "Keep your local presence accurate, active, and easier to discover.",
-    href: "/services#google-business-profile",
+    href: "/services/google-business-profile",
     object: "pin",
   },
   {
-    icon: "★",
+    icon: "✓",
     title: "Reputation Management",
     text: "Make it easier to earn feedback and build confidence before the call.",
-    href: "/services#reputation-management",
-    object: "stars",
+    href: "/services/reputation-management",
+    object: "feedback",
   },
   {
     icon: "☏",
     title: "Call & Lead Tracking",
     text: "See which marketing creates real conversations and follow-up opportunities.",
-    href: "/services#lead-tracking",
+    href: "/services/call-tracking",
     object: "phone",
   },
   {
     icon: "↗",
     title: "Paid Advertising",
     text: "Reach the right local audience with focused campaigns and clear reporting.",
-    href: "/services#paid-advertising",
+    href: "/services/paid-advertising",
     object: "chart",
   },
 ];
@@ -134,14 +134,17 @@ const process = [
 ];
 
 const industries = [
-  ["Equipment Dealers", "ED"],
-  ["Contractors", "CT"],
-  ["Home Services", "HS"],
-  ["HVAC", "HV"],
-  ["Plumbing", "PL"],
-  ["Lawn & Landscape", "LL"],
-  ["Repair Shops", "RS"],
-  ["Retail & Professional", "RP"],
+  { name: "Equipment Dealers", short: "ED", href: "/industries/equipment-dealers" },
+  { name: "Contractors", short: "CT", href: "/industries/contractors" },
+  { name: "Home Services", short: "HS", href: "/industries/home-services" },
+  { name: "HVAC", short: "HV", href: "/industries/hvac" },
+  { name: "Plumbing", short: "PL", href: "/industries/plumbing" },
+  { name: "Septic Services", short: "SS", href: "/industries/septic-services" },
+  { name: "Lawn & Landscape", short: "LL", href: "/industries/lawn-care" },
+  { name: "Repair Shops", short: "RS", href: "/industries/repair-shops" },
+  { name: "Automotive", short: "AU", href: "/industries/automotive" },
+  { name: "Retail", short: "RT", href: "/industries#retail" },
+  { name: "Professional Services", short: "PS", href: "/industries#professional-services" },
 ];
 
 export default function Home() {
@@ -183,8 +186,8 @@ export default function Home() {
             </span>
 
             <span className="floating-card review-card">
-              <i className="review-stars">★★★★★</i>
-              <b>Fresh feedback</b>
+              <i className="review-signal">✓</i>
+              <b>Feedback follow-up</b>
               <small>Trust customers can see</small>
             </span>
 
@@ -260,7 +263,7 @@ export default function Home() {
               {services.map((service, index) => (
                 <article className="service-card" key={service.title}>
                   <span className={`service-object service-object-${service.object}`} aria-hidden="true">
-                    {service.object === "stars" ? "★★★" : null}
+                    {service.object === "feedback" ? "✓" : null}
                   </span>
                   <span className="service-number">0{index + 1}</span>
                   <span className="service-icon" aria-hidden="true">{service.icon}</span>
@@ -341,10 +344,10 @@ export default function Home() {
               </Link>
             </div>
             <div className="industry-grid">
-              {industries.map(([name, short]) => (
-                <Link href="/industries" key={name}>
-                  <span aria-hidden="true">{short}</span>
-                  <strong>{name}</strong>
+              {industries.map((industry) => (
+                <Link href={industry.href} key={industry.name}>
+                  <span aria-hidden="true">{industry.short}</span>
+                  <strong>{industry.name}</strong>
                   <i aria-hidden="true">↗</i>
                 </Link>
               ))}

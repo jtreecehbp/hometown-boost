@@ -93,6 +93,11 @@ type PageHeroProps = {
   description: ReactNode;
   children?: ReactNode;
   className?: string;
+  hideDefaultArt?: boolean;
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
 };
 
 export function PageHero({
@@ -101,9 +106,16 @@ export function PageHero({
   description,
   children,
   className = "",
+  hideDefaultArt = false,
+  primaryLabel = "Get My Free Game Plan",
+  primaryHref = "/contact",
+  secondaryLabel = "Explore Our Services",
+  secondaryHref = "/services",
 }: PageHeroProps) {
   return (
-    <section className={`page-hero ${className}`.trim()}>
+    <section
+      className={`page-hero ${hideDefaultArt ? "page-hero-has-scene" : ""} ${className}`.trim()}
+    >
       <div className="page-hero-glow" aria-hidden="true" />
       <div className="container page-hero-grid">
         <div className="page-hero-copy">
@@ -111,11 +123,11 @@ export function PageHero({
           <h1>{title}</h1>
           <p className="page-hero-description">{description}</p>
           <div className="hero-actions">
-            <Link className="button" href="/contact">
-              Get My Free Game Plan <span aria-hidden="true">→</span>
+            <Link className="button" href={primaryHref}>
+              {primaryLabel} <span aria-hidden="true">→</span>
             </Link>
-            <Link className="button button-ghost" href="/services">
-              Explore Our Services
+            <Link className="button button-ghost" href={secondaryHref}>
+              {secondaryLabel}
             </Link>
           </div>
         </div>
@@ -127,7 +139,9 @@ export function PageHero({
             <em />
           </span>
           <span className="map-pin page-hero-pin"><i /></span>
-          <span className="page-hero-stars">★★★★★</span>
+          <span className="page-hero-feedback">
+            <i>✓</i><b>Clear local signal</b>
+          </span>
           <span className="page-hero-signal">
             <i />
             <i />
@@ -145,13 +159,17 @@ type FinalCTAProps = {
   body?: ReactNode;
   primaryLabel?: string;
   secondaryLabel?: string;
+  primaryHref?: string;
+  secondaryHref?: string;
 };
 
 export function FinalCTA({
   title = "Ready to grow your business?",
   body = "Get a straightforward game plan for improving your website, Google visibility, reviews, and local customer growth.",
   primaryLabel = "Get My Free Game Plan",
-  secondaryLabel = "Book a Strategy Call",
+  secondaryLabel = "Book a Free Strategy Call",
+  primaryHref = "/contact",
+  secondaryHref = "/contact",
 }: FinalCTAProps) {
   return (
     <section className="final-cta-wrap" aria-labelledby="final-cta-title">
@@ -162,10 +180,10 @@ export function FinalCTA({
             <h2 id="final-cta-title">{title}</h2>
             <p>{body}</p>
             <div className="hero-actions">
-              <Link className="button button-light" href="/contact">
+              <Link className="button button-light" href={primaryHref}>
                 {primaryLabel} <span aria-hidden="true">→</span>
               </Link>
-              <Link className="text-link text-link-light" href="/contact">
+              <Link className="text-link text-link-light" href={secondaryHref}>
                 {secondaryLabel} <span aria-hidden="true">↗</span>
               </Link>
             </div>
@@ -178,7 +196,7 @@ export function FinalCTA({
               <i className="cta-window" />
             </span>
             <span className="map-pin cta-pin"><i /></span>
-            <span className="cta-review">★★★★★<b> People found you</b></span>
+            <span className="cta-review"><i>✓</i><b> Feedback workflow</b></span>
             <span className="cta-cloud cta-cloud-one" />
             <span className="cta-cloud cta-cloud-two" />
           </div>

@@ -63,13 +63,62 @@ const plans = [
   },
 ] as const;
 
+const faqItems = [
+  {
+    question: "Is there a setup fee?",
+    answer:
+      "Any one-time work should be stated clearly in the proposal. The amount depends on the condition and scope of the website, tracking, profiles, and other starting assets.",
+  },
+  {
+    question: "Can a plan change later?",
+    answer:
+      "Yes. The structure is designed to let support expand or narrow as priorities, capacity, service areas, and growth goals change.",
+  },
+  {
+    question: "Are contracts long term?",
+    answer:
+      "The final agreement will state the term, renewal, and cancellation details before work begins. Do not rely on a page summary in place of the signed agreement.",
+  },
+  {
+    question: "What about multiple locations?",
+    answer:
+      "Multi-location and dealer needs are scoped separately because profile count, content, coordination, and reporting can vary significantly.",
+  },
+  {
+    question: "Is call tracking included?",
+    answer:
+      "Call and lead tracking may be included or offered as an option depending on the plan, phone setup, reporting needs, and applicable consent requirements.",
+  },
+  {
+    question: "Will rankings or revenue be guaranteed?",
+    answer:
+      "No. Hometown Boost can commit to the agreed work, clear reporting, and thoughtful improvement—not a guaranteed ranking, lead volume, or revenue result.",
+  },
+] as const;
+
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+};
+
 function PricingScene() {
   return (
     <div className={`${styles.heroScene} ${styles.pricingScene}`} aria-hidden="true">
-      <div className={styles.sceneStage} />
-      <div className={styles.sceneBlock} />
-      <div className={styles.sceneBlockSmall} />
-      <div className={styles.scenePin} />
+      <div className={styles.pricingStack}>
+        <span className={styles.pricingLayer}><b>Foundation</b><i /><i /></span>
+        <span className={styles.pricingLayer}><b>Growth</b><i /><i /><i /></span>
+        <span className={styles.pricingLayer}><b>Market Leader</b><i /><i /><i /></span>
+      </div>
+      <span className={`${styles.pricingToken} ${styles.pricingTokenOne}`}>HB</span>
+      <span className={`${styles.pricingToken} ${styles.pricingTokenTwo}`}>✓</span>
       <div className={styles.scenePanel}>Build the right layer. Add the next when it earns its place.</div>
       <div className={styles.sceneRing} />
     </div>
@@ -80,8 +129,15 @@ export default function PricingPage() {
   return (
     <div className={styles.page}>
       <SiteHeader />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqStructuredData).replace(/</g, "\\u003c"),
+        }}
+      />
       <main id="main-content" className={styles.main}>
         <PageHero
+          hideDefaultArt
           eyebrow="Straightforward plans"
           title="Simple plans built for real local growth."
           description="Choose the level of ongoing support that fits your business now. We’ll define the exact scope after learning what you already have, what needs attention, and where you want to grow."
@@ -175,30 +231,12 @@ export default function PricingPage() {
               title="Plain answers to practical questions."
             />
             <div className={styles.grid2}>
-              <article className={styles.card}>
-                <h3>Is there a setup fee?</h3>
-                <p>Any one-time work should be stated clearly in the proposal. The amount depends on the condition and scope of the website, tracking, profiles, and other starting assets.</p>
-              </article>
-              <article className={styles.card}>
-                <h3>Can a plan change later?</h3>
-                <p>Yes. The structure is designed to let support expand or narrow as priorities, capacity, service areas, and growth goals change.</p>
-              </article>
-              <article className={styles.card}>
-                <h3>Are contracts long term?</h3>
-                <p>The final agreement will state the term, renewal, and cancellation details before work begins. Do not rely on a page summary in place of the signed agreement.</p>
-              </article>
-              <article className={styles.card}>
-                <h3>What about multiple locations?</h3>
-                <p>Multi-location and dealer needs are scoped separately because profile count, content, coordination, and reporting can vary significantly.</p>
-              </article>
-              <article className={styles.card}>
-                <h3>Is call tracking included?</h3>
-                <p>Call and lead tracking may be included or offered as an option depending on the plan, phone setup, reporting needs, and applicable consent requirements.</p>
-              </article>
-              <article className={styles.card}>
-                <h3>Will rankings or revenue be guaranteed?</h3>
-                <p>No. Hometown Boost can commit to the agreed work, clear reporting, and thoughtful improvement—not a guaranteed ranking, lead volume, or revenue result.</p>
-              </article>
+              {faqItems.map((item) => (
+                <article className={styles.card} key={item.question}>
+                  <h3>{item.question}</h3>
+                  <p>{item.answer}</p>
+                </article>
+              ))}
             </div>
           </div>
         </section>
@@ -208,6 +246,7 @@ export default function PricingPage() {
           body="We’ll review the gaps, goals, service area, and capacity before recommending a level of support. You’ll see the scope before you decide."
           primaryLabel="Get My Free Game Plan"
           secondaryLabel="View Our Services"
+          secondaryHref="/services"
         />
       </main>
       <SiteFooter />

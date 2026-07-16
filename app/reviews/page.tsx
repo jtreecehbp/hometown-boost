@@ -13,7 +13,7 @@ export const metadata = createPageMetadata({
   description:
     "Learn how Hometown Boost helps local businesses build an honest review-growth system, and where verified, client-approved stories will be shared.",
   path: "/reviews",
-  robots: { index: true, follow: true },
+  robots: { index: false, follow: true },
 });
 
 const reviewSteps = [
@@ -169,6 +169,7 @@ export default function ReviewsPage() {
           body="We’ll help you create a straightforward way to request feedback, respond thoughtfully, and turn customer trust into lasting local momentum."
           primaryLabel="Get My Free Game Plan"
           secondaryLabel="Talk Through Review Growth"
+          secondaryHref="/services/reputation-management"
         />
       </main>
       <SiteFooter />

@@ -66,9 +66,9 @@ function ResultsScene() {
   return (
     <div className={`${styles.heroScene} ${styles.resultsScene}`} aria-hidden="true">
       <div className={styles.sceneStage} />
-      <div className={styles.sceneBlock} />
-      <div className={styles.sceneBlockSmall} />
-      <div className={styles.scenePin} />
+      <div className={styles.resultBars}><i /><i /><i /><i /></div>
+      <span className={`${styles.resultLabel} ${styles.resultBaseline}`}>Baseline</span>
+      <span className={`${styles.resultLabel} ${styles.resultMeasured}`}>Measured</span>
       <div className={styles.scenePanel}>Measured → explained → improved</div>
       <div className={styles.sceneRing} />
     </div>
@@ -81,6 +81,7 @@ export default function ResultsPage() {
       <SiteHeader />
       <main id="main-content" className={styles.main}>
         <PageHero
+          hideDefaultArt
           eyebrow="Evidence over agency talk"
           title="Real growth for local businesses."
           description="We define the actions that matter, make sure the tracking can support the claim, and report what the numbers do—and do not—tell us."
@@ -225,6 +226,7 @@ export default function ResultsPage() {
           body="We’ll help define the right customer actions, uncover tracking gaps, and build a report your team can actually use."
           primaryLabel="Get My Free Game Plan"
           secondaryLabel="View Our Services"
+          secondaryHref="/services"
         />
       </main>
       <SiteFooter />
