@@ -14,7 +14,7 @@ export default function NotFound() {
   return (
     <>
       <SiteHeader />
-      <main id="main-content" className={styles.notFoundPage}>
+      <main id="main-content" className={`${styles.notFoundPage} route-island-page`}>
         <div className={`container ${styles.notFoundGrid}`}>
           <div className={styles.notFoundCopy}>
             <p className={styles.miniEyebrow}>404 · Off the map</p>

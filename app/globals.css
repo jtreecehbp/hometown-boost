@@ -104,25 +104,81 @@ main#main-content {
   isolation: isolate;
 }
 
-/* A quiet, site-wide version of the glowing route in the reference artwork. */
+/* One seamless route authority for interior pages. The hero canvas repeats the
+   same tile from the same origin, so the road crosses the hero boundary without
+   changing position or phase. */
 main#main-content::before {
   position: absolute;
   z-index: -1;
-  inset: 430px -18vw 260px;
+  top: 0;
+  right: -4vw;
+  bottom: 0;
+  width: min(720px, 55vw);
   content: "";
   pointer-events: none;
-  background:
-    radial-gradient(ellipse 52% 10% at 82% 8%, transparent 55%, rgba(255, 244, 232, 0.95) 55.5% 56.5%, rgba(247, 105, 38, 0.3) 57% 58%, rgba(255, 189, 139, 0.16) 59% 61%, transparent 62%),
-    radial-gradient(ellipse 54% 12% at 20% 34%, transparent 55%, rgba(255, 247, 237, 0.92) 55.5% 56.5%, rgba(247, 105, 38, 0.25) 57% 58%, rgba(255, 183, 129, 0.13) 59% 61%, transparent 62%),
-    radial-gradient(ellipse 58% 11% at 78% 61%, transparent 55%, rgba(255, 247, 237, 0.9) 55.5% 56.5%, rgba(247, 105, 38, 0.22) 57% 58%, rgba(255, 183, 129, 0.12) 59% 61%, transparent 62%),
-    radial-gradient(ellipse 56% 10% at 26% 88%, transparent 55%, rgba(255, 247, 237, 0.88) 55.5% 56.5%, rgba(247, 105, 38, 0.2) 57% 58%, rgba(255, 183, 129, 0.1) 59% 61%, transparent 62%);
-  filter: drop-shadow(0 12px 18px rgba(224, 77, 18, 0.1));
-  opacity: 0.86;
-  transform: rotate(-2deg);
+  background-image: url("/hometown-route-mobile-spine-v3.webp");
+  background-position: center top;
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  filter: saturate(0.96) drop-shadow(0 12px 20px rgba(224, 77, 18, 0.08));
+  opacity: 0.3;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 18%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 18%, #000 82%, transparent 100%);
 }
 
 /* The homepage uses real 3D route chapters instead of the generic site-wide rings. */
 .home-page main#main-content::before {
+  display: none;
+}
+
+/* The 404 illustration owns its short road scene; a second page spine would
+   read as a separate route beside it. */
+main#main-content.route-island-page::before {
+  display: none;
+}
+
+.contained-route-page .interior-route-canvas {
+  display: none;
+}
+
+/* Pages with a highway already baked into the hero start the shared spine
+   underneath that artwork, so the hero remains the only road at the top while
+   the same route continues through the rest of the page. */
+.contained-route-page main#main-content::before,
+main#main-content.contained-route-page::before {
+  top: 650px;
+}
+
+.interior-route-canvas {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: -4vw;
+  bottom: 0;
+  width: min(720px, 55vw);
+  background-image: url("/hometown-route-mobile-spine-v3.webp");
+  background-position: center top;
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  filter: saturate(0.96) drop-shadow(0 12px 20px rgba(224, 77, 18, 0.08));
+  opacity: 0.3;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 18%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 18%, #000 82%, transparent 100%);
+}
+
+.route-integrated-hero .page-hero-orbit,
+.route-integrated-hero .page-hero-art::before,
+.route-integrated-hero [class*="sceneRing"],
+.route-integrated-hero [class*="systemRoute"],
+.route-integrated-hero [class*="routeLine"],
+.route-integrated-hero [class*="sceneOrbit"] {
+  display: none !important;
+}
+
+.route-integrated-hero.page-hero-has-scene .page-hero-grid::before,
+.contained-route-page main#main-content > section:first-child::after,
+.contained-route-page [class*="routeRibbon"] {
   display: none;
 }
 
@@ -134,18 +190,21 @@ main#main-content::before {
 .journey-chapter-lower::before {
   position: absolute;
   z-index: 1;
-  top: -44px;
-  left: calc(50% - min(184.5px, calc(15vw - 5.4px)));
-  width: 82px;
-  height: 92px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, transparent 0 5%, rgba(246, 108, 40, 0.34) 8% 18%, rgba(255, 239, 210, 0.94) 20% 29%, rgba(247, 103, 35, 0.72) 31% 42%, rgba(255, 252, 238, 0.98) 44% 54%, rgba(247, 103, 35, 0.72) 56% 67%, rgba(255, 239, 210, 0.94) 69% 78%, rgba(246, 108, 40, 0.34) 80% 90%, transparent 94% 100%);
-  box-shadow: 0 0 24px rgba(244, 81, 30, 0.26);
+  top: -150px;
+  left: 50%;
+  width: min(1230px, calc(100vw - 36px));
+  height: 310px;
+  background-image: url("/hometown-route-hero-bridge-desktop-v2.webp");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   content: "";
-  filter: blur(0.4px);
-  opacity: 0.78;
+  filter: saturate(0.98);
+  opacity: 0.76;
   pointer-events: none;
-  transform: translateX(-50%) rotate(1deg);
+  transform: translateX(-80.7%) skewX(-11deg);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 25%, #000 75%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 25%, #000 75%, transparent 100%);
 }
 
 .journey-chapter > .section,
@@ -197,6 +256,18 @@ main#main-content::before {
   object-position: right center;
 }
 
+.journey-art-upper::before {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 380px;
+  background: linear-gradient(to bottom, #fffaf2 0 54%, rgba(255, 250, 242, 0.9) 70%, transparent 100%);
+  content: "";
+  pointer-events: none;
+}
+
 .home-page .services-orbit,
 .home-page .industries-panel::before,
 .home-page .pricing-teaser::before,
@@ -205,22 +276,7 @@ main#main-content::before {
 }
 
 .home-page .final-cta::after {
-  position: absolute;
-  z-index: 1;
-  top: -76px;
-  right: 3%;
-  width: 34%;
-  height: 245px;
-  border: 22px solid rgba(255, 239, 213, 0.58);
-  border-right-color: transparent;
-  border-bottom-color: transparent;
-  border-radius: 50%;
-  box-shadow:
-    0 0 0 9px rgba(255, 255, 255, 0.08),
-    0 0 28px rgba(255, 232, 195, 0.26);
-  content: "";
-  pointer-events: none;
-  transform: rotate(16deg);
+  display: none;
 }
 
 .home-page .services-section .section-title,
@@ -236,6 +292,10 @@ main#main-content::before {
   background: radial-gradient(ellipse, rgba(255, 250, 242, 0.98) 0 42%, rgba(255, 250, 242, 0.78) 62%, transparent 78%);
   content: "";
   pointer-events: none;
+}
+
+.home-page .process-section .section-title::before {
+  background: radial-gradient(ellipse, rgba(255, 250, 242, 0.9) 0 32%, rgba(255, 250, 242, 0.52) 56%, transparent 74%);
 }
 
 .home-page .process-line {
@@ -714,12 +774,16 @@ main#main-content::before {
 
 .home-hero-scene picture {
   position: absolute;
+  z-index: 2;
   inset: 0;
   overflow: clip;
   border: 1px solid rgba(111, 67, 38, 0.1);
-  border-radius: clamp(28px, 3vw, 42px);
+  border-bottom-color: transparent;
+  border-radius: clamp(28px, 3vw, 42px) clamp(28px, 3vw, 42px) 0 0;
   background: #fff7ed;
-  box-shadow: 0 32px 90px rgba(106, 54, 21, 0.1);
+  box-shadow: 0 -10px 70px rgba(106, 54, 21, 0.08);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0 74%, rgba(0, 0, 0, 0.82) 84%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0 74%, rgba(0, 0, 0, 0.82) 84%, transparent 100%);
 }
 
 .home-hero-scene picture::after {
@@ -741,6 +805,24 @@ main#main-content::before {
   mix-blend-mode: multiply;
   object-fit: cover;
   object-position: 72% center;
+}
+
+.home-hero-bridge {
+  position: absolute;
+  z-index: 1;
+  top: 720px;
+  left: 10.5%;
+  width: 100%;
+  height: 320px;
+  background-image: url("/hometown-route-hero-bridge-desktop-v2.webp");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  filter: saturate(0.98);
+  opacity: 0.76;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 24%, #000 76%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 24%, #000 76%, transparent 100%);
 }
 
 .floating-card,
@@ -1921,6 +2003,7 @@ main#main-content::before {
 }
 
 .final-cta::before {
+  display: none;
   position: absolute;
   right: -145px;
   bottom: -74px;
@@ -2565,6 +2648,29 @@ main#main-content::before {
     background: linear-gradient(90deg, rgba(255, 250, 242, 0.42), transparent 12%, transparent 88%, rgba(255, 250, 242, 0.42));
   }
 
+  main#main-content::before,
+  .interior-route-canvas {
+    right: auto;
+    left: 50%;
+    width: calc(100% - 36px);
+    opacity: 0.24;
+    transform: translateX(-50%);
+  }
+
+  .contained-route-page main#main-content::before,
+  main#main-content.contained-route-page::before {
+    top: 1100px;
+  }
+
+  .home-hero-bridge {
+    top: 360px;
+    left: 15%;
+    width: 71%;
+    height: 420px;
+    background-image: url("/hometown-route-hero-bridge-mobile-v1.webp");
+    opacity: 0.66;
+  }
+
   .website-card {
     top: 24px;
     right: 22%;
@@ -2616,10 +2722,7 @@ main#main-content::before {
   }
 
   .journey-chapter-lower::before {
-    top: -34px;
-    left: 50%;
-    width: 58px;
-    height: 72px;
+    display: none;
   }
 
   .journey-art img {
@@ -2714,9 +2817,20 @@ main#main-content::before {
 
 @media (max-width: 680px) {
   main#main-content::before {
-    inset: 620px -75vw 180px -65vw;
-    opacity: 0.48;
-    transform: rotate(-4deg);
+    right: auto;
+    left: 50%;
+    width: calc(100% - 24px);
+    opacity: 0.22;
+    transform: translateX(-50%);
+  }
+
+
+  .interior-route-canvas {
+    right: auto;
+    left: 50%;
+    width: calc(100% - 24px);
+    opacity: 0.22;
+    transform: translateX(-50%);
   }
 
   .container {
@@ -2775,6 +2889,13 @@ main#main-content::before {
     width: calc(100% - 24px);
   }
 
+  .home-hero-bridge {
+    top: 260px;
+    left: 15%;
+    width: 71%;
+    height: 620px;
+  }
+
   .hero-town-image {
     width: 100%;
     object-position: 79% center;
@@ -2789,14 +2910,6 @@ main#main-content::before {
   .journey-art-lower {
     top: 0;
     bottom: 0;
-  }
-
-  .home-page .final-cta::after {
-    top: -58px;
-    right: -10%;
-    width: 64%;
-    height: 220px;
-    opacity: 0.72;
   }
 
   .website-card,

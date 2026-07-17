@@ -146,6 +146,18 @@ test("keeps the finished shell accessible and free of starter remnants", async (
     stat(new URL("../public/hometown-route-upper-v1.webp", import.meta.url)),
     stat(new URL("../public/hometown-route-lower-v1.webp", import.meta.url)),
     stat(new URL("../public/hometown-route-mobile-spine-v3.webp", import.meta.url)),
+    stat(
+      new URL(
+        "../public/hometown-route-hero-bridge-desktop-v2.webp",
+        import.meta.url,
+      ),
+    ),
+    stat(
+      new URL(
+        "../public/hometown-route-hero-bridge-mobile-v1.webp",
+        import.meta.url,
+      ),
+    ),
   ]);
   assert.ok(
     journeyAssets.every((asset) => asset.size < 180_000),
@@ -206,6 +218,109 @@ test("keeps the homepage highway continuous, bounded, and non-interactive", asyn
   }
   assert.match(html, /src="\/hometown-route-upper-v1\.webp"[^>]*loading="lazy"/i);
   assert.match(html, /src="\/hometown-route-lower-v1\.webp"[^>]*loading="lazy"/i);
+});
+
+test("uses one continuous road authority across hero and interior page families", async () => {
+  const [page, components, articleTemplate, css, home, about, service, article, services, industry] =
+    await Promise.all([
+      readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+      readFile(new URL("../app/components.tsx", import.meta.url), "utf8"),
+      readFile(new URL("../app/resources/article-template.tsx", import.meta.url), "utf8"),
+      readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+      render("/").then((response) => response.text()),
+      render("/about").then((response) => response.text()),
+      render("/services/local-seo").then((response) => response.text()),
+      render("/resources/rank-higher-google-maps").then((response) => response.text()),
+      render("/services").then((response) => response.text()),
+      render("/industries/hvac").then((response) => response.text()),
+    ]);
+
+  assert.match(page, /className="home-hero-bridge"/);
+  assert.match(home, /<span class="home-hero-bridge"><\/span>/i);
+  assert.ok(
+    (css.match(/hometown-route-hero-bridge-desktop-v2\.webp/g) ?? []).length >= 2,
+    "the desktop bridge should join both the hero and middle journey chapters",
+  );
+  assert.match(css, /hometown-route-hero-bridge-mobile-v1\.webp/);
+
+  const spineRules = [
+    css.match(/^main#main-content::before\s*\{([\s\S]*?)\n\}/m)?.[1],
+    css.match(/^\.interior-route-canvas\s*\{([\s\S]*?)\n\}/m)?.[1],
+  ];
+  for (const rule of spineRules) {
+    assert.ok(rule, "missing a shared interior route rule");
+    assert.match(rule, /hometown-route-mobile-spine-v3\.webp/);
+    assert.match(rule, /background-position:\s*center top/);
+    assert.match(rule, /background-repeat:\s*repeat-y/);
+    assert.match(rule, /background-size:\s*100% auto/);
+    assert.match(rule, /pointer-events:\s*none/);
+  }
+
+  assert.match(
+    css,
+    /\.contained-route-page \.interior-route-canvas\s*\{\s*display:\s*none;/,
+  );
+  const containedBodyHandoff =
+    css.match(
+      /\.contained-route-page main#main-content::before,\s*main#main-content\.contained-route-page::before\s*\{([\s\S]*?)\n\}/,
+    )?.[1] ?? "";
+  assert.match(containedBodyHandoff, /top:\s*650px/);
+  assert.doesNotMatch(containedBodyHandoff, /display:\s*none/);
+  assert.match(services, /class="[^"]*\bcontained-route-page\b[^"]*"/i);
+  assert.match(industry, /class="[^"]*\bcontained-route-page\b[^"]*"/i);
+
+  const duplicateRoadRule =
+    css.match(
+      /\.route-integrated-hero \.page-hero-orbit,[\s\S]*?\{\s*display:\s*none !important;\s*\}/,
+    )?.[0] ?? "";
+  for (const selector of [
+    ".route-integrated-hero .page-hero-orbit",
+    ".route-integrated-hero .page-hero-art::before",
+    '.route-integrated-hero [class*="sceneRing"]',
+    '.route-integrated-hero [class*="systemRoute"]',
+    '.route-integrated-hero [class*="routeLine"]',
+    '.route-integrated-hero [class*="sceneOrbit"]',
+  ]) {
+    assert.ok(duplicateRoadRule.includes(selector), `missing duplicate-road suppression: ${selector}`);
+  }
+  assert.match(
+    css,
+    /\.route-integrated-hero\.page-hero-has-scene \.page-hero-grid::before,\s*\.contained-route-page main#main-content > section:first-child::after,\s*\.contained-route-page \[class\*="routeRibbon"\]\s*\{\s*display:\s*none;/,
+  );
+
+  const desktopMiddleBridge =
+    css.match(/\.journey-chapter-lower::before\s*\{([\s\S]*?)\n\}/)?.[1] ?? "";
+  assert.match(desktopMiddleBridge, /hometown-route-hero-bridge-desktop-v2\.webp/);
+  const mobileRules =
+    css.match(/@media \(max-width: 900px\)\s*\{([\s\S]*?)(?=\n@media \(max-width: 680px\))/)?.[1] ?? "";
+  assert.match(
+    mobileRules,
+    /\.journey-chapter-lower::before\s*\{\s*display:\s*none;/,
+    "the desktop middle bridge should yield to the seamless mobile spine",
+  );
+  assert.match(
+    mobileRules,
+    /\.contained-route-page main#main-content::before,\s*main#main-content\.contained-route-page::before\s*\{\s*top:\s*1100px;/,
+    "contained pages should hand their raster hero road to the shared mobile spine",
+  );
+  assert.match(mobileRules, /hometown-route-hero-bridge-mobile-v1\.webp/);
+
+  assert.match(components, /page-hero route-integrated-hero/);
+  assert.match(components, /className="interior-route-canvas" aria-hidden="true"/);
+  assert.match(articleTemplate, /route-integrated-hero/);
+  assert.match(articleTemplate, /className="interior-route-canvas" aria-hidden="true"/);
+  for (const [pathname, html] of [
+    ["/about", about],
+    ["/services/local-seo", service],
+    ["/resources/rank-higher-google-maps", article],
+  ]) {
+    assert.match(html, /class="[^"]*\broute-integrated-hero\b[^"]*"/i, pathname);
+    assert.match(
+      html,
+      /<div class="interior-route-canvas" aria-hidden="true"><\/div>/i,
+      pathname,
+    );
+  }
 });
 
 test("serves the complete expansion with route-specific metadata", async () => {

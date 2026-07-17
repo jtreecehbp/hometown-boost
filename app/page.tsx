@@ -168,6 +168,8 @@ export default function Home() {
               />
             </picture>
 
+            <span className="home-hero-bridge" />
+
             <span className="map-pin hero-map-pin"><i /></span>
 
             <span className="floating-card website-card">

@@ -209,7 +209,7 @@ export default async function ServicesPage() {
   const serviceStructuredData = createServiceStructuredData(siteUrl);
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} contained-route-page`}>
       <SiteHeader />
       <script
         type="application/ld+json"

@@ -107,7 +107,7 @@ export async function IndustryDetailPage({
   };
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} contained-route-page`}>
       <SiteHeader />
       <script
         type="application/ld+json"

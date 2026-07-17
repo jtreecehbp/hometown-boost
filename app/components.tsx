@@ -114,8 +114,9 @@ export function PageHero({
 }: PageHeroProps) {
   return (
     <section
-      className={`page-hero ${hideDefaultArt ? "page-hero-has-scene" : ""} ${className}`.trim()}
+      className={`page-hero route-integrated-hero ${hideDefaultArt ? "page-hero-has-scene" : ""} ${className}`.trim()}
     >
+      <div className="interior-route-canvas" aria-hidden="true" />
       <div className="page-hero-glow" aria-hidden="true" />
       <div className="container page-hero-grid">
         <div className="page-hero-copy">

@@ -94,7 +94,8 @@ export async function ResourceArticlePage({
       />
       <main id="main-content">
         <article>
-          <header className={styles.hero}>
+          <header className={`${styles.hero} route-integrated-hero`}>
+            <div className="interior-route-canvas" aria-hidden="true" />
             <div className={`container ${styles.heroGrid}`}>
               <div className={styles.heroCopy}>
                 <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
