@@ -655,25 +655,14 @@
 
 .planGrid {
   position: relative;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 30px;
   align-items: stretch;
   margin-top: 46px;
 }
 
 .planGrid::before {
-  position: absolute;
-  z-index: 0;
-  top: 46%;
-  right: 4%;
-  left: 4%;
-  height: 8px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(255, 194, 153, 0.3), #f15a24 48%, rgba(86, 181, 174, 0.42));
-  box-shadow:
-    0 0 0 8px rgba(255, 244, 235, 0.76),
-    0 9px 24px rgba(205, 72, 19, 0.14);
-  content: "";
-  pointer-events: none;
-  transform: rotate(-2deg);
+  display: none;
 }
 
 .planCard {
@@ -685,18 +674,7 @@
 }
 
 .planCard::after {
-  position: absolute;
-  z-index: 3;
-  top: 46%;
-  right: -32px;
-  width: 42px;
-  height: 42px;
-  border: 9px solid #fff5ec;
-  border-radius: 50%;
-  background: linear-gradient(145deg, #ff8b48, #e64912);
-  box-shadow: 0 13px 25px rgba(127, 48, 15, 0.19);
-  content: "";
-  pointer-events: none;
+  display: none;
 }
 
 .planCard:last-child::after {
@@ -708,12 +686,11 @@
   border-color: rgba(241, 90, 36, 0.4);
   background: linear-gradient(180deg, #fff8f0, rgba(255, 255, 255, 0.86));
   box-shadow: 0 34px 80px rgba(142, 60, 20, 0.16);
-  transform: translateY(-14px);
 }
 
 .recommended {
   align-self: flex-start;
-  margin: -54px 0 24px;
+  margin: 0 0 20px;
   padding: 9px 14px;
   border-radius: 999px;
   color: #fff;
@@ -726,12 +703,69 @@
 }
 
 .planCard h2 {
-  font-size: 1.85rem;
+  font-size: clamp(1.8rem, 3vw, 2.35rem);
 }
 
-.planCard > p {
+.planPrice {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  margin: 6px 0 12px;
+}
+
+.planPrice strong {
+  color: #26201b;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  letter-spacing: -0.07em;
+  line-height: 0.95;
+}
+
+.planPrice span {
+  color: #8a5c45;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.planTerm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 12px;
+  margin: 0 0 22px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(59, 42, 30, 0.1);
+  font-size: 0.86rem;
+}
+
+.planTerm strong {
+  color: #a53a12;
+}
+
+.planTerm span {
+  color: #786a60;
+}
+
+.planDescription {
   min-height: 74px;
   margin: 0 0 26px;
+}
+
+.planSection {
+  margin-top: 24px;
+}
+
+.planSection + .planSection {
+  padding-top: 24px;
+  border-top: 1px solid rgba(59, 42, 30, 0.1);
+}
+
+.planSection h3,
+.pricingNote h3 {
+  margin: 0 0 14px;
+  color: #3b3028;
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
 }
 
 .planList {
@@ -740,15 +774,80 @@
   margin: 2px 0 30px;
 }
 
+.planCard .planList {
+  margin: 0;
+}
+
+.exclusionList {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.exclusionList li {
+  position: relative;
+  padding-left: 22px;
+  color: #756b63;
+  line-height: 1.5;
+}
+
+.exclusionList li::before {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  color: #aa7d65;
+  content: "-";
+  font-weight: 900;
+}
+
 .planCard .textLink {
   margin-top: auto;
+  padding-top: 30px;
+}
+
+.everyPlanGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 38px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.everyPlanGrid li {
+  position: relative;
+  padding: 20px 22px 20px 52px;
+  border: 1px solid rgba(47, 37, 29, 0.08);
+  border-radius: 20px;
+  color: #4f453e;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 16px 38px rgba(101, 55, 29, 0.07);
+  font-weight: 760;
+  line-height: 1.4;
+}
+
+.everyPlanGrid li::before {
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  display: grid;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: #fff;
+  background: #e94e15;
+  content: "\2713";
+  font-size: 0.75rem;
+  place-items: center;
 }
 
 .pricingNote {
   display: grid;
   grid-template-columns: 0.8fr 1.2fr;
   gap: 42px;
-  align-items: center;
+  align-items: start;
   margin-top: 70px;
   padding: 42px;
   border: 1px solid rgba(43, 32, 24, 0.09);
@@ -765,10 +864,37 @@
   line-height: 1;
 }
 
+.pricingNote h2 span {
+  display: block;
+  margin-top: 8px;
+  color: #8a5c45;
+  font-size: 0.36em;
+  letter-spacing: 0;
+}
+
 .pricingNote p {
   margin: 0 0 15px;
   color: #62564d;
   line-height: 1.68;
+}
+
+.addonPriceBlock {
+  position: sticky;
+  top: 120px;
+}
+
+.addonPercent {
+  color: #c84312 !important;
+  font-size: 1.08rem;
+  font-weight: 850;
+}
+
+.adSpendNote {
+  margin: 28px 0 0 !important;
+  padding: 18px 20px;
+  border-left: 3px solid #f15a24;
+  border-radius: 0 16px 16px 0;
+  background: rgba(255, 242, 231, 0.82);
 }
 
 .compareList {
@@ -1456,9 +1582,10 @@
   box-shadow: 0 28px 55px rgba(92, 44, 18, 0.16);
 }
 
-.pricingLayer:nth-child(1) { top: 108px; left: 0; transform: rotate(-8deg); }
-.pricingLayer:nth-child(2) { top: 52px; left: 24%; z-index: 2; transform: rotate(-1deg); }
-.pricingLayer:nth-child(3) { top: 0; left: 48%; z-index: 3; transform: rotate(6deg); }
+.pricingLayer:nth-child(1) { top: 132px; left: -2%; transform: rotate(-9deg); }
+.pricingLayer:nth-child(2) { top: 88px; left: 18%; z-index: 1; transform: rotate(-4deg); }
+.pricingLayer:nth-child(3) { top: 42px; left: 36%; z-index: 3; transform: rotate(2deg); }
+.pricingLayer:nth-child(4) { top: 0; left: 54%; z-index: 2; transform: rotate(7deg); }
 
 .pricingLayer b {
   margin-bottom: 20px;
@@ -1478,7 +1605,7 @@
   width: 48%;
 }
 
-.pricingLayer:nth-child(2) {
+.pricingLayer:nth-child(3) {
   border-color: rgba(241, 90, 36, 0.28);
   background: linear-gradient(145deg, #fff, #fff0e5);
 }
@@ -1821,6 +1948,10 @@
     grid-template-columns: 1fr;
   }
 
+  .everyPlanGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .servicePanel,
   .servicePanel:nth-child(even),
   .storyGrid,
@@ -1834,8 +1965,12 @@
   }
 
   .planCardRecommended {
-    margin-top: 28px;
+    margin-top: 0;
     transform: none;
+  }
+
+  .addonPriceBlock {
+    position: static;
   }
 
   .planGrid::before,
@@ -1873,6 +2008,10 @@
     grid-template-columns: 1fr;
   }
 
+  .everyPlanGrid {
+    grid-template-columns: 1fr;
+  }
+
   .frameworkRow:first-child {
     display: none;
   }
@@ -1890,6 +2029,7 @@
   .servicePanel,
   .industryCard,
   .formPanel,
+  .planCard,
   .pricingNote {
     padding: 27px;
     border-radius: 25px;

@@ -229,7 +229,7 @@ export default function Home() {
                 </Link>
               </div>
               <ul className="trust-list" aria-label="What to expect">
-                <li><span>✓</span>No long-term contracts</li>
+                <li><span>✓</span>$0 setup fee</li>
                 <li><span>✓</span>Done-for-you support</li>
                 <li><span>✓</span>Results you can measure</li>
               </ul>

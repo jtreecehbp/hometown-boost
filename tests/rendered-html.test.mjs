@@ -114,9 +114,10 @@ test("keeps the finished shell accessible and free of starter remnants", async (
   assert.match(page, /journey-chapter-upper/);
   assert.match(page, /journey-chapter-lower/);
   assert.match(page, /Clear signals/);
-  assert.match(page, /No long-term contracts/);
+  assert.match(page, /\$0 setup fee/);
+  assert.doesNotMatch(page, /No long-term contracts/);
   assert.match(page, /approved client outcomes become case studies/);
-  assert.doesNotMatch(page, /\b(?:[1-9]\d*\.?\d*)%|\$\d+/);
+  assert.doesNotMatch(page, /\b(?:[1-9]\d*\.?\d*)%|\$[1-9]\d*/);
   assert.doesNotMatch(page, /★★★★★/);
   assert.match(components, /export function SiteHeader/);
   assert.match(components, /export function SiteFooter/);
@@ -425,6 +426,181 @@ test("keeps CTA labels aligned with their destinations", async () => {
   assert.match(results, /href="\/services"[^>]*>\s*View Our Services/i);
   assert.match(pricing, /href="\/services"[^>]*>\s*View Our Services/i);
   assert.match(about, /href="\/results"[^>]*>\s*See How We Measure/i);
+});
+
+test("publishes the approved four-plan pricing and terms", async () => {
+  const pricing = await render("/pricing").then((response) => response.text());
+  const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  assert.match(pricing, /<title>Hometown Boost Pricing \| Hometown Boost<\/title>/i);
+  assert.match(pricing, /<h1>Hometown Boost Pricing<\/h1>/i);
+  assert.match(pricing, /Simple monthly website and local-marketing plans for hometown businesses\./i);
+
+  const planExpectations = [
+    {
+      id: "hometown-lite",
+      name: "Hometown Lite",
+      price: "$99",
+      term: "24-month minimum",
+      commitment: "$2,376 minimum commitment",
+      popular: false,
+      includes: [
+        "One-page website",
+        "Mobile-friendly design",
+        "Website hosting",
+        "SSL and basic website security",
+        "Basic website maintenance",
+        "Click-to-call phone button",
+        "Contact or quote-request form",
+        "Basic SEO setup",
+        "Business information setup",
+        "One small website update each quarter",
+      ],
+      excludes: [
+        "Ongoing SEO work",
+        "Google Business Profile management",
+        "Monthly Google Business Profile posts",
+        "Monthly reports",
+        "Blog writing",
+        "Service-area pages",
+        "Advanced copywriting",
+        "Unlimited edits",
+        "Google Ads management",
+      ],
+    },
+    {
+      id: "hometown-starter",
+      name: "Hometown Starter",
+      price: "$179",
+      term: "12-month minimum",
+      commitment: "$2,148 minimum commitment",
+      popular: false,
+      includes: [
+        "One-to-three-page website",
+        "Mobile-friendly design",
+        "Website hosting",
+        "SSL and basic website security",
+        "Basic website maintenance",
+        "Contact or quote-request form",
+        "Click-to-call phone buttons",
+        "Basic on-page SEO setup",
+        "Google Business Profile checkup",
+        "One small website edit each month",
+        "Quarterly performance report",
+      ],
+      excludes: [
+        "Ongoing SEO campaigns",
+        "Citation cleanup",
+        "Monthly Google Business Profile posts",
+        "Blog writing",
+        "Advanced landing pages",
+        "Google Ads management",
+      ],
+    },
+    {
+      id: "hometown-growth",
+      name: "Hometown Growth",
+      price: "$329",
+      term: "12-month minimum",
+      commitment: "$3,948 minimum commitment",
+      popular: true,
+      includes: [
+        "Website with up to five pages",
+        "Mobile-first, lead-focused website design",
+        "Website hosting",
+        "SSL and basic website security",
+        "Ongoing website maintenance",
+        "Local SEO foundation",
+        "Google Business Profile optimization",
+        "Review-request link and QR-code setup",
+        "Lead-focused contact and quote-request setup",
+        "Click-to-call buttons",
+        "Trust-building website sections",
+        "One Google Business Profile post per month",
+        "Monthly website edits",
+        "Monthly performance report",
+      ],
+      excludes: [
+        "Blog writing unless added",
+        "Full citation campaign unless added",
+        "Service-area pages unless added",
+        "Advanced CRM setup",
+        "Google Ads management unless added",
+        "Guaranteed rankings or lead volume",
+      ],
+    },
+    {
+      id: "hometown-leader",
+      name: "Hometown Leader",
+      price: "$549",
+      term: "12-month minimum",
+      commitment: "$6,588 minimum commitment",
+      popular: false,
+      includes: [
+        "Website with up to eight-to-ten pages",
+        "Everything included in the Growth plan",
+        "Expanded individual service pages",
+        "Limited service-area SEO pages",
+        "Ongoing SEO improvements",
+        "Deeper Google Business Profile optimization",
+        "One Google Business Profile post per month",
+        "Citation-cleanup starter package",
+        "Review-growth support",
+        "Priority monthly website updates",
+        "Monthly reporting",
+        "Quarterly strategy call",
+      ],
+      excludes: [
+        "Paid advertising spend",
+        "Full social-media management",
+        "Large-scale or national SEO campaigns",
+        "Video production",
+        "Guaranteed rankings or lead volume",
+      ],
+    },
+  ];
+
+  assert.equal((pricing.match(/<article[^>]+id="hometown-/gi) ?? []).length, 4);
+  for (const plan of planExpectations) {
+    const cardMatch = pricing.match(
+      new RegExp(`<article[^>]*id="${plan.id}"[^>]*>([\\s\\S]*?)<\\/article>`, "i"),
+    );
+    assert.ok(cardMatch, `missing ${plan.name} pricing card`);
+    const card = cardMatch[1];
+
+    assert.match(card, new RegExp(`<h2>${escapeRegExp(plan.name)}<\\/h2>`, "i"));
+    assert.match(card, new RegExp(`<strong>${escapeRegExp(plan.price)}<\\/strong>`, "i"));
+    assert.match(card, new RegExp(escapeRegExp(plan.term), "i"));
+    assert.match(card, new RegExp(escapeRegExp(plan.commitment), "i"));
+    for (const item of [...plan.includes, ...plan.excludes]) {
+      assert.match(card, new RegExp(`<li>${escapeRegExp(item)}<\\/li>`, "i"));
+    }
+    if (plan.popular) {
+      assert.match(card, />Most Popular<\/span>/i);
+    } else {
+      assert.doesNotMatch(card, /Most Popular/i);
+    }
+  }
+
+  assert.match(pricing, /\$0 setup fee/i);
+  assert.match(pricing, /Website hosting/i);
+  assert.match(pricing, /SSL security/i);
+  assert.match(pricing, /Mobile-friendly design/i);
+  assert.match(pricing, /Ongoing website maintenance/i);
+  assert.match(pricing, /ability to upgrade as the business grows/i);
+  assert.match(pricing, /\$150\s*<span>per month<\/span>/i);
+  assert.match(pricing, /plus 15% of monthly ad spend/i);
+  assert.match(pricing, /pays Google directly/i);
+  assert.match(pricing, /three-month minimum is recommended/i);
+  assert.match(pricing, /service continues month to month/i);
+  assert.match(pricing, /30 days(?:&#x27;|') written notice/i);
+  assert.match(pricing, /services outside the selected plan are quoted/i);
+  assert.match(pricing, /does not guarantee rankings, leads, revenue, advertising performance/i);
+  assert.doesNotMatch(pricing, /No public dollar amounts|long-term lock-in/i);
+  assert.doesNotMatch(
+    pricing,
+    /<h2>(?:Foundation|Market Leader)<\/h2>|<b>(?:Foundation|Market Leader)<\/b>/i,
+  );
 });
 
 test("keeps every internal route and fragment link valid", async () => {
