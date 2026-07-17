@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { isSiteIndexable } from "./site-indexing";
 
 type PageMetadataInput = {
   title: string;
@@ -41,6 +42,13 @@ export function createPageMetadata({
       description,
       images: ["/og.png"],
     },
-    robots,
+    robots:
+      robots ??
+      (isSiteIndexable()
+        ? undefined
+        : {
+            index: false,
+            follow: false,
+          }),
   };
 }

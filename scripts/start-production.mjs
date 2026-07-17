@@ -13,6 +13,7 @@ function readArg(name) {
 
 const port = Number(readArg("--port") ?? process.env.PORT ?? 3000);
 const host = readArg("--hostname") ?? process.env.HOST ?? "0.0.0.0";
+const siteIndexable = process.env.SITE_INDEXABLE === "true";
 const clientRoot = path.resolve("dist/client");
 const workerPath = path.resolve("dist/server/index.js");
 const { default: worker } = await import(pathToFileURL(workerPath).href);
@@ -113,6 +114,10 @@ function sendResponse(response, res) {
 
   const cookies = response.headers.getSetCookie?.() ?? [];
   if (cookies.length) res.setHeader("set-cookie", cookies);
+
+  if (!siteIndexable) {
+    res.setHeader("X-Robots-Tag", "noindex, nofollow, noarchive");
+  }
 
   if (!response.body) {
     res.end();

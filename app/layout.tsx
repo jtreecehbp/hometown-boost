@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { isSiteIndexable } from "./site-indexing";
 import { getSiteUrl } from "./site-url";
 
 const title = "Hometown Boost | Local Marketing That Drives Growth";
@@ -17,6 +18,12 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s | Hometown Boost",
     },
     description,
+    robots: isSiteIndexable()
+      ? undefined
+      : {
+          index: false,
+          follow: false,
+        },
     icons: {
       icon: "/favicon.svg",
       shortcut: "/favicon.svg",

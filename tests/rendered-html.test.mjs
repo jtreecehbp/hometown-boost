@@ -358,11 +358,11 @@ test("serves the complete expansion with route-specific metadata", async () => {
       pathname,
     );
 
-    if (previewOnlyRoutes.includes(pathname)) {
-      assert.match(html, /name="robots" content="noindex, follow"/i, pathname);
-    } else {
-      assert.doesNotMatch(html, /name="robots" content="noindex/i, pathname);
-    }
+    assert.match(
+      html,
+      /name="robots" content="noindex, (?:no)?follow"/i,
+      pathname,
+    );
   }
 
   assert.equal(new Set(titles).size, titles.length, "page titles must be unique");
@@ -744,8 +744,37 @@ test("publishes complete host-aware discovery files", async () => {
   const robotsResponse = await render("/robots.txt");
   assert.equal(robotsResponse.status, 200);
   const robots = await robotsResponse.text();
-  assert.match(robots, /Allow: \//);
-  assert.match(robots, /Sitemap: http:\/\/localhost\/sitemap\.xml/);
+  assert.match(robots, /Disallow: \//);
+  assert.doesNotMatch(robots, /Allow:|Sitemap:|Host:/);
+
+  const productionServer = await readFile(
+    new URL("../scripts/start-production.mjs", import.meta.url),
+    "utf8",
+  );
+  assert.match(
+    productionServer,
+    /X-Robots-Tag", "noindex, nofollow, noarchive"/,
+  );
+});
+
+test("restores normal discovery when the site is approved for indexing", async () => {
+  const previousValue = process.env.SITE_INDEXABLE;
+  process.env.SITE_INDEXABLE = "true";
+
+  try {
+    const [home, robots] = await Promise.all([
+      render("/").then((response) => response.text()),
+      render("/robots.txt").then((response) => response.text()),
+    ]);
+
+    assert.doesNotMatch(home, /name="robots" content="noindex/i);
+    assert.match(robots, /Allow: \//);
+    assert.match(robots, /Sitemap: http:\/\/localhost\/sitemap\.xml/);
+    assert.match(robots, /Host: http:\/\/localhost/);
+  } finally {
+    if (previousValue === undefined) delete process.env.SITE_INDEXABLE;
+    else process.env.SITE_INDEXABLE = previousValue;
+  }
 });
 
 test("returns a real 404 for unknown routes", async () => {
