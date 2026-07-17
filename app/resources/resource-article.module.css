@@ -32,9 +32,9 @@
 .heroGrid {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(22rem, 0.75fr);
+  grid-template-columns: minmax(0, 1.08fr) minmax(20rem, 0.92fr);
   align-items: center;
-  gap: clamp(2rem, 7vw, 7rem);
+  gap: clamp(2rem, 5vw, 5rem);
 }
 
 .heroCopy {
@@ -87,10 +87,11 @@
   max-width: 12ch;
   margin: 0;
   color: #20221f;
-  font-size: clamp(3.7rem, 7vw, 7.25rem);
+  font-size: clamp(3rem, 5vw, 5.5rem);
   font-weight: 880;
-  letter-spacing: -0.075em;
-  line-height: 0.91;
+  letter-spacing: -0.052em;
+  line-height: 1.01;
+  text-wrap: balance;
 }
 
 .description {
@@ -392,7 +393,8 @@
   color: #242522;
   font-size: clamp(2rem, 4vw, 3.25rem);
   letter-spacing: -0.055em;
-  line-height: 1.02;
+  line-height: 1.06;
+  text-wrap: balance;
 }
 
 .articleSection p,
@@ -607,14 +609,24 @@
 }
 
 @media (max-width: 980px) {
-  .heroGrid {
-    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.55fr);
-    gap: 2rem;
+  .hero {
+    min-height: auto;
+    padding: 145px 0 80px;
   }
 
-  .hero h1 { font-size: clamp(3.6rem, 8.4vw, 6rem); }
+  .heroGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
 
-  .heroScene { transform: scale(0.84); transform-origin: left center; }
+  .hero h1 { max-width: 13ch; }
+
+  .heroScene {
+    width: min(28rem, 100%);
+    margin-inline: auto;
+    transform: none;
+    transform-origin: center;
+  }
 
   .articleLayout {
     grid-template-columns: 1fr;
@@ -625,6 +637,10 @@
     position: static;
   }
 
+  .articleBody {
+    margin-inline: auto;
+  }
+
   .contents nav {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 1.5rem;
@@ -633,13 +649,16 @@
 
 @media (max-width: 740px) {
   .hero {
-    min-height: 850px;
+    min-height: auto;
     padding: 135px 0 70px;
   }
 
   .heroGrid { grid-template-columns: 1fr; }
 
-  .hero h1 { font-size: clamp(3.15rem, 15vw, 4.8rem); }
+  .hero h1 {
+    font-size: clamp(2.45rem, 10vw, 3rem);
+    line-height: 1.04;
+  }
 
   .description { font-size: 0.98rem; }
 
@@ -651,8 +670,8 @@
     width: min(24rem, 100%);
     min-height: 20rem;
     margin-inline: auto;
-    transform: scale(0.78);
-    transform-origin: left top;
+    transform: none;
+    transform-origin: center top;
   }
 
   .sceneGuide { top: 1rem; left: 0; }
@@ -685,11 +704,11 @@
 }
 
 @media (max-width: 440px) {
-  .hero { min-height: 835px; }
+  .hero { min-height: auto; }
 
   .breadcrumbs li:last-child { display: none; }
 
-  .heroScene { transform: scale(0.7); }
+  .heroScene { transform: none; }
 
   .truthNote { grid-template-columns: 1fr; }
 

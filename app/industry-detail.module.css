@@ -53,8 +53,8 @@
   position: relative;
   z-index: 4;
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(30rem, 1.05fr);
-  gap: clamp(2rem, 5vw, 5rem);
+  grid-template-columns: minmax(0, 1fr) minmax(27rem, 1fr);
+  gap: clamp(2rem, 4vw, 4rem);
   align-items: center;
 }
 
@@ -107,10 +107,11 @@
 .heroCopy h1 {
   max-width: 11ch;
   margin: 0;
-  font-size: clamp(3.4rem, 5.6vw, 6.25rem);
+  font-size: clamp(3rem, 4.7vw, 5.25rem);
   font-weight: 880;
-  letter-spacing: -0.07em;
-  line-height: 0.92;
+  letter-spacing: -0.052em;
+  line-height: 1.02;
+  text-wrap: balance;
 }
 
 .heroDescription {
@@ -137,7 +138,7 @@
 
 .sceneImage {
   position: absolute;
-  inset: 1.5rem -5rem 0 -3rem;
+  inset: 1.5rem -1.5rem 0;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.78);
   border-radius: 4rem 2rem 5rem 3rem;
@@ -1033,9 +1034,10 @@
 .faqIntro h2,
 .relatedHeading h2 {
   margin: 0;
-  font-size: clamp(2.2rem, 4.3vw, 4.3rem);
-  letter-spacing: -0.06em;
-  line-height: 0.98;
+  font-size: clamp(2.1rem, 3.8vw, 3.75rem);
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+  text-wrap: balance;
 }
 
 .searchCopy > p:not(.eyebrow),
@@ -1346,7 +1348,7 @@
 }
 
 .measureIntro h2 {
-  font-size: clamp(2.2rem, 3.8vw, 3.8rem);
+  font-size: clamp(2.1rem, 3.4vw, 3.45rem);
 }
 
 .measureIntro > p:not(.eyebrow) {
@@ -1459,7 +1461,7 @@
 }
 
 .faqIntro h2 {
-  font-size: clamp(2.1rem, 4vw, 3.7rem);
+  font-size: clamp(2.1rem, 3.4vw, 3.4rem);
 }
 
 .faqIntro :global(.button) {
@@ -1617,8 +1619,25 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .challengeGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .faqGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3rem;
+  }
+
+  .faqIntro {
+    position: static;
+  }
+
+  .challengeCard:nth-child(2),
   .serviceCard:nth-child(even),
-  .helpGrid li:nth-child(even) {
+  .helpGrid li:nth-child(even),
+  .searchJourney article:nth-child(3),
+  .searchJourney article:nth-child(5) {
+    margin-top: 0;
     transform: none;
   }
 
@@ -1643,7 +1662,8 @@
   }
 
   .heroCopy h1 {
-    font-size: clamp(3rem, 14vw, 4.7rem);
+    font-size: clamp(2.45rem, 9.2vw, 3rem);
+    line-height: 1.04;
   }
 
   .scene {
@@ -1651,7 +1671,7 @@
   }
 
   .sceneImage {
-    inset: 1rem -1.5rem 0;
+    inset: 1rem 0 0;
     border-radius: 2.6rem 1.6rem 3.4rem 2rem;
   }
 

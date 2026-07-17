@@ -14,7 +14,7 @@
 }
 
 .shell {
-  width: min(1180px, calc(100% - 40px));
+  width: min(1180px, calc(100% - 48px));
   margin-inline: auto;
 }
 
@@ -884,6 +884,7 @@
 }
 
 .addonPercent {
+  margin-top: 14px !important;
   color: #c84312 !important;
   font-size: 1.08rem;
   font-weight: 850;
@@ -1302,7 +1303,7 @@
   perspective: 900px;
 }
 
-@media (min-width: 921px) {
+@media (min-width: 981px) {
   .page :global(.page-hero-has-scene) .heroScene {
     transform: translateY(92px);
   }
@@ -1929,10 +1930,18 @@
   scroll-margin-top: 110px;
 }
 
-@media (max-width: 920px) {
+@media (max-width: 1100px) {
+  .townHeroImage {
+    inset-inline: 0;
+  }
+}
+
+@media (max-width: 980px) {
   .heroScene {
     grid-column: 1;
     grid-row: 2;
+    width: min(620px, 100%);
+    margin-inline: auto;
   }
 
   .grid4,
@@ -1943,8 +1952,11 @@
   .grid3,
   .metricGrid,
   .valuesGrid,
-  .planGrid,
   .compareList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .planGrid {
     grid-template-columns: 1fr;
   }
 
@@ -1981,11 +1993,20 @@
   .storyVisual {
     min-height: 390px;
   }
+
+  .systemRendered {
+    right: -10%;
+    width: 145%;
+  }
+
+  .aboutHeroScene .storyVisual {
+    margin-inline: 0;
+  }
 }
 
 @media (max-width: 700px) {
   .shell {
-    width: min(100% - 28px, 1180px);
+    width: min(100% - 32px, 1180px);
   }
 
   .section,
@@ -1999,12 +2020,18 @@
   }
 
   .grid2,
+  .grid3,
+  .grid4,
+  .metricGrid,
+  .valuesGrid,
   .formGrid,
   .industryGrid,
   .detailGrid,
   .checkList,
   .industryDetails,
-  .frameworkRow {
+  .frameworkRow,
+  .journeyLine,
+  .compareList {
     grid-template-columns: 1fr;
   }
 
@@ -2051,7 +2078,7 @@
 
   .heroScene {
     min-height: 320px;
-    margin-inline: -35px;
+    margin-inline: auto;
   }
 
   .systemBrowser {
@@ -2065,8 +2092,8 @@
 
   .systemRendered {
     top: 10px;
-    right: -24%;
-    width: 184%;
+    right: -12%;
+    width: 150%;
   }
 
   .systemPin {
@@ -2115,9 +2142,9 @@
 
   .pricingStack {
     top: 50px;
-    left: 2%;
-    transform: scale(0.8);
-    transform-origin: left top;
+    left: 50%;
+    transform: translateX(-50%) scale(0.8);
+    transform-origin: center top;
   }
 
   .pricingScene .scenePanel {

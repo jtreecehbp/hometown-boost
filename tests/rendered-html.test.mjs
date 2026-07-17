@@ -684,6 +684,34 @@ test("rejects malformed or insecure lead destinations", async () => {
   }
 });
 
+test("keeps interior typography and layouts continuous across breakpoints", async () => {
+  const [globalCss, coreCss, serviceCss, industryCss, resourceCss] = await Promise.all([
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/core-pages.module.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/service-detail.module.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/industry-detail.module.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/resources/resource-article.module.css", import.meta.url), "utf8"),
+  ]);
+
+  assert.match(
+    globalCss,
+    /\.page-hero-copy h1\s*\{[\s\S]*?font-size:\s*clamp\(3rem, 4\.6vw, 5rem\);[\s\S]*?line-height:\s*1\.02;/,
+  );
+  assert.match(
+    globalCss,
+    /@media \(max-width: 980px\)[\s\S]*?\.page-hero-grid\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0, 1fr\);/,
+  );
+  assert.match(globalCss, /body:not\(:has\(\.home-page\)\) \.final-cta/);
+  assert.match(
+    coreCss,
+    /@media \(max-width: 700px\)[\s\S]*?\.grid4,[\s\S]*?\.journeyLine,[\s\S]*?grid-template-columns:\s*1fr;/,
+  );
+  assert.doesNotMatch(globalCss, /\.page-hero-copy h1\s*\{[^}]*14vw/);
+  assert.doesNotMatch(serviceCss, /10\.5vw/);
+  assert.doesNotMatch(industryCss, /14vw/);
+  assert.doesNotMatch(resourceCss, /(?:8\.4|15)vw/);
+});
+
 test("publishes structured data that matches visible detail content", async () => {
   const [pricing, service, industry, resource] = await Promise.all([
     render("/pricing").then((response) => response.text()),
