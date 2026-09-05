@@ -1,55 +1,15 @@
 ---
-import MainLayout from "../layouts/MainLayout.astro";
-import Section from "../components/ui/Section.astro";
-import FAQAccordion from "../components/ui/FAQAccordion.astro";
-import CTASection from "../components/ui/CTASection.astro";
-import Icon from "../components/icons/Icon.astro";
-import { pageMetadata } from "../data/metadata";
-import { faqCategories, allFaqs } from "../data/faqs";
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: allFaqs.map((faq) => ({
-    "@type": "Question",
-    name: faq.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: faq.answer,
-    },
-  })),
-};
+import MainLayout from '../layouts/MainLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Section from '../components/ui/Section.astro';
+import FAQAccordion from '../components/ui/FAQAccordion.astro';
+import CTASection from '../components/ui/CTASection.astro';
+import {faqCategories,allFaqs} from '../data/faqs';
+import {pageMetadata} from '../data/metadata';
+const schema={'@context':'https://schema.org','@type':'FAQPage',mainEntity:allFaqs.map(faq=>({'@type':'Question',name:faq.question,acceptedAnswer:{'@type':'Answer',text:faq.answer}}))};
 ---
-
-<MainLayout title={pageMetadata.faq.title} description={pageMetadata.faq.description} schema={faqSchema}>
-  <section class="hero">
-    <div class="container hero__inner">
-      <div class="hero__content">
-        <span class="eyebrow">FAQ</span>
-        <h1>Questions local business owners ask before getting started.</h1>
-        <p>Everything you need to know about pricing, plans, hosting, Google Business Profile help, SEO, and Google Ads management in one place.</p>
-        <ul class="hero__bullets">
-          <li><span class="icon-circle"><Icon name="dollar" /></span>No setup fees</li>
-          <li><span class="icon-circle"><Icon name="cloud" /></span>Hosting included</li>
-          <li><span class="icon-circle"><Icon name="shield" /></span>No fake guarantees</li>
-        </ul>
-      </div>
-      <div class="hero__media">
-        <img src="/images/hometown-boost/contact-growth-graphic.svg" alt="Contact form and growth chart for website plan questions." width="720" height="420" />
-      </div>
-    </div>
-  </section>
-
-  {faqCategories.map((category) => (
-    <Section title={category.title}>
-      <FAQAccordion items={category.items} />
-    </Section>
-  ))}
-
-  <CTASection
-    title="Still have questions?"
-    description="Tell us about your business and we can help point you toward the right starting point."
-    primaryCta={{ label: "Ask a Question", href: "/contact/", variant: "secondary" }}
-    secondaryCta={{ label: "View Plans", href: "/pricing/" }}
-  />
+<MainLayout {...pageMetadata.faq} schema={schema}>
+  <PageHero eyebrow="GOOD QUESTIONS. STRAIGHT ANSWERS." title="A little clarity goes a long way." description="The details on plans, pricing, website ownership, and ongoing support. If there’s something else on your mind, we’re an email away."/>
+  <Section>{faqCategories.map(category=><div class="faq-category"><h2>{category.title}</h2><FAQAccordion items={category.items}/></div>)}</Section>
+  <CTASection title="Still have something on your mind?" description="Send us your question. We’ll help you find a clear next step." primaryCta={{label:'Ask us a question',href:'/contact/'}}/>
 </MainLayout>

@@ -17,7 +17,7 @@ export const siteConfig = {
     linkedin: "",
   },
   defaultCta: {
-    label: "Check My Fit",
+    label: "Find my plan",
     href: "/contact/",
   },
 };

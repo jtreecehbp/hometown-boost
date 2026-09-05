@@ -12,3 +12,7 @@ astro-*.err.log
 qa-*.png
 .env
 .env.production
+.env.*
+.codex-remote-attachments
+tests
+qa-*

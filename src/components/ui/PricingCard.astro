@@ -1,44 +1,23 @@
 ---
-import Button from "./Button.astro";
-import Badge from "./Badge.astro";
-import type { PricingPlan } from "../../data/pricingPlans";
-
-interface Props {
-  plan: PricingPlan;
-  featureLimit?: number;
-  showNotIncluded?: boolean;
-}
-
-const { plan, featureLimit, showNotIncluded = false } = Astro.props;
-const features = typeof featureLimit === "number" ? plan.highlights.slice(0, featureLimit) : plan.highlights;
+import Button from './Button.astro';
+import type { PricingPlan } from '../../data/pricingPlans';
+interface Props { plan: PricingPlan; featureLimit?: number; showNotIncluded?: boolean; }
+const {plan,featureLimit,showNotIncluded=false} = Astro.props;
+const compactFeatures = {
+  lite: [plan.websiteSize, 'Mobile-friendly design', 'Hosting & SSL included', 'Contact form & click-to-call', 'Quarterly small update'],
+  starter: [plan.websiteSize, 'Hosting & SSL included', 'Google profile checkup', 'Monthly small edit', 'Quarterly reporting'],
+  growth: [plan.websiteSize, 'Local SEO foundation', 'Google profile optimization', 'Review link & QR setup', 'Monthly edits & reporting'],
+  leader: [plan.websiteSize, 'Everything in Growth', 'Service-area SEO pages', 'Ongoing SEO improvements', 'Priority updates & strategy'],
+};
+const features = typeof featureLimit === 'number' ? compactFeatures[plan.id].slice(0,featureLimit) : plan.highlights;
 ---
-
-<article class={`card pricing-card ${plan.featured ? "card--highlight" : ""}`}>
-  {plan.badge && <span class="pricing-card__badge"><Badge variant="orange">{plan.badge}</Badge></span>}
-  <div>
-    <h3>{plan.name}</h3>
-    <div class="pricing-card__price" style="margin-top: 0.8rem;">
-      {plan.priceLabel.replace("/mo", "")}<span>/mo</span>
-    </div>
-    <p class="note" style="margin-top: 0.6rem;">{plan.setupFeeLabel} | {plan.minimumTerm}</p>
-    <p class="note" style="margin-top: 0.35rem;">Minimum commitment: {plan.minimumCommitment}</p>
-  </div>
-  <div>
-    <strong>Best for:</strong>
-    <p>{plan.bestFor}</p>
-  </div>
-  <ul class="check-list">
-    {features.map((feature) => <li>{feature}</li>)}
-  </ul>
-  {showNotIncluded && (
-    <div>
-      <strong>Not included:</strong>
-      <ul class="check-list x-list" style="margin-top: 0.5rem;">
-        {plan.notIncluded.map((feature) => <li>{feature}</li>)}
-      </ul>
-    </div>
-  )}
-  <div style="margin-top: auto;">
-    <Button href={plan.ctaHref} variant={plan.featured ? "secondary" : "primary"}>{plan.ctaLabel}</Button>
-  </div>
+<article class:list={['pricing-card',{'pricing-card--featured':plan.featured}]}>
+  <div class="pricing-card__topline"><h3>{plan.shortName}</h3>{plan.featured && <span class="pill">Recommended</span>}</div>
+  <p class="pricing-card__for">{plan.bestFor}</p>
+  <div class="pricing-card__price">${plan.price}<span>/ month</span></div>
+  <p class="pricing-card__terms">$0 setup · {plan.minimumMonths}-month minimum</p>
+  <Button href={plan.ctaHref} variant={plan.featured ? 'primary' : 'outline'}>Choose {plan.shortName} <span aria-hidden="true">↗</span></Button>
+  <ul class="check-list">{features.map(feature => <li>{feature}</li>)}</ul>
+  {showNotIncluded && <details class="plan-exclusions"><summary>What’s outside this plan?</summary><ul>{plan.notIncluded.map(feature => <li>{feature}</li>)}</ul></details>}
+  <p class="pricing-card__commitment">{plan.minimumCommitment} total minimum commitment</p>
 </article>

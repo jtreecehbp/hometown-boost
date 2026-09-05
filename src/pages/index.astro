@@ -1,162 +1,83 @@
 ---
-import MainLayout from "../layouts/MainLayout.astro";
-import Section from "../components/ui/Section.astro";
-import Button from "../components/ui/Button.astro";
-import FeatureCard from "../components/ui/FeatureCard.astro";
-import IndustryCard from "../components/ui/IndustryCard.astro";
-import PricingCard from "../components/ui/PricingCard.astro";
-import FAQAccordion from "../components/ui/FAQAccordion.astro";
-import CTASection from "../components/ui/CTASection.astro";
-import Icon from "../components/icons/Icon.astro";
-import HowItWorksInfographic from "../components/infographics/HowItWorksInfographic.astro";
-import WebsiteJobsInfographic from "../components/infographics/WebsiteJobsInfographic.astro";
-import LocalGrowthSystemInfographic from "../components/infographics/LocalGrowthSystemInfographic.astro";
-import MonthlyValueFlywheel from "../components/infographics/MonthlyValueFlywheel.astro";
-import ComparisonInfographic from "../components/infographics/ComparisonInfographic.astro";
-import { pageMetadata } from "../data/metadata";
-import { googleAdsPricing, pricingPlans } from "../data/pricingPlans";
-import { industries } from "../data/industries";
-import { selectFaqs } from "../data/faqs";
-
-const homeFaqs = selectFaqs([
-  "Are there setup fees?",
-  "Why are there minimum terms?",
-  "Can I upgrade later?",
-  "Are results guaranteed?",
-  "Is hosting included?",
-]);
-
-const litePlan = pricingPlans[0];
-const startingPriceMonthly = litePlan.priceLabel.replace("/mo", "/month");
-
-const serviceSchema = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  name: "Websites and local marketing for hometown businesses",
-  provider: {
-    "@type": "Organization",
-    name: "Hometown Boost",
-  },
-  areaServed: "United States",
-  description:
-    "Professional websites, hosting, maintenance, local SEO foundations, Google Business Profile help, and optional Google Ads management for local businesses.",
-};
+import MainLayout from '../layouts/MainLayout.astro';
+import Button from '../components/ui/Button.astro';
+import LaunchScene from '../components/LaunchScene.astro';
+import PricingCard from '../components/ui/PricingCard.astro';
+import FAQAccordion from '../components/ui/FAQAccordion.astro';
+import Icon from '../components/icons/Icon.astro';
+import {pricingPlans} from '../data/pricingPlans';
+import {selectFaqs} from '../data/faqs';
+import '../styles/launch.css';
+const faqs=selectFaqs(['Are there setup fees?','Why are there minimum terms?','Is hosting included?','Can I upgrade later?','Are results guaranteed?']);
+const chapters=[['home','Your hometown'],['website','Your website'],['visibility','Get found'],['support','Keep growing'],['plans','Your plan'],['questions','Good questions'],['ready','Let’s launch']];
+const serviceSchema={'@context':'https://schema.org','@type':'Service',name:'Websites and local marketing for hometown businesses',provider:{'@type':'Organization',name:'Hometown Boost'},areaServed:'United States',description:'Monthly website design, hosting, maintenance, local SEO foundations, Google Business Profile support, and optional Google Search Ads management.'};
 ---
-
-<MainLayout title={pageMetadata.home.title} description={pageMetadata.home.description} schema={serviceSchema}>
-  <section class="hero">
-    <div class="container hero__inner">
-      <div class="hero__content">
-        <h1>Done-for-you websites for local service businesses that need more calls.</h1>
-        <p>
-          No setup fees. Plans start at {startingPriceMonthly} with hosting, maintenance, local SEO foundations, and practical marketing support handled for you.
-        </p>
-        <div class="hero__actions">
-          <Button href="/contact/" variant="secondary" size="lg">Check My Fit</Button>
-          <Button href="/pricing/" size="lg">View Plans</Button>
+<MainLayout title="Hometown Boost | Big Things Start Local" description="Done-for-you websites and local marketing for the businesses that make a hometown. Plans from $99/month with $0 setup, hosting, and maintenance included." immersive schema={serviceSchema}>
+  <div class="launch-world" data-launch-world>
+    <LaunchScene />
+    <nav class="launch-chapters" aria-label="Homepage sections">
+      {chapters.map(([id,label],i)=><a href={`#${id}`} aria-label={label} data-chapter-link={i} aria-current={i===0?'step':undefined}><span class="launch-chapters__dot"></span><span class="launch-chapters__label">{label}</span></a>)}
+    </nav>
+    <div class="launch-controls" data-launch-controls hidden><span class="launch-controls__chapter" data-launch-label>Your hometown</span><span class="launch-controls__divider"></span><button type="button" data-launch-pause aria-pressed="false">Pause motion <span aria-hidden="true">Ⅱ</span></button></div>
+    <section class="flight-chapter launch-hero" id="home" data-flight-stop="0">
+      <div class="container flight-chapter__inner">
+        <div class="launch-copy">
+          <span class="eyebrow">WEBSITES + LOCAL MARKETING</span>
+          <h1>Big things<br />start <em>local.</em></h1>
+          <p>You take care of your customers. We build your website and local presence—so more of your neighbors can find you.</p>
+          <div class="actions"><Button href="/contact/" variant="secondary" size="lg">Find my plan <span aria-hidden="true">↗</span></Button><a class="launch-text-link" href="#plans">Explore plans <span aria-hidden="true">↗</span></a></div>
+          <p class="launch-price">From <strong>$99/month</strong> · $0 setup<br /><a href="/pricing/">Clear plans. Clear minimum terms.</a></p>
         </div>
-        <p class="hero__microcopy">Tell us your business type, service area, and current website situation. We will point you toward the right plan without pressure.</p>
-        <ul class="hero__bullets" aria-label="Hometown Boost highlights">
-          <li><span class="icon-circle"><Icon name="dollar" /></span>No setup fees</li>
-          <li><span class="icon-circle"><Icon name="cloud" /></span>Hosting and maintenance included</li>
-          <li><span class="icon-circle"><Icon name="storefront" /></span>Built for local service businesses</li>
-        </ul>
       </div>
-      <div class="hero__media">
-        <img src="/images/hometown-boost/hero-hometown-business-growth.svg" alt="Local storefronts, website screens, and a service truck showing hometown business growth." width="900" height="600" />
+      <div class="container launch-hero__bottom"><a class="launch-scroll" href="#website"><span class="launch-scroll__line" aria-hidden="true"></span>Scroll to launch <span aria-hidden="true">↓</span></a><p>MADE FOR THE BUSINESSES<br />THAT MAKE A HOMETOWN.</p></div>
+    </section>
+    <section class="flight-chapter" id="website" data-flight-stop="1">
+      <div class="container flight-chapter__inner"><div class="launch-copy launch-copy--panel">
+        <span class="eyebrow">01 / A STRONGER START</span>
+        <h2>Good at what you do?<br /><em>Let it show.</em></h2>
+        <p>A professional website that explains your services, shows your real work, and makes it easy to get in touch. Built around your business, from the first page to the final detail.</p>
+        <ul class="launch-features"><li><Icon name="browser"/><span>Designed for your business</span></li><li><Icon name="phone"/><span>Easy to use on every screen</span></li><li><Icon name="mail"/><span>A clear path to calls and inquiries</span></li></ul>
+        <a class="launch-text-link" href="/services/#websites">What goes into your website <span aria-hidden="true">↗</span></a>
+      </div></div>
+    </section>
+    <section class="flight-chapter" id="visibility" data-flight-stop="2">
+      <div class="container flight-chapter__inner"><div class="launch-copy launch-copy--panel">
+        <span class="eyebrow">02 / A LITTLE MORE LIFT</span>
+        <h2>Your next customer<br />is <em>closer than you think.</em></h2>
+        <p>Connect your website, service area, and Google Business Profile. Give the people searching nearby a clearer picture of what you do—and why they should call.</p>
+        <div class="launch-detail"><span>LOCAL SEARCH, WORKING TOGETHER</span><p>Website foundations · Google profile support · Review tools</p></div>
+        <a class="launch-text-link" href="/services/#visibility">Build your local presence <span aria-hidden="true">↗</span></a>
+        <p class="launch-smallprint">Support varies by plan. Search rankings and lead volume are not guaranteed.</p>
+      </div></div>
+    </section>
+    <section class="flight-chapter" id="support" data-flight-stop="3">
+      <div class="container flight-chapter__inner"><div class="launch-copy launch-copy--panel">
+        <span class="eyebrow">03 / BUILT TO KEEP GOING</span>
+        <h2>You run the business.<br />We’ll handle <em>the upkeep.</em></h2>
+        <p>Launch day is the beginning. Hosting, SSL, maintenance, and updates matched to your plan help keep your website ready for what comes next.</p>
+        <div class="launch-process"><div><span>01</span><strong>Tell us your story.</strong></div><div><span>02</span><strong>We build. You review.</strong></div><div><span>03</span><strong>Launch with ongoing support.</strong></div></div>
+        <a class="launch-text-link" href="/how-it-works/">See how it all works <span aria-hidden="true">↗</span></a>
+      </div></div>
+    </section>
+    <section class="flight-chapter flight-chapter--wide launch-plans" id="plans" data-flight-stop="4">
+      <div class="container">
+        <div class="launch-section-heading"><span class="eyebrow">YOUR BUSINESS. YOUR NEXT CHAPTER.</span><h2>Big possibilities.<br /><em>A down-to-earth plan.</em></h2><p>Every plan includes your website, hosting, SSL, and maintenance. Start where you are, with room to grow.</p></div>
+        <div class="grid grid--4 pricing-grid">{pricingPlans.map(plan=><PricingCard plan={plan} featureLimit={5}/>)}</div>
+        <p class="launch-plans__note">Your build and support are spread across your plan’s minimum term. <a href="/pricing/#compare">Compare every feature ↗</a></p>
+        <div class="launch-ads-note"><span>READY FOR MORE SEARCH TRAFFIC?</span><a href="/google-ads/">Explore optional Google Ads management <span aria-hidden="true">↗</span></a></div>
       </div>
-    </div>
-  </section>
-
-  <Section variant="light">
-    <ul class="value-strip" aria-label="Core value points">
-      <li><span class="icon-circle"><Icon name="dollar" /></span>Starting at {litePlan.priceLabel}</li>
-      <li><span class="icon-circle"><Icon name="shield" /></span>No setup fees</li>
-      <li><span class="icon-circle"><Icon name="phone" /></span>Mobile-friendly</li>
-      <li><span class="icon-circle"><Icon name="cloud" /></span>Hosting included</li>
-      <li><span class="icon-circle"><Icon name="search" /></span>Local SEO foundation</li>
-      <li><span class="icon-circle"><Icon name="megaphone" /></span>Google Ads available</li>
-    </ul>
-  </Section>
-
-  <Section
-    title="Your business should look as good online as it does in real life."
-    description="Many local businesses are great at what they do, but their website is outdated, missing, hard to update, or not built to turn visitors into calls. Hometown Boost gives you a simple monthly way to get a professional online presence without a big upfront bill."
-  >
-    <div class="grid grid--3">
-      <FeatureCard title="Outdated website" description="Old design, poor mobile experience, and pages that are hard to update." icon="browser" tone="orange" />
-      <FeatureCard title="Hard to get found" description="Customers search online, but your business may not show up clearly." icon="search" />
-      <FeatureCard title="Too much tech hassle" description="You do not have time to manage hosting, updates, SEO, and forms." icon="wrench" />
-    </div>
-  </Section>
-
-  <Section variant="cream" title="A clear starting point before you commit." align="center">
-    <div class="grid grid--3">
-      <FeatureCard title="Quick fit review" description="We review your business type, service area, current website, and goals before recommending a plan." icon="search" />
-      <FeatureCard title="Public pricing" description="Plans, minimum terms, and what is included are published before you reach out." icon="dollar" />
-      <FeatureCard title="Honest expectations" description="No fake guarantees, invented proof, or pressure to buy services you are not ready for." icon="shield" />
-    </div>
-  </Section>
-
-  <WebsiteJobsInfographic />
-
-  <Section variant="light" eyebrow="Who We Help" title="Built for the businesses that keep hometowns moving." align="center">
-    <div class="grid grid--4">
-      {industries.slice(0, 12).map((industry) => <IndustryCard {...industry} />)}
-    </div>
-    <div class="actions" style="justify-content: center;">
-      <Button href="/industries/" variant="outline">See Industries</Button>
-      <Button href="/how-it-works/" variant="ghost">See How It Works</Button>
-    </div>
-  </Section>
-
-  <Section eyebrow="Plans" title="Simple monthly plans. No setup fees." description="Growth is the recommended plan for local service businesses that want more calls and better local visibility." align="center">
-    <div class="grid grid--4 pricing-grid">
-      {pricingPlans.map((plan) => <PricingCard plan={plan} featureLimit={5} />)}
-    </div>
-    <div class="actions" style="justify-content: center;">
-      <Button href="/pricing/" variant="outline">Compare all plans</Button>
-    </div>
-  </Section>
-
-  <HowItWorksInfographic />
-
-  <Section title="More than a website file sitting online." description="Your monthly plan includes the essentials that keep your site live, secure, updated, and ready for local customers.">
-    <MonthlyValueFlywheel />
-  </Section>
-
-  <Section variant="light" title="A simpler path than DIY. A lower-friction option than a big agency." align="center">
-    <ComparisonInfographic />
-    <div class="actions" style="justify-content: center;">
-      <Button href="/pricing/" variant="outline">Compare Plans</Button>
-    </div>
-  </Section>
-
-  <LocalGrowthSystemInfographic />
-
-  <Section variant="cream" title="Need leads faster? Add Google Ads management." description="For businesses ready to drive more search traffic, Hometown Boost can manage simple Google Search campaigns focused on calls and form leads.">
-    <div class="split">
-      <div class="card">
-        <span class="eyebrow">Optional Add-on</span>
-        <h3 style="margin-top: 0.8rem;">{googleAdsPricing.formulaLabel}</h3>
-        <p>{googleAdsPricing.note} Hometown Boost charges a separate management fee.</p>
-        <Button href="/contact/?service=google-ads" variant="secondary">Ask About Google Ads</Button>
-      </div>
-      <img src="/images/hometown-boost/ads-local-search.svg" alt="Search ads and call lead graphic for a local business." width="720" height="420" loading="lazy" decoding="async" />
-    </div>
-  </Section>
-
-  <Section title="Frequently asked questions" align="center">
-    <FAQAccordion items={homeFaqs} />
-    <div class="actions" style="justify-content: center;">
-      <Button href="/faq/" variant="outline">View all FAQs</Button>
-    </div>
-  </Section>
-
-  <CTASection
-    title="Ready to look better online without a big upfront bill?"
-    description="View the monthly plans or tell us about your business so we can point you toward the right starting point."
-    primaryCta={{ label: "Check My Fit", href: "/contact/", variant: "secondary" }}
-    secondaryCta={{ label: "View Plans", href: "/pricing/" }}
-  />
+    </section>
+    <section class="flight-chapter flight-chapter--wide launch-questions" id="questions" data-flight-stop="5">
+      <div class="container faq-split"><div><span class="eyebrow">A LITTLE CLARITY BEFORE LIFTOFF.</span><h2>Good questions.<br /><em>Straight answers.</em></h2><p>Know what’s included, how the commitment works, and what to expect.</p><a class="launch-text-link" href="/faq/">More questions answered <span aria-hidden="true">↗</span></a></div><FAQAccordion items={faqs}/></div>
+    </section>
+    <section class="flight-chapter launch-finale" id="ready" data-flight-stop="6">
+      <div class="container flight-chapter__inner"><div class="launch-copy">
+        <span class="eyebrow">HOMETOWN ROOTS. ROOM TO GROW.</span><h2>Ready for<br /><em>a boost?</em></h2>
+        <p>You do great work. Let’s help your town see it.</p>
+        <div class="actions"><Button href="/contact/" variant="secondary" size="lg">Let’s talk about your business <span aria-hidden="true">↗</span></Button></div>
+        <p class="launch-smallprint">No obligation. A clear recommendation for your next step.</p>
+        <a class="launch-replay" href="#home">Back to the beginning <span aria-hidden="true">↑</span></a>
+      </div></div>
+    </section>
+  </div>
 </MainLayout>

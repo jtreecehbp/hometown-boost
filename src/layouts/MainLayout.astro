@@ -3,6 +3,8 @@ import BaseHead from "../components/layout/BaseHead.astro";
 import Header from "../components/layout/Header.astro";
 import Footer from "../components/layout/Footer.astro";
 import "../styles/global.css";
+import '@fontsource-variable/manrope';
+import '@fontsource-variable/inter';
 
 type Schema = Record<string, unknown>;
 
@@ -17,9 +19,10 @@ interface Props {
   ogType?: "website" | "article";
   robots?: string;
   schema?: Schema | Schema[];
+  immersive?: boolean;
 }
 
-const { title, description, canonical, image, imageAlt, imageWidth, imageHeight, ogType, robots, schema } = Astro.props;
+const { title, description, canonical, image, imageAlt, imageWidth, imageHeight, ogType, robots, schema, immersive = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -38,12 +41,15 @@ const { title, description, canonical, image, imageAlt, imageWidth, imageHeight,
       schema={schema}
     />
   </head>
-  <body>
+  <body class:list={{ 'has-launch-story': immersive }}>
     <a class="skip-link" href="#main-content">Skip to main content</a>
     <Header />
     <main id="main-content">
       <slot />
     </main>
     <Footer />
+    <script>
+      import '../scripts/site';
+    </script>
   </body>
 </html>

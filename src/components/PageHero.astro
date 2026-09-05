@@ -1,0 +1,5 @@
+---
+interface Props {eyebrow:string;title:string;description?:string;center?:boolean;}
+const {eyebrow,title,description,center=false}=Astro.props;
+---
+<section class:list={['page-hero',{'page-hero--center':center}]}><div class="container"><div class="page-hero__inner"><span class="eyebrow">{eyebrow}</span><h1>{title}</h1>{description&&<p>{description}</p>}<slot/></div></div></section>

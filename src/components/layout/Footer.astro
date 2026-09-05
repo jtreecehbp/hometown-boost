@@ -1,58 +1,16 @@
 ---
-import Button from "../ui/Button.astro";
-import { footerLinks } from "../../data/navigation";
-import { pricingPlans } from "../../data/pricingPlans";
-import { siteConfig } from "../../data/siteConfig";
-
-const startingPriceMonthly = pricingPlans[0].priceLabel.replace("/mo", "/month");
+import Brand from './Brand.astro';
+import { siteConfig } from '../../data/siteConfig';
+const groups = [
+  {title:'Get growing',links:[['Website plans','/pricing/'],['What we do','/services/'],['How it works','/how-it-works/'],['Google Ads','/google-ads/']]},
+  {title:'Get to know us',links:[['About Hometown Boost','/about/'],['Who we help','/industries/'],['Helpful resources','/resources/'],['Questions & answers','/faq/']]}
+];
 ---
-
-<footer class="footer">
-  <div class="container">
-    <div class="footer__top">
-      <div>
-        <a href="/" class="brand" aria-label="Hometown Boost home">
-          <span class="brand__mark" aria-hidden="true">
-            <img src="/images/hometown-boost/hometown-boost-logo.webp" alt="" width="84" height="84" loading="lazy" decoding="async" />
-          </span>
-          <span class="brand__name">
-            <span>Hometown</span>
-            <span>Boost</span>
-          </span>
-        </a>
-        <p style="margin-top: 1rem;">
-          Hometown Boost helps local businesses look better online, get found more easily, and grow with simple monthly website and marketing plans.
-        </p>
-      </div>
-      <div>
-        <h3>Quick Links</h3>
-        <ul>
-          {footerLinks.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
-        </ul>
-      </div>
-      <div>
-        <h3>Services</h3>
-        <ul>
-          <li><a href="/services/">Website Plans</a></li>
-          <li><a href="/services/">Local SEO Foundation</a></li>
-          <li><a href="/google-ads/">Google Ads Management</a></li>
-          <li><a href="/resources/">Resources</a></li>
-        </ul>
-      </div>
-      <div>
-        <h3>Start Here</h3>
-        <p>No setup fees. Plans start at {startingPriceMonthly}. Hosting and maintenance included.</p>
-        <div class="actions">
-          <Button href="/pricing/" variant="primary" size="sm">View Plans</Button>
-          <Button href="/contact/" variant="secondary" size="sm">Check My Fit</Button>
-        </div>
-      </div>
-    </div>
-    <div class="footer__bottom">
-      <span>&copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</span>
-      <span>
-        <a href="/privacy/">Privacy</a> &nbsp; <a href="/terms/">Terms</a> &nbsp; <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
-      </span>
-    </div>
+<footer class="footer"><div class="container">
+  <div class="footer__top">
+    <div class="footer__brand"><Brand /><p>Good at what you do?<br />Let’s make sure your town knows it.</p><a class="text-link" href={`mailto:${siteConfig.email}`}>{siteConfig.email} <span aria-hidden="true">↗</span></a></div>
+    {groups.map(group => <div><h3>{group.title}</h3><ul>{group.links.map(([label,href]) => <li><a href={href}>{label}</a></li>)}</ul></div>)}
+    <div class="footer__hello"><span class="status-dot"></span><h3>Your next chapter<br />starts here.</h3><a class="text-link" href="/contact/">Let’s talk about your business <span aria-hidden="true">↗</span></a></div>
   </div>
-</footer>
+  <div class="footer__bottom"><p>© {new Date().getFullYear()} Hometown Boost</p><p>Made for the businesses that make a hometown.</p><div><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div></div>
+</div></footer>

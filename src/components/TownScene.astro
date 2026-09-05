@@ -1,0 +1,28 @@
+---
+interface Props { compact?: boolean; }
+const {compact=false} = Astro.props;
+---
+<div class:list={['town-scene',{'town-scene--compact':compact}]} data-town-scene>
+  <div class="town-scene__fallback"><img src="/images/hometown-boost/hb-rocket-emblem.webp" alt="Hometown Boost’s HB water tower with a rocket engine." width="962" height="1000" loading="lazy" /></div>
+  <div class="town-scene__viewport" data-town-viewport role="img" aria-label="A three-dimensional hometown with local shops, trees, and the HB water tower. Use the buttons below to rotate the view."></div>
+  <div class="scene-card scene-card--top"><span class="scene-card__icon" aria-hidden="true">↗</span><div><small>A BIGGER LOCAL PRESENCE</small><strong>Your next chapter starts here.</strong></div></div>
+  <div class="scene-card scene-card--bottom"><span class="scene-card__icon" aria-hidden="true">✓</span><div><small>WEBSITE. VISIBILITY. SUPPORT.</small><strong>All working together.</strong></div></div>
+  <div class="scene-caption"><span data-scene-hint>A little hometown. A lot of possibility.</span><div class="scene-controls" data-scene-controls hidden><button type="button" data-scene-left aria-label="Rotate town left">←</button><button type="button" data-scene-pause aria-label="Pause town animation">Ⅱ</button><button type="button" data-scene-right aria-label="Rotate town right">→</button></div></div>
+</div>
+<script>
+  const startScenes = () => {
+    if (!('IntersectionObserver' in window)) return;
+    const scenes = document.querySelectorAll<HTMLElement>('[data-town-scene]');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        import('../scripts/town-scene').then(({mountTown}) => mountTown(entry.target as HTMLElement)).catch(() => {
+          entry.target.querySelector('[data-scene-hint]')!.textContent = 'Made for the businesses that make a hometown.';
+        });
+      });
+    },{rootMargin:'120px'});
+    scenes.forEach(scene => observer.observe(scene));
+  };
+  startScenes();
+</script>

@@ -1,68 +1,26 @@
 ---
-import Button from "../ui/Button.astro";
-import { navigation } from "../../data/navigation";
-
-const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
-
-function isCurrent(href: string) {
-  const normalizedHref = href.replace(/\/$/, "") || "/";
-  return currentPath === normalizedHref || (normalizedHref !== "/" && currentPath.startsWith(`${normalizedHref}/`));
-}
+import Button from '../ui/Button.astro';
+import Brand from './Brand.astro';
+const links = [{label:'What we do',href:'/services/'},{label:'How it works',href:'/how-it-works/'},{label:'Our plans',href:'/pricing/'},{label:'About us',href:'/about/'}];
 ---
-
-<header class="header">
-  <div class="container header__inner">
-    <a href="/" class="brand" aria-label="Hometown Boost home">
-      <span class="brand__mark" aria-hidden="true">
-        <img src="/images/hometown-boost/hometown-boost-logo.webp" alt="" width="84" height="84" />
-      </span>
-      <span class="brand__name">
-        <span>Hometown</span>
-        <span>Boost</span>
-      </span>
-    </a>
-    <button class="menu-toggle" type="button" aria-label="Open main menu" aria-expanded="false" aria-controls="main-navigation" data-menu-button>
-      <span aria-hidden="true"></span>
-    </button>
-    <nav class="nav" id="main-navigation" aria-label="Main navigation" data-main-menu>
-      {navigation.map((item) => (
-        <a class="nav__link" href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>
-          {item.label}
-        </a>
-      ))}
-    </nav>
-    <Button class="header__cta" href="/contact/" variant="secondary" size="sm">Check My Fit</Button>
-  </div>
-</header>
-
+<header class="header"><div class="container header__inner">
+  <Brand />
+  <button class="menu-toggle" type="button" aria-label="Open main menu" aria-expanded="false" aria-controls="main-navigation" data-menu-button><span></span><span></span></button>
+  <nav class="nav" id="main-navigation" aria-label="Main navigation" data-main-menu>
+    {links.map(link => <a class="nav__link" href={link.href} aria-current={Astro.url.pathname === link.href ? 'page' : undefined}>{link.label}</a>)}
+    <a class="nav__mobile-cta" href="/contact/">Find my plan <span aria-hidden="true">↗</span></a>
+  </nav>
+  <Button class="header__cta" href="/contact/" size="sm">Let’s talk <span aria-hidden="true">↗</span></Button>
+</div></header>
 <script>
-  const menuButton = document.querySelector("[data-menu-button]");
-  const menu = document.querySelector("[data-main-menu]");
-
-  if (menuButton instanceof HTMLButtonElement && menu instanceof HTMLElement) {
-    const setMenuOpen = (isOpen: boolean) => {
-      menu.classList.toggle("is-open", isOpen);
-      document.body.classList.toggle("menu-open", isOpen);
-      menuButton.setAttribute("aria-expanded", String(isOpen));
-      menuButton.setAttribute("aria-label", isOpen ? "Close main menu" : "Open main menu");
-    };
-
-    menuButton.addEventListener("click", () => {
-      const isOpen = !menu.classList.contains("is-open");
-      setMenuOpen(isOpen);
-    });
-
-    menu.addEventListener("click", (event) => {
-      if (event.target instanceof HTMLAnchorElement) {
-        setMenuOpen(false);
-      }
-    });
-
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && menu.classList.contains("is-open")) {
-        setMenuOpen(false);
-        menuButton.focus();
-      }
-    });
+  const button = document.querySelector<HTMLButtonElement>('[data-menu-button]');
+  const menu = document.querySelector<HTMLElement>('[data-main-menu]');
+  if (button && menu) {
+    const setOpen = (open: boolean) => { button.setAttribute('aria-expanded', String(open)); button.setAttribute('aria-label', open ? 'Close main menu' : 'Open main menu'); menu.classList.toggle('is-open', open); };
+    button.addEventListener('click', () => setOpen(button.getAttribute('aria-expanded') !== 'true'));
+    menu.addEventListener('click', event => { if ((event.target as Element).closest('a')) setOpen(false); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') { setOpen(false); button.focus(); } });
+    document.addEventListener('click', event => { if (!(event.target as Element).closest('.header')) setOpen(false); });
+    matchMedia('(min-width: 901px)').addEventListener('change', event => { if (event.matches) setOpen(false); });
   }
 </script>

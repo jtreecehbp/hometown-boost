@@ -1,0 +1,13 @@
+<div class="launch-stage" data-launch-stage aria-hidden="true">
+  <div class="launch-stage__sky"></div>
+  <div class="launch-stage__fallback"><img src="/images/hometown-boost/hb-rocket-emblem.webp" alt="" width="962" height="1000" fetchpriority="high" /></div>
+  <div class="launch-stage__canvas" data-launch-canvas></div>
+  <div class="launch-stage__shade"></div>
+  <div class="launch-stage__horizon"></div>
+</div>
+<script>
+  const root = document.querySelector<HTMLElement>('[data-launch-world]');
+  if (root) requestAnimationFrame(() => {
+    import('../scripts/launch-scene').then(({mountLaunch}) => mountLaunch(root)).catch(() => {});
+  });
+</script>

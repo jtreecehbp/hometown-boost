@@ -1,37 +1,10 @@
 ---
-import Button from "./Button.astro";
-
-interface Cta {
-  label: string;
-  href: string;
-  variant?: "primary" | "secondary" | "outline" | "ghost";
-}
-
-interface Props {
-  eyebrow?: string;
-  title: string;
-  description?: string;
-  primaryCta: Cta;
-  secondaryCta?: Cta;
-}
-
-const { eyebrow, title, description, primaryCta, secondaryCta } = Astro.props;
+import Button from './Button.astro';
+interface Cta { label: string; href: string; variant?: 'primary'|'secondary'|'outline'|'ghost'; }
+interface Props { eyebrow?: string; title?: string; description?: string; primaryCta?: Cta; secondaryCta?: Cta; }
+const {eyebrow='YOUR HOMETOWN. YOUR NEXT CHAPTER.',title='You do great work. Let’s get it noticed.',description='A better website. A clearer path to customers. A team to take it off your plate.',primaryCta={label:'Find my plan',href:'/contact/'},secondaryCta}=Astro.props;
 ---
-
-<section class="section">
-  <div class="container">
-    <div class="cta-band">
-      <div class="cta-band__inner">
-        <div>
-          {eyebrow && <span class="eyebrow">{eyebrow}</span>}
-          <h2 style="margin-top: 0.8rem;">{title}</h2>
-          {description && <p style="margin-top: 0.65rem;">{description}</p>}
-        </div>
-        <div class="actions" style="margin-top: 0;">
-          <Button href={primaryCta.href} variant={primaryCta.variant ?? "secondary"}>{primaryCta.label}</Button>
-          {secondaryCta && <Button href={secondaryCta.href} variant={secondaryCta.variant ?? "outline"}>{secondaryCta.label}</Button>}
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<section class="section cta-section"><div class="container"><div class="cta-band">
+  <div><span class="eyebrow">{eyebrow}</span><h2>{title}</h2><p>{description}</p><div class="actions"><Button href={primaryCta.href}>{primaryCta.label} <span aria-hidden="true">↗</span></Button>{secondaryCta && <Button href={secondaryCta.href} variant="outline">{secondaryCta.label}</Button>}</div><p class="note">Plans from $99/month. $0 setup. Minimum terms apply.</p></div>
+  <div class="cta-band__arrow" aria-hidden="true">↗</div>
+</div></div></section>
