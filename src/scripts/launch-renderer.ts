@@ -62,7 +62,7 @@ export function createLaunchRenderer(viewport: HTMLElement, compact: boolean) {
       renderer.setSize(width, height, false);
     },
     render(pose: FlightPose, time: number, centered = false) {
-      updateLaunchWorld(world, pose, time);
+      updateLaunchWorld(world, pose, time, width / height < 0.9);
       frameLaunchCamera(camera, pose, width, height, centered);
       renderer.render(world.scene, camera);
     },

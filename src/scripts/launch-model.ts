@@ -3,6 +3,8 @@ import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.j
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { TessellateModifier } from "three/addons/modifiers/TessellateModifier.js";
 import type { FlightPose } from "./launch-motion.ts";
+import { createSkyLandmarks, updateSkyLandmarks } from "./launch-landmarks.ts";
+import type { SkyLandmarks } from "./launch-landmarks.ts";
 
 export const REST_HEIGHT = 3.6;
 
@@ -15,6 +17,7 @@ export interface LaunchWorld {
   flame: THREE.Mesh[];
   smoke: THREE.InstancedMesh;
   clouds: THREE.InstancedMesh;
+  landmarks: SkyLandmarks;
   engineLight: THREE.PointLight;
   van: THREE.Group;
   dispose: () => void;
@@ -686,6 +689,9 @@ export function createLaunchWorld(compact = false): LaunchWorld {
   clouds.instanceMatrix.needsUpdate = true;
   scene.add(clouds);
 
+  const landmarks = createSkyLandmarks(compact);
+  scene.add(landmarks.root);
+
   const van = new THREE.Group();
   van.name = "local-service-van";
   scene.add(van);
@@ -758,6 +764,7 @@ export function createLaunchWorld(compact = false): LaunchWorld {
     flame,
     smoke,
     clouds,
+    landmarks,
     engineLight,
     van,
     dispose,
@@ -768,7 +775,9 @@ export function updateLaunchWorld(
   world: LaunchWorld,
   pose: FlightPose,
   time: number,
+  portrait = false,
 ) {
+  updateSkyLandmarks(world.landmarks, pose.lift, time, portrait);
   world.rocket.position.y = REST_HEIGHT + pose.lift;
   // No physical sway at rest, and no drift in the scroll-driven vertical position.
   world.rocket.rotation.z =

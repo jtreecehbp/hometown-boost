@@ -127,3 +127,60 @@ test("the moving tower stays in frame across mobile, tablet, desktop, and landsc
     }
   }
 });
+
+test("the rocket overtakes world-anchored landmarks and reversing scroll retraces the plane's crossing", () => {
+  const world = createLaunchWorld(true);
+  try {
+    const { balloons, plane, propeller, satellite, root } = world.landmarks;
+    assert.equal(root.parent, world.scene);
+    const stationary = [...balloons, satellite];
+    updateLaunchWorld(world, sampleFlight(0), 5);
+    const altitudes = stationary.map(actor => actor.position.y);
+    const groundedTop = REST_HEIGHT + 4.84;
+    assert.ok(stationary.every(actor => new THREE.Box3().setFromObject(actor).min.y > groundedTop));
+
+    const encounter = sampleFlight(0.47);
+    updateLaunchWorld(world, encounter, 5);
+    const planePose = plane.matrixWorld.clone();
+    const bladePose = propeller.matrixWorld.clone();
+    updateLaunchWorld(world, sampleFlight(1), 5);
+    assert.deepEqual(stationary.map(actor => actor.position.y), altitudes);
+    assert.ok(stationary.every(actor => new THREE.Box3().setFromObject(actor).max.y < world.rocket.position.y));
+    assert.notDeepEqual(plane.matrixWorld, planePose);
+    updateLaunchWorld(world, encounter, 5);
+    assert.deepEqual(plane.matrixWorld, planePose);
+    assert.deepEqual(propeller.matrixWorld, bladePose);
+    updateLaunchWorld(world, encounter, 6);
+    assert.notDeepEqual(propeller.matrixWorld, bladePose);
+  } finally {
+    world.dispose();
+  }
+});
+
+test("every fly-past has a visible interval beside the tower on portrait and landscape screens", () => {
+  for (const [width, height] of [[320, 740], [390, 844], [768, 1024], [1024, 768], [1440, 900], [1920, 1080], [844, 390]]) {
+    const world = createLaunchWorld(width < 700);
+    const camera = new THREE.PerspectiveCamera();
+    const portrait = width / height < 0.9;
+    const actors = [...world.landmarks.balloons, world.landmarks.plane, world.landmarks.satellite];
+    const visibleSteps = new Map(actors.map(actor => [actor.name, 0]));
+    try {
+      for (let step = 0; step <= 100; step++) {
+        const pose = sampleFlight(step / 100);
+        updateLaunchWorld(world, pose, 0, portrait);
+        frameLaunchCamera(camera, pose, width, height);
+        for (const actor of actors) {
+          const center = new THREE.Box3().setFromObject(actor).getCenter(new THREE.Vector3()).project(camera);
+          const x = (center.x + 1) / 2, y = (1 - center.y) / 2;
+          // Desktop reserves the left side for copy; portrait uses the wider sky below it.
+          if (x > (portrait ? 0.1 : 0.44) && x < 0.94 && y > 0.15 && y < 0.9 && center.z > -1 && center.z < 1)
+            visibleSteps.set(actor.name, visibleSteps.get(actor.name) + 1);
+        }
+      }
+      for (const [name, steps] of visibleSteps)
+        assert.ok(steps >= 5, `${name} needs a visible interval at ${width}×${height}`);
+    } finally {
+      world.dispose();
+    }
+  }
+});
