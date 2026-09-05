@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import {
   createLaunchWorld,
   frameLaunchCamera,
@@ -8,22 +9,44 @@ import type { FlightPose } from "./launch-motion";
 
 export function createLaunchRenderer(viewport: HTMLElement, compact: boolean) {
   const renderer = new THREE.WebGLRenderer({
-    antialias: !compact,
+    antialias: true,
     alpha: true,
     powerPreference: "low-power",
   });
   renderer.setPixelRatio(
-    Math.min(window.devicePixelRatio || 1, compact ? 1.25 : 1.5),
+    Math.min(window.devicePixelRatio || 1, compact ? 1.25 : 1.75),
   );
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.12;
+  renderer.toneMappingExposure = 1.05;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.setClearColor(0x081426, 0);
+  renderer.setClearColor(0xd5ecfa, 0);
   renderer.domElement.setAttribute("aria-hidden", "true");
   viewport.appendChild(renderer.domElement);
   const world = createLaunchWorld(compact);
+  // Bake the reflections once, then rebake only if the browser restores WebGL.
+  // The scene can still use its daylight rig if this optional GPU pass fails.
+  let reflection: THREE.WebGLRenderTarget | undefined;
+  const refreshEnvironment = () => {
+    world.scene.environment = null;
+    reflection?.dispose();
+    reflection = undefined;
+    const studio = new RoomEnvironment();
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    try {
+      reflection = pmrem.fromScene(studio, 0.06);
+      world.scene.environment = reflection.texture;
+    } catch {
+      // Direct lights retain the model and scroll experience on limited devices.
+    } finally {
+      studio.dispose();
+      pmrem.dispose();
+    }
+  };
+  refreshEnvironment();
+  world.scene.environmentIntensity = 0.45;
+  renderer.domElement.addEventListener("webglcontextrestored", refreshEnvironment);
   const camera = new THREE.PerspectiveCamera(39, 1, 0.1, 240);
   let width = 1,
     height = 1;
@@ -34,7 +57,7 @@ export function createLaunchRenderer(viewport: HTMLElement, compact: boolean) {
       width = Math.max(1, viewport.clientWidth);
       height = Math.max(1, viewport.clientHeight);
       renderer.setPixelRatio(
-        Math.min(window.devicePixelRatio || 1, width < 700 ? 1.25 : 1.5),
+        Math.min(window.devicePixelRatio || 1, width < 700 ? 1.25 : 1.75),
       );
       renderer.setSize(width, height, false);
     },
@@ -44,7 +67,10 @@ export function createLaunchRenderer(viewport: HTMLElement, compact: boolean) {
       renderer.render(world.scene, camera);
     },
     dispose() {
+      renderer.domElement.removeEventListener("webglcontextrestored", refreshEnvironment);
+      world.scene.environment = null;
       world.dispose();
+      reflection?.dispose();
       renderer.dispose();
       renderer.domElement.remove();
     },

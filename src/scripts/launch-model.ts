@@ -62,7 +62,7 @@ function batchStatic(group: THREE.Group) {
 
 export function createLaunchWorld(compact = false): LaunchWorld {
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2("#12243b", 0.011);
+  scene.fog = new THREE.FogExp2("#d5ecfa", 0.008);
   const town = new THREE.Group();
   town.name = "hometown";
   const gantry = new THREE.Group();
@@ -82,32 +82,33 @@ export function createLaunchWorld(compact = false): LaunchWorld {
     return materials.get(color)!;
   };
   const navy = new THREE.MeshPhysicalMaterial({
-    color: "#123661",
-    metalness: 0.38,
-    roughness: 0.27,
+    color: "#16467c",
+    metalness: 0.3,
+    roughness: 0.24,
     clearcoat: 0.9,
     clearcoatRoughness: 0.2,
   });
   const ivory = new THREE.MeshStandardMaterial({
-    color: "#fff0d4",
-    metalness: 0.27,
+    color: "#fffaf0",
+    metalness: 0.22,
     roughness: 0.3,
   });
   const steel = new THREE.MeshStandardMaterial({
-    color: "#263e5c",
-    metalness: 0.58,
-    roughness: 0.4,
+    color: "#577891",
+    metalness: 0.64,
+    roughness: 0.32,
   });
   const orange = new THREE.MeshStandardMaterial({
-    color: "#ff9b48",
+    color: "#ff8a32",
     roughness: 0.42,
     metalness: 0.12,
   });
   const windowLight = new THREE.MeshStandardMaterial({
-    color: "#ffd5a0",
-    emissive: "#ffad5c",
-    emissiveIntensity: 0.55,
-    roughness: 0.5,
+    color: "#bde7f6",
+    emissive: "#e6f7ff",
+    emissiveIntensity: 0.08,
+    roughness: 0.19,
+    metalness: 0.3,
   });
 
   const mesh = (
@@ -216,32 +217,32 @@ export function createLaunchWorld(compact = false): LaunchWorld {
   };
 
   // Broad, gently bevelled ground with a connected main street and town square.
-  cylinder(town, 20, 19.2, 0.7, matte("#203a42"), 0, -0.48, 0, 80);
-  cylinder(town, 20.1, 20, 0.12, matte("#3c5758"), 0, -0.07, 0, 80);
-  box(town, 32, 0.05, 2.2, matte("#293c4e"), 0, 0.015, 5.5);
-  box(town, 32, 0.05, 2.2, matte("#293c4e"), 0, 0.016, -5.5);
-  box(town, 2.2, 0.05, 26, matte("#293c4e"), -5.5, 0.017, 0);
-  box(town, 2.2, 0.05, 26, matte("#293c4e"), 5.5, 0.018, 0);
+  cylinder(town, 20, 19.2, 0.7, matte("#88a7a1"), 0, -0.48, 0, 80);
+  cylinder(town, 20.1, 20, 0.12, matte("#92bca2"), 0, -0.07, 0, 80);
+  box(town, 32, 0.05, 2.2, matte("#63798e"), 0, 0.015, 5.5);
+  box(town, 32, 0.05, 2.2, matte("#63798e"), 0, 0.016, -5.5);
+  box(town, 2.2, 0.05, 26, matte("#63798e"), -5.5, 0.017, 0);
+  box(town, 2.2, 0.05, 26, matte("#63798e"), 5.5, 0.018, 0);
   for (const z of [-6.65, -4.35, 4.35, 6.65])
-    box(town, 31, 0.09, 0.17, matte("#73828a"), 0, 0.02, z);
+    box(town, 31, 0.09, 0.17, matte("#e4e8e7"), 0, 0.02, z);
   for (const x of [-6.65, -4.35, 4.35, 6.65])
-    box(town, 0.17, 0.09, 25, matte("#73828a"), x, 0.02, 0);
+    box(town, 0.17, 0.09, 25, matte("#e4e8e7"), x, 0.02, 0);
   for (let i = -14; i <= 14; i += 1.4) {
     if (Math.abs(Math.abs(i) - 5.5) < 1.6) continue;
     for (const z of [-5.5, 5.5])
-      box(town, 0.6, 0.015, 0.055, matte("#c4bda4"), i, 0.052, z, 0);
+      box(town, 0.6, 0.015, 0.055, ivory, i, 0.052, z, 0);
   }
   for (let i = -11; i <= 11; i += 1.4) {
     if (Math.abs(Math.abs(i) - 5.5) < 1.6) continue;
     for (const x of [-5.5, 5.5])
-      box(town, 0.055, 0.015, 0.6, matte("#c4bda4"), x, 0.055, i, 0);
+      box(town, 0.055, 0.015, 0.6, ivory, x, 0.055, i, 0);
   }
   for (const x of [-5.5, 5.5])
     for (let i = 0; i < 6; i++)
       box(town, 0.14, 0.015, 1.3, ivory, x - 0.7 + i * 0.28, 0.06, 3.85, 0);
 
-  cylinder(town, 3.65, 3.85, 0.18, matte("#798287"), 0, 0.07, 0, 64);
-  cylinder(town, 3.2, 3.2, 0.05, matte("#435565"), 0, 0.18, 0, 64);
+  cylinder(town, 3.65, 3.85, 0.18, matte("#d9e2e5"), 0, 0.07, 0, 64);
+  cylinder(town, 3.2, 3.2, 0.05, matte("#9fb6c6"), 0, 0.18, 0, 64);
   ring(town, 2.85, 0.045, 0.22, orange);
   for (let i = 0; i < 12; i++) {
     const angle = (i / 12) * Math.PI * 2;
@@ -271,14 +272,14 @@ export function createLaunchWorld(compact = false): LaunchWorld {
     building.position.set(x, 0.08, z);
     building.rotation.y = rotation;
     town.add(building);
-    box(building, width + 0.3, 0.12, 2.95, matte("#81918d"), 0, 0.01, 0);
+    box(building, width + 0.3, 0.12, 2.95, matte("#d9e2e5"), 0, 0.01, 0);
     box(building, width, height, 2.5, matte(color), 0, height / 2, 0, 0.06);
     box(
       building,
       width + 0.18,
       0.2,
       2.68,
-      matte("#263e52"),
+      matte("#59788d"),
       0,
       height + 0.08,
       0,
@@ -289,7 +290,7 @@ export function createLaunchWorld(compact = false): LaunchWorld {
         0,
         1,
         1,
-        matte("#46536b"),
+        matte("#6584a0"),
         0,
         height + 0.7,
         0,
@@ -383,7 +384,7 @@ export function createLaunchWorld(compact = false): LaunchWorld {
           front,
         );
   };
-  const shopColors = ["#bdbaa5", "#9bb6b3", "#b58b6b", "#a7a9b7", "#72949b"];
+  const shopColors = ["#f1dec1", "#8fc8d9", "#dfaa88", "#d9e5ec", "#b8cfbb"];
   const plots = [
     [-10, -8.5, 3.2, 3.5],
     [-2.1, -8.5, 2.4, 3.1],
@@ -416,7 +417,7 @@ export function createLaunchWorld(compact = false): LaunchWorld {
     ),
   );
 
-  const foliageGeometry = new THREE.IcosahedronGeometry(1, 1);
+  const foliageGeometry = new THREE.IcosahedronGeometry(1, 2);
   for (let i = 0; i < 32; i++) {
     const angle = (i / 32) * Math.PI * 2;
     const radius = 14 + seed(i) * 3.3;
@@ -426,7 +427,7 @@ export function createLaunchWorld(compact = false): LaunchWorld {
     cylinder(town, 0.09, 0.12, 1.2, matte("#6f6860"), x, 0.6, z, 6);
     const crown = mesh(
       foliageGeometry,
-      matte(i % 2 ? "#426d69" : "#315953"),
+      matte(i % 2 ? "#72a77d" : "#4b886a"),
       town,
       x,
       1.4 + height * 0.28,
@@ -438,7 +439,7 @@ export function createLaunchWorld(compact = false): LaunchWorld {
   for (const x of [-3.6, 3.6])
     for (const z of [-3.6, 3.6]) {
       cylinder(town, 0.09, 0.14, 0.6, matte("#6f6860"), x, 0.3, z, 6);
-      const crown = mesh(foliageGeometry, matte("#547e71"), town, x, 1.15, z);
+      const crown = mesh(foliageGeometry, matte("#72a77d"), town, x, 1.15, z);
       crown.scale.set(0.65, 0.85, 0.65);
     }
   for (const x of [-6.9, 6.9])
@@ -513,6 +514,14 @@ export function createLaunchWorld(compact = false): LaunchWorld {
   ring(rocket, 1.58, 0.035, 2.96, ivory);
   cylinder(rocket, 0.04, 1.86, 1.04, navy, 0, 3.69, 0, 80);
   ring(rocket, 1.82, 0.055, 3.17, navy);
+  // Fine standing seams catch the daylight around the enamel roof.
+  for (let i = 0; i < 16; i++) {
+    const angle = (i / 16) * Math.PI * 2;
+    rod(rocket,
+      [Math.sin(angle) * 0.07, 4.2, Math.cos(angle) * 0.07],
+      [Math.sin(angle) * 1.83, 3.18, Math.cos(angle) * 1.83],
+      0.016, navy);
+  }
   cylinder(rocket, 0.055, 0.115, 0.3, navy, 0, 4.32, 0, 16);
   cylinder(rocket, 0, 0.06, 0.38, ivory, 0, 4.65, 0, 16);
   cylinder(rocket, 0.76, 0.52, 0.43, steel, 0, -0.025, 0);
@@ -618,7 +627,7 @@ export function createLaunchWorld(compact = false): LaunchWorld {
       transparent: true,
       opacity: i === 0 ? 0.38 : 0.88,
       depthWrite: false,
-      blending: THREE.AdditiveBlending,
+      blending: i === 2 ? THREE.AdditiveBlending : THREE.NormalBlending,
     });
     const object = mesh(flameGeometry, material, exhaust);
     object.scale.set(1 - i * 0.22, 1 - i * 0.14, 1 - i * 0.22);
@@ -630,9 +639,9 @@ export function createLaunchWorld(compact = false): LaunchWorld {
   rocket.add(engineLight);
 
   const smoke = new THREE.InstancedMesh(
-    new THREE.SphereGeometry(1, 12, 8),
+    new THREE.SphereGeometry(1, compact ? 12 : 20, compact ? 8 : 12),
     new THREE.MeshStandardMaterial({
-      color: "#c5d0d7",
+      color: "#f6f9fc",
       roughness: 1,
       transparent: true,
       opacity: 0.82,
@@ -646,12 +655,14 @@ export function createLaunchWorld(compact = false): LaunchWorld {
   scene.add(smoke);
 
   const clouds = new THREE.InstancedMesh(
-    new THREE.SphereGeometry(1, 12, 8),
+    new THREE.SphereGeometry(1, compact ? 12 : 20, compact ? 8 : 12),
     new THREE.MeshStandardMaterial({
-      color: "#7690aa",
+      color: "#ffffff",
+      emissive: "#e7f4ff",
+      emissiveIntensity: 0.16,
       roughness: 1,
       transparent: true,
-      opacity: 0.35,
+      opacity: 0.56,
       depthWrite: false,
     }),
     compact ? 45 : 90,
@@ -674,31 +685,6 @@ export function createLaunchWorld(compact = false): LaunchWorld {
   }
   clouds.instanceMatrix.needsUpdate = true;
   scene.add(clouds);
-
-  const starPositions = new Float32Array(150 * 3);
-  for (let i = 0; i < 150; i++) {
-    starPositions[i * 3] = (seed(i + 451) - 0.5) * 180;
-    starPositions[i * 3 + 1] = 30 + seed(i + 710) * 100;
-    starPositions[i * 3 + 2] = -30 - seed(i + 980) * 110;
-  }
-  const starGeometry = new THREE.BufferGeometry();
-  starGeometry.setAttribute(
-    "position",
-    new THREE.BufferAttribute(starPositions, 3),
-  );
-  scene.add(
-    new THREE.Points(
-      starGeometry,
-      new THREE.PointsMaterial({
-        color: "#c6d9ee",
-        size: 0.1,
-        sizeAttenuation: true,
-        transparent: true,
-        opacity: 0.6,
-        depthWrite: false,
-      }),
-    ),
-  );
 
   const van = new THREE.Group();
   van.name = "local-service-van";
@@ -723,11 +709,11 @@ export function createLaunchWorld(compact = false): LaunchWorld {
     }
   van.position.set(5.5, 0, -1);
 
-  scene.add(new THREE.HemisphereLight("#dcecff", "#354458", 2.5));
-  const sun = new THREE.DirectionalLight("#ffe2b2", 4.2);
+  scene.add(new THREE.HemisphereLight("#effaff", "#9fae9b", 2.8));
+  const sun = new THREE.DirectionalLight("#fff3dc", 3.8);
   sun.position.set(-8, 17, 12);
   sun.castShadow = true;
-  sun.shadow.mapSize.set(compact ? 512 : 1024, compact ? 512 : 1024);
+  sun.shadow.mapSize.set(compact ? 1024 : 2048, compact ? 1024 : 2048);
   sun.shadow.camera.left = -19;
   sun.shadow.camera.right = 19;
   sun.shadow.camera.top = 19;
@@ -736,10 +722,10 @@ export function createLaunchWorld(compact = false): LaunchWorld {
   sun.shadow.normalBias = 0.05;
   sun.shadow.bias = -0.00015;
   scene.add(sun);
-  const rim = new THREE.DirectionalLight("#8cbcff", 3.3);
+  const rim = new THREE.DirectionalLight("#d2edff", 2.4);
   rim.position.set(8, 10, -10);
   scene.add(rim);
-  const front = new THREE.DirectionalLight("#ffffff", 1.2);
+  const front = new THREE.DirectionalLight("#ffffff", 1.4);
   front.position.set(5, 6, 15);
   scene.add(front);
 

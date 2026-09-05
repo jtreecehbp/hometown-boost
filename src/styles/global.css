@@ -90,13 +90,13 @@ button {
 a:focus-visible,
 button:focus-visible,
 summary:focus-visible {
-  outline: 3px solid #537c26;
+  outline: 3px solid #246993;
   outline-offset: 5px;
 }
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
-  outline: 2px solid #537c26;
+  outline: 2px solid #246993;
   outline-offset: 2px;
 }
 ::selection {
@@ -123,7 +123,7 @@ select:focus-visible {
   position: sticky;
   top: 0;
   z-index: 30;
-  background: #f8faf5f5;
+  background: #ffffffed;
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--line);
 }
@@ -199,7 +199,7 @@ select:focus-visible {
   min-height: 52px;
   padding: 14px 24px;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: 11px;
   font-size: 14px;
   font-weight: 650;
   line-height: 1.3;
@@ -211,7 +211,7 @@ select:focus-visible {
 }
 .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 7px 18px #19271d12;
+  box-shadow: 0 7px 18px #17496f16;
 }
 .btn > span[aria-hidden] {
   font-size: 21px;
@@ -230,15 +230,15 @@ select:focus-visible {
   color: var(--ink);
 }
 .btn--secondary:hover {
-  background: #b1e25b;
+  background: #ffa358;
 }
 .btn--outline {
-  border-color: #bbc7b9;
+  border-color: #b9cddd;
   background: transparent;
   color: var(--ink);
 }
 .btn--outline:hover {
-  background: #e8eedf;
+  background: #eaf4fc;
 }
 .btn--ghost {
   padding-inline: 0;
@@ -271,7 +271,7 @@ select:focus-visible {
   gap: 10px;
   line-height: 1.5;
   text-transform: uppercase;
-  color: #4e6351;
+  color: #b74810;
 }
 .eyebrow:before {
   content: "";
@@ -286,7 +286,7 @@ select:focus-visible {
 }
 .section--light,
 .section--cream {
-  background: #edf2e8;
+  background: #f0f7fc;
 }
 .section--navy,
 .dark-section {
@@ -880,7 +880,8 @@ select:focus-visible {
   padding: 27px 23px;
   background: #fff;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 19px;
+  box-shadow: var(--hb-shadow);
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -903,7 +904,7 @@ select:focus-visible {
   font-size: 22px;
 }
 .pricing-card__for {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.6;
   margin: 18px 0 24px;
   min-height: 63px;
@@ -1026,7 +1027,7 @@ select:focus-visible {
   max-width: 680px;
 }
 .cta-band p {
-  color: #3f5737;
+  color: #435c74;
   max-width: 480px;
 }
 .cta-band .note {
@@ -1042,6 +1043,7 @@ select:focus-visible {
   font-weight: 350;
 }
 .footer {
+  background: #fff;
   padding: 65px 0 25px;
   border-top: 1px solid var(--line);
 }
@@ -1103,6 +1105,7 @@ select:focus-visible {
 .page-hero {
   padding: 80px 0 65px;
   border-bottom: 1px solid var(--line);
+  background: linear-gradient(125deg, #fcfdff 20%, #edf7fe);
 }
 .page-hero__inner {
   max-width: 900px;
@@ -1211,12 +1214,13 @@ select:focus-visible {
   font-weight: 600;
 }
 .table-highlight {
-  background: #eef8df !important;
+  background: #edf6fd !important;
 }
 .lead-form {
   background: white;
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 24px;
+  box-shadow: var(--hb-shadow);
   padding: 40px;
 }
 .lead-form h2 {
@@ -1250,9 +1254,9 @@ select:focus-visible {
 .form-field select,
 .form-field textarea {
   width: 100%;
-  border: 1px solid #ccd5c7;
-  background: #fbfcf9;
-  border-radius: 7px;
+  border: 1px solid #bed1e1;
+  background: #f8fbfe;
+  border-radius: 10px;
   min-height: 47px;
   padding: 11px 13px;
   font-size: 15px;
@@ -1263,7 +1267,7 @@ select:focus-visible {
 }
 .form-field input::placeholder,
 .form-field textarea::placeholder {
-  color: #818c7c;
+  color: #5d748a;
 }
 .full {
   grid-column: 1/-1;
@@ -1307,7 +1311,7 @@ select:focus-visible {
 }
 .contact-expectations span {
   font-size: 12px;
-  color: #61784e;
+  color: #b74810;
   padding-top: 3px;
 }
 .contact-expectations strong {
@@ -2296,7 +2300,7 @@ select:focus-visible {
   min-height: 32px;
 }
 .table-wrap:focus-visible {
-  outline: 3px solid #537c26;
+  outline: 3px solid #246993;
   outline-offset: 4px;
 }
 .table-wrap table {
@@ -2324,14 +2328,20 @@ select:focus-visible {
   }
 }
 
-.brand__emblem{width:48px;height:50px;object-fit:contain;flex-shrink:0}.brand__wordmark>span{color:#ba5015}.section--light,.section--cream{background:#f0f3f6}.icon-circle{background:#edf1f5}.cta-band{background:#ffb578}.text-link:hover{color:#a7491c}.pricing-card--featured{background:#ffbb84;border-color:#ffbb84}.eyebrow{color:#6f543d}.btn--outline:hover{background:#edf1f5}.nav__mobile-cta{background:var(--accent)}.footer a:hover{color:#a7491c}@media(max-width:680px){.brand__emblem{width:38px;height:43px}}
+.brand__emblem { width: 48px; height: 50px; object-fit: contain; flex-shrink: 0; }
+.brand__wordmark > span { color: var(--hb-orange-dark); }
+.icon-circle { background: #eaf4fc; }
+.cta-band { background: linear-gradient(120deg, #fff0e2, #ffe0c2); border: 1px solid #f8d8b9; }
+.text-link:hover, .footer a:hover { color: var(--hb-orange-dark); }
+.pricing-card--featured { background: #fff7f0; border-color: #e99d65; box-shadow: inset 0 3px #f59145, var(--hb-shadow); }
+.nav__mobile-cta { background: var(--accent); }
+@media (max-width: 680px) { .brand__emblem { width: 38px; height: 43px; } }
 
 /* Supporting pages share the hometown and tower from the launch story. */
-.header{background:#faf9f6f5}
-.town-scene:before{inset:20px 0 48px;border-radius:28px;background:radial-gradient(ellipse at 62% 25%,#365979,#132c45 60%,#0c1e32)}
+.town-scene:before{inset:20px 0 48px;border-radius:28px;background:radial-gradient(ellipse at 75% 12%,#fff9ed,#c5e6fa 48%,#e4f3fc);box-shadow:inset 0 0 0 1px #d6e8f4}
 .town-scene__viewport{top:20px;bottom:48px;height:calc(100% - 68px);overflow:hidden;border-radius:28px}
 .town-scene__fallback{inset:45px 0 70px}
 .town-scene__fallback img{width:100%;height:100%;object-fit:contain}
 .scene-card{border-color:#e4e9ef}
-.scene-card small{color:#5e6d7e}
+.scene-card small{color:var(--muted)}
 @media(max-width:680px){.town-scene:before,.town-scene__viewport{border-radius:20px}.town-scene__fallback{inset:50px 25px 70px}}

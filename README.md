@@ -28,8 +28,9 @@ The site-output tests inspect `dist`, so build first. For the active Coolify con
 
 ## Design and 3D
 
-- Shared navy/orange brand tokens: `src/styles/tokens.css`; responsive styles: `src/styles/global.css`; continuous homepage layout: `src/styles/launch.css`.
+- Shared navy/orange brand tokens with white surfaces and a daylight sky: `src/styles/tokens.css`; responsive styles: `src/styles/global.css`; continuous homepage layout: `src/styles/launch.css`.
 - Self-hosted Manrope and Inter variable fonts.
+- The town uses brighter storefront materials, smooth foliage, white clouds, and a blue enamel tower with raised lettering, roof seams, and soft shadows. A small prefiltered environment supplies metal reflections without downloading a texture. Rendering quality remains capped on mobile.
 - One sticky Three.js canvas spans all seven homepage chapters. Native scrolling controls ignition, lift, camera movement, and ascent through clouds; scrolling back reverses the same flight. The tank and roof separate from fixed steel supports. Plans and questions receive a steadier stretch of the flight.
 - `src/scripts/launch-motion.ts` maps measured section positions to a deterministic flight. Tall mobile pricing cards and expanded FAQ answers retain their chapter timing. `launch-model.ts` contains the actual 3D tank, curved raised HB lettering, nozzle, gantry, town, lights, flame, instanced smoke, and clouds. Static details are batched by material.
 - The homepage has chapter links and a pause/play control. Reduced motion starts with a grounded, stationary scene; playing is optional. Rendering pauses offscreen and in background tabs, resumes after page-cache restoration, and falls back to the emblem if WebGL is unavailable or its context is lost. Pixel density and frame rate are capped for mobile.
