@@ -6,6 +6,8 @@ A full Astro marketing-site rebuild around “Big things start local.” The hom
 
 Use Coolify for this rebuild until the owner requests another hosting change. The deployment branch is `preview/3d-launch` in `jtreecehbp/hometown-boost`. It intentionally remains separate from the other site version on `main` and the existing custom-domain application.
 
+Active preview: https://hometown-boost-preview.40.160.2.98.sslip.io. Reuse the Coolify application `hometown-boost-3d-preview` (ID `bklwhohxof5n40qep7h8n26a`) for future deployments from this branch.
+
 The Dockerfile builds Astro with Node 24 and `PUBLIC_FORM_DELIVERY=server`, then serves the static output and `/api/contact` on port 3000 as a non-root user. Select the Dockerfile build pack in Coolify. `/healthz` is the container health endpoint. `SITE_INDEXING=off` adds no-index headers and disallows crawling of this temporary preview.
 
 Set `FORM_SERVICE_URL` in Coolify to the existing Netlify form receiver: `https://6a9c0c7eee8155b723a96453--hometown-boost-temp-20260605000628.netlify.app/`. Coolify hosts the website; Netlify Forms remains the existing inquiry inbox. Keep that registered form available while this bridge is in use. This URL is not a credential.
