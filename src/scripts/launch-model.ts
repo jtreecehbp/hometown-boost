@@ -5,8 +5,11 @@ import { TessellateModifier } from "three/addons/modifiers/TessellateModifier.js
 import type { FlightPose } from "./launch-motion.ts";
 import { createSkyLandmarks, updateSkyLandmarks } from "./launch-landmarks.ts";
 import type { SkyLandmarks } from "./launch-landmarks.ts";
+import { createCinema, updateCinema } from "./launch-cinema.ts";
+import type { Cinema, Storefront } from "./launch-cinema.ts";
+import { REST_HEIGHT } from "./launch-motion.ts";
 
-export const REST_HEIGHT = 3.6;
+export { REST_HEIGHT } from "./launch-motion.ts";
 
 export interface LaunchWorld {
   scene: THREE.Scene;
@@ -18,6 +21,8 @@ export interface LaunchWorld {
   smoke: THREE.InstancedMesh;
   clouds: THREE.InstancedMesh;
   landmarks: SkyLandmarks;
+  cinema: Cinema;
+  townWindows: THREE.MeshStandardMaterial;
   engineLight: THREE.PointLight;
   van: THREE.Group;
   dispose: () => void;
@@ -25,6 +30,9 @@ export interface LaunchWorld {
 
 const up = new THREE.Vector3(0, 1, 0);
 const dummy = new THREE.Object3D();
+const direction = new THREE.Vector3();
+const morningWindow = new THREE.Color("#bde7f6");
+const connectedWindow = new THREE.Color("#ffd6a1");
 const seed = (n: number) => {
   const value = Math.sin(n * 127.1 + 311.7) * 43758.5453;
   return value - Math.floor(value);
@@ -262,6 +270,8 @@ export function createLaunchWorld(compact = false): LaunchWorld {
     );
   }
 
+  const shopFronts: Storefront[] = [];
+  const businesses: THREE.Vector3[] = [];
   const shop = (
     x: number,
     z: number,
@@ -305,6 +315,13 @@ export function createLaunchWorld(compact = false): LaunchWorld {
       box(building, 0.48, 0.23, 0.6, steel, -0.5, height + 0.32, -0.3);
     }
     const front = 1.27;
+    shopFronts.push({
+      position: new THREE.Vector3(-width * 0.2, 1.06, front + 0.1)
+        .applyAxisAngle(up, rotation).add(new THREE.Vector3(x, 0, z)),
+      rotation, width: width * 0.46,
+    });
+    businesses.push(new THREE.Vector3(width * 0.26, 0.24, front + 0.25)
+      .applyAxisAngle(up, rotation).add(new THREE.Vector3(x, 0, z)));
     box(building, 0.48, 1.3, 0.055, matte("#17364b"), width * 0.26, 0.7, front);
     box(
       building,
@@ -672,17 +689,17 @@ export function createLaunchWorld(compact = false): LaunchWorld {
   );
   clouds.name = "altitude-clouds";
   for (let i = 0; i < clouds.count; i++) {
-    const band = Math.floor(i / 15),
-      angle = i * 2.399;
-    const radius = 8 + seed(i + 30) * 18;
+    const cloudDeck = i < clouds.count * 0.75;
+    const angle = i * 2.399;
+    const radius = 7 + seed(i + 30) * 27;
     dummy.position.set(
       Math.sin(angle) * radius,
-      17 + band * 7 + seed(i + 12) * 2,
+      cloudDeck ? 31 + seed(i + 12) * 4 : 17 + seed(i + 12) * 35,
       Math.cos(angle) * radius - 6,
     );
     dummy.rotation.set(0, angle, 0);
-    const size = 1.5 + seed(i + 200) * 3.5;
-    dummy.scale.set(size * 1.7, size * 0.3, size);
+    const size = cloudDeck ? 3.2 + seed(i + 200) * 3.8 : 1.5 + seed(i + 200) * 3.5;
+    dummy.scale.set(size * 1.4, size * 0.43, size);
     dummy.updateMatrix();
     clouds.setMatrixAt(i, dummy.matrix);
   }
@@ -691,6 +708,8 @@ export function createLaunchWorld(compact = false): LaunchWorld {
 
   const landmarks = createSkyLandmarks(compact);
   scene.add(landmarks.root);
+  const cinema = createCinema(compact, shopFronts, businesses, landmarks.satellite);
+  scene.add(cinema.root);
 
   const van = new THREE.Group();
   van.name = "local-service-van";
@@ -765,6 +784,8 @@ export function createLaunchWorld(compact = false): LaunchWorld {
     smoke,
     clouds,
     landmarks,
+    cinema,
+    townWindows: windowLight,
     engineLight,
     van,
     dispose,
@@ -778,10 +799,10 @@ export function updateLaunchWorld(
   portrait = false,
 ) {
   updateSkyLandmarks(world.landmarks, pose.lift, time, portrait);
-  world.rocket.position.y = REST_HEIGHT + pose.lift;
-  // No physical sway at rest, and no drift in the scroll-driven vertical position.
-  world.rocket.rotation.z =
-    Math.sin(time * 0.7) * 0.012 * Math.min(1, pose.lift / 10);
+  updateCinema(world.cinema, pose, time);
+  world.rocket.position.set(pose.x, REST_HEIGHT + pose.lift, pose.z);
+  world.rocket.rotation.set(pose.pitch, 0,
+    pose.bank + Math.sin(time * 0.7) * 0.009 * Math.min(1, pose.lift / 10));
   world.exhaust.visible = pose.ignition > 0.005;
   world.exhaust.scale.set(
     1,
@@ -800,13 +821,13 @@ export function updateLaunchWorld(
       0.76 * pose.smoke;
     for (let i = 0; i < world.smoke.count; i++) {
       const angle = i * 2.399 + Math.sin(time * 0.16 + i) * 0.04;
-      const expansion = pose.smoke * (1.3 + seed(i + 17) * 4.2);
+      const expansion = pose.smoke * (1.4 + seed(i + 17) * 7);
       dummy.position.set(
         Math.sin(angle) * expansion,
-        0.28 + seed(i + 33) * 0.8 + Math.sin(time * 0.65 + i) * 0.06,
+        0.4 + seed(i + 33) * 1.25 + Math.sin(time * 0.65 + i) * 0.06,
         Math.cos(angle) * expansion,
       );
-      const size = (0.36 + seed(i + 51) * 0.76) * pose.smoke;
+      const size = (0.55 + seed(i + 51) * 1.2) * pose.smoke;
       dummy.scale.set(size * 1.3, size * 0.8, size);
       dummy.rotation.set(i, angle, 0);
       dummy.updateMatrix();
@@ -815,8 +836,14 @@ export function updateLaunchWorld(
     world.smoke.instanceMatrix.needsUpdate = true;
   }
   world.clouds.position.x = Math.sin(time * 0.025) * 0.65;
-  world.van.position.z = Math.sin(time * 0.07) * 3;
-  world.van.rotation.y = Math.cos(time * 0.07) >= 0 ? 0 : Math.PI;
+  (world.clouds.material as THREE.MeshStandardMaterial).opacity = 0.56 * (1 - pose.overlook * 0.9);
+  (world.scene.fog as THREE.FogExp2).density = 0.008 + pose.cloud * 0.025 - pose.overlook * 0.005;
+  world.townWindows.color.copy(morningWindow).lerp(connectedWindow, pose.network);
+  world.townWindows.emissiveIntensity = 0.08 + pose.network * 0.5;
+  const roadProgress = (time * 0.016 + 0.18) % 1;
+  world.cinema.vanRoute.getPointAt(roadProgress, world.van.position);
+  world.cinema.vanRoute.getTangentAt(roadProgress, direction);
+  world.van.rotation.y = Math.atan2(direction.x, direction.z);
   world.scene.updateMatrixWorld(true);
 }
 
@@ -831,21 +858,23 @@ export function frameLaunchCamera(
   const aspect = Math.max(1, width) / Math.max(1, height),
     mobile = aspect < 0.9;
   camera.aspect = aspect;
-  camera.fov = 39;
-  const distance = pose.distance * (mobile && !centered ? 1.48 : 1);
+  camera.fov = pose.fov + (mobile && !centered ? pose.overlook * 7 : 0);
+  const distance = pose.distance * (mobile && !centered ? 1.48 + pose.overlook * 0.25 : 1);
+  const focusX = pose.x * (1 - pose.overlook), focusZ = pose.z * (1 - pose.overlook);
   camera.position.set(
-    Math.sin(pose.orbit) * distance,
+    focusX + Math.sin(pose.orbit) * distance,
     pose.lift + pose.lookHeight + pose.elevation,
-    Math.cos(pose.orbit) * distance,
+    focusZ + Math.cos(pose.orbit) * distance,
   );
-  camera.lookAt(0, pose.lift + pose.lookHeight, 0);
+  camera.lookAt(focusX, pose.lift + pose.lookHeight, focusZ);
+  camera.rotateZ(pose.cameraRoll * (mobile ? 0.5 : 1));
   if (centered) camera.clearViewOffset();
   else
     camera.setViewOffset(
       width,
       height,
-      -width * (mobile ? 0.07 : 0.2),
-      -height * (mobile ? 0.23 : 0.01),
+      -width * (mobile ? 0.07 * (1 - pose.overlook) : 0.2 - pose.sceneOpen * 0.06),
+      -height * (mobile ? 0.23 - pose.overlook * 0.1 : 0.01),
       width,
       height,
     );

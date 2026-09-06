@@ -2,6 +2,7 @@ import { createLaunchRenderer } from "./launch-renderer";
 import {
   approachProgress,
   chapterLabels,
+  chapterProgress,
   progressFromAnchors,
   sampleFlight,
 } from "./launch-motion";
@@ -16,6 +17,7 @@ export function mountLaunch(root: HTMLElement) {
     ...root.querySelectorAll<HTMLElement>("[data-flight-stop]"),
   ];
   const links = [...root.querySelectorAll<HTMLElement>("[data-chapter-link]")];
+  const beats = [...root.querySelectorAll<HTMLElement>("[data-flight-cue]")];
   const controls = root.querySelector<HTMLElement>("[data-launch-controls]")!;
   const pauseButton = root.querySelector<HTMLButtonElement>(
     "[data-launch-pause]",
@@ -38,6 +40,7 @@ export function mountLaunch(root: HTMLElement) {
   let disposed = false;
   let active = false;
   let anchors: number[] = [];
+  let cues: number[] = [];
   let target = 0,
     progress = 0,
     time = 0,
@@ -97,11 +100,8 @@ export function mountLaunch(root: HTMLElement) {
     if (!frameId && canAnimate()) frameId = requestAnimationFrame(tick);
   };
   const onScroll = () => {
-    target = progressFromAnchors(window.scrollY, anchors);
-    const index = Math.min(
-      chapters.length - 1,
-      Math.floor(target * (chapters.length - 1) + 0.35),
-    );
+    target = progressFromAnchors(window.scrollY, anchors, cues);
+    const index = Math.max(0, chapterProgress.findLastIndex(at => target >= at - 0.025));
     if (index !== chapterIndex) {
       chapterIndex = index;
       label.textContent = chapterLabels[index];
@@ -126,16 +126,14 @@ export function mountLaunch(root: HTMLElement) {
     if (disposed) return;
     const scroll = window.scrollY;
     // Place a chapter when its heading reaches the clear area under the header.
-    anchors = chapters.map((chapter, i) =>
-      i === 0
-        ? 0
-        : Math.max(
-            0,
-            chapter.getBoundingClientRect().top +
-              scroll -
-              window.innerHeight * 0.15,
-          ),
-    );
+    const timeline = [
+      ...chapters.map((element, i) => ({ element, at: chapterProgress[i] })),
+      ...beats.filter(element => element.offsetHeight !== 0)
+        .map(element => ({ element, at: Number(element.dataset.flightCue) })),
+    ].filter(cue => Number.isFinite(cue.at)).sort((a, b) => a.at - b.at);
+    anchors = timeline.map(({ element, at }) => at === 0 ? 0 : Math.max(0,
+      element.getBoundingClientRect().top + scroll - window.innerHeight * 0.15));
+    cues = timeline.map(cue => cue.at);
     end = root.getBoundingClientRect().bottom + scroll;
     graphics.resize();
     onScroll();
@@ -148,6 +146,7 @@ export function mountLaunch(root: HTMLElement) {
   // Observing sections also catches open FAQ answers, font loading, and text zoom.
   resizeObserver.observe(viewport);
   chapters.forEach((chapter) => resizeObserver.observe(chapter));
+  beats.forEach((beat) => resizeObserver.observe(beat));
 
   function dispose() {
     if (disposed) return;

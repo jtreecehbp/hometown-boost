@@ -64,6 +64,10 @@ export function createLaunchRenderer(viewport: HTMLElement, compact: boolean) {
     render(pose: FlightPose, time: number, centered = false) {
       updateLaunchWorld(world, pose, time, width / height < 0.9);
       frameLaunchCamera(camera, pose, width, height, centered);
+      if (!centered) {
+        viewport.parentElement?.style.setProperty("--cloud-cover", String(pose.cloud));
+        viewport.parentElement?.style.setProperty("--scene-open", String(pose.sceneOpen));
+      }
       renderer.render(world.scene, camera);
     },
     dispose() {

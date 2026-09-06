@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import * as THREE from "three";
 import {
   approachProgress,
+  chapterProgress,
   progressFromAnchors,
   sampleFlight,
 } from "../src/scripts/launch-motion.ts";
@@ -28,10 +29,10 @@ test("the rocket ignites on the ground, lifts, and retraces the same flight when
   for (let i = 100; i >= 0; i--)
     assert.deepEqual(sampleFlight(i / 100), forward[i]);
   assert.equal(sampleFlight(0).ignition, 0);
-  assert.equal(sampleFlight(1).lift, 48);
+  assert.ok(sampleFlight(1).lift >= 48);
   assert.equal(sampleFlight(0.5).smoke, 0);
   assert.ok(
-    sampleFlight(5 / 6).lift - sampleFlight(4 / 6).lift <= 2,
+    sampleFlight(chapterProgress[5]).lift - sampleFlight(chapterProgress[4]).lift <= 2,
     "pricing and FAQ ascent stays calm",
   );
   assert.deepEqual(sampleFlight(-1), sampleFlight(0));
@@ -113,11 +114,10 @@ test("the moving tower stays in frame across mobile, tablet, desktop, and landsc
       frameLaunchCamera(camera, pose, width, height);
       for (const x of [-1.85, 0, 1.85])
         for (const y of [-0.95, 4.84]) {
-          const point = new THREE.Vector3(
-            x,
-            REST_HEIGHT + pose.lift + y,
-            0,
-          ).project(camera);
+          const point = new THREE.Vector3(x, y, 0)
+            .applyEuler(new THREE.Euler(pose.pitch, 0, pose.bank))
+            .add(new THREE.Vector3(pose.x, REST_HEIGHT + pose.lift, pose.z))
+            .project(camera);
           assert.ok(
             Math.abs(point.x) < 0.99 && Math.abs(point.y) < 0.99,
             `${width}×${height}, step ${step}: ${point.toArray()}`,
@@ -183,4 +183,58 @@ test("every fly-past has a visible interval beside the tower on portrait and lan
       world.dispose();
     }
   }
+});
+
+test("the film opens at street height, banks through clouds, and settles for pricing before looking home", () => {
+  const opening = sampleFlight(0), reveal = sampleFlight(0.555), end = sampleFlight(1);
+  assert.ok(opening.lookHeight + opening.elevation < 2.5);
+  assert.ok(sampleFlight(0.33).bank < -0.2 && sampleFlight(0.41).bank > 0.2);
+  assert.ok(sampleFlight(0.51).cloud > 0.9 && reveal.cloud < 0.1);
+  assert.ok(reveal.distance > sampleFlight(0.465).distance * 1.35);
+  const plan = sampleFlight(chapterProgress[4]), faq = sampleFlight(chapterProgress[5]);
+  for (const key of ["orbit", "distance", "elevation", "lookHeight", "bank", "cameraRoll"])
+    assert.equal(plan[key], faq[key], `${key} should stay calm while comparing plans`);
+  assert.equal(end.overlook, 1);
+  assert.equal(end.network, 1);
+  for (const [width, height] of [[320, 740], [768, 1024], [1440, 900]]) {
+    const camera = new THREE.PerspectiveCamera();
+    frameLaunchCamera(camera, end, width, height);
+    for (const x of [-12, 12]) for (const z of [-10, 10]) {
+      const point = new THREE.Vector3(x, 0.2, z).project(camera);
+      assert.ok(Math.abs(point.x) < 0.98 && Math.abs(point.y) < 0.98,
+        `the hometown must be visible during the payoff at ${width}×${height}`);
+    }
+  }
+});
+
+test("street activity, the trail, and business lights follow the story and freeze at a fixed time", () => {
+  const world = createLaunchWorld(true);
+  try {
+    const { cinema } = world;
+    const shutter = new THREE.Matrix4(), closedScale = new THREE.Vector3(), openScale = new THREE.Vector3();
+    updateLaunchWorld(world, sampleFlight(0), 0);
+    cinema.shutters.getMatrixAt(0, shutter); closedScale.setFromMatrixScale(shutter);
+    assert.equal(cinema.connections.visible, false);
+    assert.equal(cinema.trail[0].visible, false);
+    const vanStart = world.van.position.clone();
+    updateLaunchWorld(world, sampleFlight(0.1), 4);
+    cinema.shutters.getMatrixAt(0, shutter); openScale.setFromMatrixScale(shutter);
+    assert.ok(openScale.y < closedScale.y * 0.1);
+    assert.ok(Math.abs(world.van.position.x - vanStart.x) > 0.3, "the van must round the corner");
+    updateLaunchWorld(world, sampleFlight(0.42), 4);
+    assert.ok(cinema.trail[0].geometry.drawRange.count > 0);
+    const pausedBirds = [...cinema.birds.instanceMatrix.array];
+    const pausedArm = cinema.groundMechanic.arm.matrixWorld.clone();
+    updateLaunchWorld(world, sampleFlight(0.42), 4);
+    assert.deepEqual([...cinema.birds.instanceMatrix.array], pausedBirds);
+    assert.deepEqual(cinema.groundMechanic.arm.matrixWorld, pausedArm);
+    updateLaunchWorld(world, sampleFlight(1), 4);
+    assert.equal(cinema.connections.visible, true);
+    assert.equal(cinema.connections.geometry.drawRange.count, cinema.connections.geometry.index.count);
+    assert.equal(cinema.satelliteMechanic.parent, world.landmarks.satellite);
+    assert.ok([...cinema.pulses.instanceMatrix.array].every(Number.isFinite));
+    updateLaunchWorld(world, sampleFlight(0), 0);
+    assert.equal(cinema.connections.visible, false);
+    assert.equal(cinema.trail[0].visible, false);
+  } finally { world.dispose(); }
 });

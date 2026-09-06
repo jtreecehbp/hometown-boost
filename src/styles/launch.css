@@ -66,9 +66,18 @@ body.has-launch-story {
   filter: drop-shadow(0 24px 36px #356b9726);
 }
 .launch-stage.is-ready .launch-stage__fallback { opacity: 0; }
+.launch-stage__cloud-pass {
+  position: absolute;
+  inset: 0;
+  background: #f8fcff;
+  opacity: var(--cloud-cover, 0);
+  pointer-events: none;
+}
+.launch-stage:not(.is-ready) .launch-stage__cloud-pass { opacity: 0; }
 .launch-stage__shade {
   position: absolute;
   inset: 0;
+  opacity: calc(1 - var(--scene-open, 0) * .8);
   background:
     linear-gradient(90deg, #f7fbff 0, #f7fbfff7 23%, #f7fbffb8 40%, #f7fbff12 62%, transparent 78%),
     linear-gradient(0deg, #edf7fc9c, transparent 25%, transparent 87%, #f5faff4d);
@@ -78,6 +87,30 @@ body.has-launch-story {
   inset: 0;
   box-shadow: inset 0 -45px 90px -55px #f5faff;
 }
+.film-beat {
+  min-height: 85svh;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 0 16svh;
+  position: relative;
+}
+.film-beat__caption {
+  width: fit-content;
+  color: var(--launch-ink);
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 4.6vw, 4.8rem);
+  font-weight: 720;
+  letter-spacing: -.045em;
+  line-height: 1.1;
+  padding: 20px 26px;
+  margin-left: -26px;
+  border-radius: 20px;
+  background: #f7fbffce;
+  backdrop-filter: blur(14px);
+}
+.film-beat__caption em { font-style: normal; color: var(--launch-accent); }
+.film-beat--clouds { min-height: 95svh; }
+.film-beat--homecoming { min-height: 100svh; }
 .flight-chapter {
   position: relative;
   min-height: 110svh;
@@ -378,6 +411,8 @@ body.has-launch-story {
   .launch-stage__shade { background: linear-gradient(90deg, #f7fbfffa, #f7fbffd9 40%, #f7fbff1a 78%); }
 }
 @media (max-width: 680px) {
+  .film-beat { min-height: 85svh; padding-bottom: 16svh; }
+  .film-beat__caption { font-size: clamp(2.2rem, 9vw, 3.1rem); padding: 16px 20px; margin-left: 0; }
   .flight-chapter { min-height: 115svh; padding: 75px 0; scroll-margin-top: 70px; }
   .flight-chapter__inner { width: calc(100% - 40px); }
   .launch-hero { min-height: calc(115svh - 74px); align-items: flex-start; padding: 44px 0 270px; }
@@ -425,5 +460,6 @@ body.has-launch-story {
   .launch-plans { background: #f5faff66; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .film-beat { min-height: auto; padding: 55px 0; }
   .launch-stage__canvas, .launch-stage__fallback, .launch-chapters, .launch-controls { transition: none; }
 }

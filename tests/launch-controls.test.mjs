@@ -19,7 +19,7 @@ const compiled = ts.transpileModule(
 ).outputText;
 
 // A small event/renderer fixture tests behavior without a browser or a GPU.
-function fixture({ reduced = false, unavailable = false } = {}) {
+function fixture({ reduced = false, unavailable = false, withBeats = false } = {}) {
   const element = () => {
     const handlers = new Map(),
       classes = new Set(),
@@ -79,6 +79,10 @@ function fixture({ reduced = false, unavailable = false } = {}) {
     getBoundingClientRect: () => ({ top: top - window.scrollY }),
   }));
   const links = heights.map(() => element());
+  const beats = withBeats ? [[1500, 0.24], [2500, 0.525], [6100, 0.935]].map(([top, at]) => ({
+    ...element(), offsetHeight: 600, dataset: { flightCue: String(at) },
+    getBoundingClientRect: () => ({ top: top - window.scrollY }),
+  })) : [];
   const selectors = {
     "[data-launch-stage]": stage,
     "[data-launch-canvas]": viewport,
@@ -89,7 +93,7 @@ function fixture({ reduced = false, unavailable = false } = {}) {
   };
   root.querySelector = (selector) => selectors[selector];
   root.querySelectorAll = (selector) =>
-    selector === "[data-flight-stop]" ? chapters : links;
+    selector === "[data-flight-stop]" ? chapters : selector === "[data-flight-cue]" ? beats : links;
   root.getBoundingClientRect = () => ({ bottom: 8000 - window.scrollY });
   const renders = [],
     canvas = element(),
@@ -261,4 +265,25 @@ test("WebGL failure keeps the emblem fallback and hides unavailable animation co
   } finally {
     app.cleanup();
   }
+});
+
+test("cinematic interludes land on their own cues and retrace without changing navigation", () => {
+  const app = fixture({ withBeats: true });
+  try {
+    app.scroll(1365);
+    app.advance();
+    assert.equal(app.renders.at(-1).pose.progress, 0.24);
+    assert.equal(app.label.textContent, "Your website");
+    assert.ok(app.renders.at(-1).pose.smoke > 0.9);
+    app.scroll(2365);
+    app.advance();
+    assert.ok(app.renders.at(-1).pose.cloud > 0.5);
+    app.scroll(5965);
+    app.advance();
+    assert.ok(app.renders.at(-1).pose.overlook > 0.6);
+    app.scroll(1365);
+    app.advance();
+    assert.equal(app.renders.at(-1).pose.progress, 0.24);
+    assert.equal(app.renders.at(-1).pose.network, 0);
+  } finally { app.cleanup(); }
 });
