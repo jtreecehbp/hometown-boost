@@ -1,7 +1,8 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import Button from '../components/ui/Button.astro';
+import SceneWindow from '../components/SceneWindow.astro';
 ---
 <MainLayout title="Thank You | Hometown Boost" description="We’ll review your inquiry and reply by email with a clear next step." robots="noindex,follow">
-  <div class="container"><section class="success-panel"><span class="success-icon" aria-hidden="true">✓</span><span class="eyebrow" style="margin-top:28px">HERE’S TO YOUR NEXT CHAPTER.</span><h1>Thanks for<br />saying hello.</h1><p>We’ll review your inquiry and reply by email with a clear next step. We look forward to learning more about your business.</p><div class="actions"><Button href="/">Back to hometown <span aria-hidden="true">↗</span></Button><Button href="/resources/" variant="outline">Explore our resources</Button></div></section></div>
+  <div class="container success-layout"><section class="success-panel"><span class="success-icon" aria-hidden="true">✓</span><span class="eyebrow" style="margin-top:28px">HERE’S TO YOUR NEXT CHAPTER.</span><h1>Thanks for<br />saying hello.</h1><p>We’ll review your inquiry and reply by email with a clear next step. We look forward to learning more about your business.</p><div class="actions"><Button href="/">Back to hometown <span aria-hidden="true">↗</span></Button><Button href="/resources/" variant="outline">Explore our resources</Button></div></section><SceneWindow/></div>
 </MainLayout>

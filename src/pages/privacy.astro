@@ -1,19 +1,20 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import Section from "../components/ui/Section.astro";
+import SceneWindow from '../components/SceneWindow.astro';
 import { pageMetadata } from "../data/metadata";
 import { siteConfig } from "../data/siteConfig";
 ---
 
 <MainLayout title={pageMetadata.privacy.title} description={pageMetadata.privacy.description}>
   <section class="hero">
-    <div class="container">
+    <div class="container page-hero__layout">
       <div class="hero__content">
         <h1>Privacy Policy</h1>
         <p>Your privacy matters to us. This page explains the basic types of information Hometown Boost may collect and how it may be used.</p>
         <p class="note">Last updated: September 4, 2026</p>
       </div>
-
+      <SceneWindow/>
     </div>
   </section>
 

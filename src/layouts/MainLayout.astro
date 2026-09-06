@@ -2,6 +2,8 @@
 import BaseHead from "../components/layout/BaseHead.astro";
 import Header from "../components/layout/Header.astro";
 import Footer from "../components/layout/Footer.astro";
+import PageBackdrop from '../components/PageBackdrop.astro';
+import { pageSceneForPath } from '../data/pageScenes';
 import "../styles/global.css";
 import '@fontsource-variable/manrope';
 import '@fontsource-variable/inter';
@@ -23,6 +25,7 @@ interface Props {
 }
 
 const { title, description, canonical, image, imageAlt, imageWidth, imageHeight, ogType, robots, schema, immersive = false } = Astro.props;
+const pageScene = immersive ? undefined : pageSceneForPath(Astro.url.pathname);
 ---
 
 <!doctype html>
@@ -41,11 +44,11 @@ const { title, description, canonical, image, imageAlt, imageWidth, imageHeight,
       schema={schema}
     />
   </head>
-  <body class:list={{ 'has-launch-story': immersive }}>
+  <body class:list={{ 'has-launch-story': immersive, 'has-page-scene': !!pageScene }}>
     <a class="skip-link" href="#main-content">Skip to main content</a>
     <Header />
     <main id="main-content">
-      <slot />
+      {pageScene ? <><PageBackdrop scene={pageScene}/><div class="page-content"><slot /></div></> : <slot />}
     </main>
     <Footer />
     <script>

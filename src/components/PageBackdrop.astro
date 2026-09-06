@@ -1,0 +1,20 @@
+---
+import { pageScenes } from '../data/pageScenes';
+import type { PageSceneId } from '../data/pageScenes';
+import '../styles/page-scenes.css';
+interface Props { scene: PageSceneId; }
+const { scene } = Astro.props;
+---
+<div class="page-scene" data-page-scene={scene} data-scene-mood={pageScenes[scene].mood}>
+  <div class="page-scene__pin" data-scene-pin aria-hidden="true">
+    <div class="page-scene__viewport" data-page-viewport></div>
+  </div>
+  <div class="page-scene__controls" data-page-scene-controls hidden>
+    <button type="button" data-page-scene-pause aria-pressed="false" aria-label={`Pause background animation: ${pageScenes[scene].label}`}>Pause motion <span aria-hidden="true">Ⅱ</span></button>
+  </div>
+</div>
+<script>
+  import { mountPageScene } from '../scripts/page-scene';
+  const host = document.querySelector<HTMLElement>('[data-page-scene]');
+  if (host) mountPageScene(host);
+</script>

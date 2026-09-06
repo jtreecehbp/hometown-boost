@@ -2,14 +2,14 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import Button from '../components/ui/Button.astro';
 import Section from '../components/ui/Section.astro';
-import TownScene from '../components/TownScene.astro';
+import SceneWindow from '../components/SceneWindow.astro';
 import WebsiteDemo from '../components/WebsiteDemo.astro';
 import CTASection from '../components/ui/CTASection.astro';
 import {services} from '../data/services';
 import {pageMetadata} from '../data/metadata';
 ---
 <MainLayout {...pageMetadata.services}>
-  <section class="page-hero"><div class="container page-intro"><div><span class="eyebrow">ONE LESS THING ON YOUR PLATE.</span><h1>Your online presence.<br />All taken care of.</h1><p>A website that looks the part. Local visibility that connects the dots. Ongoing help to keep things moving.</p><div class="actions"><Button href="/contact/">Find my plan <span aria-hidden="true">↗</span></Button><Button href="/pricing/" variant="outline">See our plans</Button></div></div><TownScene compact/></div></section>
+  <section class="page-hero"><div class="container page-intro"><div><span class="eyebrow">ONE LESS THING ON YOUR PLATE.</span><h1>Your online presence.<br />All taken care of.</h1><p>A website that looks the part. Local visibility that connects the dots. Ongoing help to keep things moving.</p><div class="actions"><Button href="/contact/">Find my plan <span aria-hidden="true">↗</span></Button><Button href="/pricing/" variant="outline">See our plans</Button></div></div><SceneWindow/></div></section>
   <Section eyebrow="THE PIECES THAT WORK TOGETHER." title="Small business support. From the ground up.">
     {services.map((service,i)=><article class="editorial-row"><span class="editorial-row__number">0{i+1} /</span><h3>{service.title}</h3><div><p>{service.details}</p><a class="text-link" href={i===5?'/google-ads/':'/pricing/'}>{i===5?'Explore Google Ads':'Find your level of support'} <span aria-hidden="true">↗</span></a></div></article>)}
   </Section>

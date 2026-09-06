@@ -1,13 +1,13 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import TownScene from '../components/TownScene.astro';
+import SceneWindow from '../components/SceneWindow.astro';
 import Section from '../components/ui/Section.astro';
 import Button from '../components/ui/Button.astro';
 import CTASection from '../components/ui/CTASection.astro';
 import {pageMetadata} from '../data/metadata';
 ---
 <MainLayout {...pageMetadata.about}>
-  <section class="page-hero"><div class="container page-intro"><div><span class="eyebrow">ROOTING FOR THE HOME TEAM.</span><h1>Small businesses make a hometown.</h1><p>The people who fix the heat. Care for the yard. Open the shop. We help those businesses show up online with the same care they put into their work.</p><div class="actions"><Button href="/contact/">Tell us your story <span aria-hidden="true">↗</span></Button></div></div><TownScene compact/></div></section>
+  <section class="page-hero"><div class="container page-intro"><div><span class="eyebrow">ROOTING FOR THE HOME TEAM.</span><h1>Small businesses make a hometown.</h1><p>The people who fix the heat. Care for the yard. Open the shop. We help those businesses show up online with the same care they put into their work.</p><div class="actions"><Button href="/contact/">Tell us your story <span aria-hidden="true">↗</span></Button></div></div><SceneWindow/></div></section>
   <Section><div class="split"><div><span class="eyebrow">WHY HOMETOWN BOOST EXISTS.</span><h2 style="margin-top:22px">Good work deserves<br />a good website.</h2></div><div><p>Local business owners already wear enough hats. Web design, hosting, and keeping a website updated shouldn’t need to be three more.</p><p>Hometown Boost brings that work together in a straightforward monthly plan: a professional website, hosting and maintenance, and practical local visibility support as you need it.</p><p>With no setup fee, the build and ongoing support are spread across your plan’s minimum term. You can see the price, scope, and commitment before getting in touch.</p></div></div></Section>
   <Section variant="light" eyebrow="HOW WE SHOW UP." title="Practical help. Personal attention. Clear expectations.">
     <div class="grid grid--3"><article class="card"><span class="eyebrow">01 / PLAIN SPOKEN</span><h3>Answers you can use.</h3><p>We explain the work, what’s included, and what comes next. You should understand what you’re paying for.</p></article><article class="card"><span class="eyebrow">02 / LOCAL MINDED</span><h3>Built around your customers.</h3><p>Your services, your service area, and the details that help a neighbor choose your business.</p></article><article class="card"><span class="eyebrow">03 / HERE FOR THE UPKEEP</span><h3>Support beyond launch day.</h3><p>Your website needs care as your business changes. Hosting, maintenance, and plan-based updates stay on our list.</p></article></div>

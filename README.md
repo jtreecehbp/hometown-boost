@@ -36,10 +36,34 @@ The site-output tests inspect `dist`, so build first. For the active Coolify con
 - `src/scripts/launch-motion.ts` maps measured sections and weighted scene cues to one deterministic timeline. Tall mobile pricing cards and expanded FAQ answers retain their chapter timing. The tank and roof separate from fixed steel supports, and reverse scrolling retraces the same path.
 - `src/scripts/launch-cinema.ts` supplies opening storefront shutters, birds that scatter during ignition, the van’s curved street route, a baked orange exhaust trail, and warm connections spreading among the businesses at the end. A waving mechanic appears beside the launch pad and again on the satellite. All activity shares the existing pause and reduced-motion controls. `scene-sculpt.ts` batches the small model details; no additional image downloads or render loop is required.
 - The homepage has chapter links and a pause/play control. Reduced motion starts with a grounded, stationary scene; playing is optional. Rendering pauses offscreen and in background tabs, resumes after page-cache restoration, and falls back to the emblem if WebGL is unavailable or its context is lost. Pixel density and frame rate are capped for mobile.
-- Services and about reuse the same town with a quieter camera, desktop dragging, and accessible rotation and pause controls. Other routes do not load the 3D scene.
+- Each of the other 16 pages has its own miniature scene, camera composition, and scroll choreography. `src/data/pageScenes.ts` maps routes to distinct modules in `src/scripts/page-scenes/`; the homepage retains its continuous rocket story.
+- Supporting scenes begin in a reserved space beside the introduction, then move toward the edge and soften as readers scroll. Prices, articles, legal text, and form fields remain normal HTML. The background cannot capture scrolling or cover links. One shared renderer and one model module load near the scene's viewport; the graphics library is shared with the homepage and cached across routes.
+- Reduced-motion and data-saving preferences keep the static emblem and skip the supporting scene download until Play is chosen. Pause freezes the choreography. Background tabs, the footer, page-cache suspension, and contact-form focus stop the render loop. Context failure retains the emblem and useful page content.
 - The supplied logo was developed into a 3D image and an image-generation cutout. The source cutout is `public/images/hometown-boost/hb-rocket-emblem.png`; optimized display and navigation assets are `hb-rocket-emblem.webp` and `hb-rocket-mark.webp` in the same directory. `public/favicon.png` uses the same tower. The 3D scene itself uses native geometry, not the flat image.
 - Existing social-preview artwork and metadata are preserved.
 - The sample landscaping website is explicitly labeled as an illustrative concept, not a client project.
+
+## Page animations
+
+| Page | Scene |
+| --- | --- |
+| Home | The HB tower's cinematic flight from town to clouds and back toward home |
+| Services | Website pieces assemble in a miniature workshop; the support gear turns |
+| Pricing | Four platforms rise to different levels of support |
+| How it works | A brief, website, approval mark, and launch parcel move through a production line |
+| Industries | A delivery van circles a neighborhood of different storefronts |
+| About | Local roots connect a growing tree to nearby businesses |
+| Google Ads | A search signal sweeps across a miniature local map |
+| FAQ | Answer cards unfold beneath a sculpted question mark |
+| Resources | An open book turns a page beneath floating bookmarks |
+| Contact | A paper plane follows a curved path toward a hometown mailbox |
+| Thank you | A check rises from an open envelope as ribbons settle around it |
+| Privacy | A closed lock, slow combination dial, and protective perimeter |
+| Terms | Pages align beside a scope ruler and an agreement seal settles into place |
+| Website essentials guide | Foundations slide beneath a desktop website and mobile view |
+| Google Business Profile guide | A magnifier explores a storefront beside its listing and location pin |
+| Old website guide | A broken contact path reconnects a website to a ringing phone |
+| Website versus Google Ads guide | Two colored routes carry signals toward one business |
 
 ## Inquiry delivery
 
@@ -67,5 +91,7 @@ First-touch page, referring page, and campaign tags are retained in session stor
 ## Verification
 
 Automated tests cover inquiry prefills, malformed campaign storage, unknown plan values, disabled preview delivery, accepted/rejected/offline requests, duplicate submission protection, all 17 pages, internal links and assets, metadata, schema JSON, pricing commitments, and form registration. Server tests use a mocked provider to verify forwarding, failure handling, validation, health checks, gzip, no-index headers, and path containment. Flight tests check reversible ascent, stationary supports, section timing, numeric camera framing at seven screen sizes, finite geometry, and a bounded draw-call count. Controller tests use mocked rendering to exercise pause, reduced motion, background suspension, page caching, and WebGL failure/restoration. These are local behavioral, geometry, and static-output checks; they do not submit a real inquiry or perform browser visual QA.
+
+Supporting-page tests additionally verify unique models and complete route coverage, actual projected geometry on phone/tablet/desktop, bounded geometry complexity, reversible movement, deferred loading, explicit Play under reduced motion/data saving, form-focus suspension, and cleanup after delayed loads. Each page has one reserved scene window and one canvas, with no duplicate homepage or legacy town renderer.
 
 The 3D runtime is loaded separately from the page. Text, navigation, pricing, and forms render without waiting for it. The homepage emblem is about 142 KB and the navigation emblem is about 7 KB; the full-resolution PNG is retained as a source asset.
