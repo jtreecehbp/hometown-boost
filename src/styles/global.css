@@ -27,6 +27,7 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
+  overflow-wrap: anywhere;
   line-height: 1.1;
   letter-spacing: -0.055em;
   font-weight: 750;
@@ -780,7 +781,7 @@ select:focus-visible {
 .website-demo__hero {
   padding: 45px 0 30px;
 }
-.website-demo__hero > span {
+.website-demo__hero > span:not(.demo-button) {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -2140,6 +2141,11 @@ select:focus-visible {
   }
   .form-grid {
     gap: 17px;
+    grid-template-columns: 1fr;
+  }
+  .page-intro .actions {
+    flex-direction: column;
+    align-items: flex-start;
   }
   .form-field label {
     font-size: 12px;

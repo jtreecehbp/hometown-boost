@@ -20,7 +20,7 @@ export function createLaunchRenderer(viewport: HTMLElement, compact: boolean) {
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
   renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.shadowMap.type = THREE.PCFShadowMap;
   renderer.setClearColor(0xd5ecfa, 0);
   renderer.domElement.setAttribute("aria-hidden", "true");
   viewport.appendChild(renderer.domElement);
@@ -35,7 +35,7 @@ export function createLaunchRenderer(viewport: HTMLElement, compact: boolean) {
     const studio = new RoomEnvironment();
     const pmrem = new THREE.PMREMGenerator(renderer);
     try {
-      reflection = pmrem.fromScene(studio, 0.06);
+      reflection = pmrem.fromScene(studio, 0.035, 0.1, 100, { size: compact ? 128 : 256 });
       world.scene.environment = reflection.texture;
     } catch {
       // Direct lights retain the model and scroll experience on limited devices.

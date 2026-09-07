@@ -25,9 +25,11 @@ function fixture({ reduced = false, saveData = false, deferred = false, unavaila
   const document = { ...element(), hidden: false };
   const preference = { ...element(), matches: reduced };
   const scope = element(), host = element(), viewport = element(), pin = element(), anchor = element(), controls = element(), button = element(), form = element();
-  const field = {};
+  const field = {}, table = element();
+  table.contains = object => object === table;
   form.contains = object => object === field;
   scope.querySelector = selector => selector === 'form' ? form : anchor;
+  scope.querySelectorAll = () => [form, table];
   scope.getBoundingClientRect = () => ({ top: 74 - window.scrollY, bottom: 3574 - window.scrollY, height: 3500 });
   pin.getBoundingClientRect = () => ({ left: 0, top: 74, width: 1440, height: 826 });
   anchor.getBoundingClientRect = () => ({ left: 810, top: 180 - window.scrollY, width: 520, height: 440 });
@@ -54,7 +56,7 @@ function fixture({ reduced = false, saveData = false, deferred = false, unavaila
   vm.runInNewContext(compiled, sandbox);
   const dispose = sandbox.exports.mountPageScene(host, factory);
   return {
-    window, document, preference, host, scope, button, controls, form, field, graphics, renders, frames, dispose,
+    window, document, preference, host, scope, button, controls, form, field, table, graphics, renders, frames, dispose,
     get loads() { return loads; }, get disposals() { return disposals; },
     enter() { observers[0].fn([{ isIntersecting: true }]); },
     complete() { complete(); },
@@ -95,12 +97,13 @@ test('reduced motion and data saving do not download 3D until Play is requested'
   }
 });
 
-test('background tabs, the footer, form typing, and page caching suspend animation', async () => {
+test('background tabs, the footer, form and table interaction, and page caching suspend animation', async () => {
   const f = fixture(); f.enter(); await flush(); f.tick(10);
   for (const [suspend, resume] of [
     [() => { f.document.hidden = true; f.document.emit('visibilitychange'); }, () => { f.document.hidden = false; f.document.emit('visibilitychange'); }],
-    [() => f.scroll(3700), () => f.scroll(300)],
+    [() => f.scroll(3200), () => f.scroll(300)],
     [() => f.form.emit('focusin'), () => f.form.emit('focusout', { relatedTarget: null })],
+    [() => f.table.emit('focusin'), () => f.table.emit('focusout', { relatedTarget: null })],
     [() => f.window.emit('pagehide', { persisted: true }), () => f.window.emit('pageshow')],
   ]) {
     const time = f.renders.at(-1).time;
@@ -109,6 +112,10 @@ test('background tabs, the footer, form typing, and page caching suspend animati
   }
   f.form.emit('focusin'); f.form.emit('focusout', { relatedTarget: f.field });
   assert.equal(f.frames.size, 0, 'moving between form fields stays paused');
+  f.scroll(800);
+  assert.equal(f.controls.hidden, true, 'the motion control cannot cover fields during form interaction');
+  f.form.emit('focusout', { relatedTarget: null });
+  assert.equal(f.controls.hidden, false, 'the control returns after leaving the form');
   f.dispose(); assert.equal(f.disposals, 1);
 });
 

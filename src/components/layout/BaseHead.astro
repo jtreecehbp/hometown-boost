@@ -1,5 +1,7 @@
 ---
 import { siteConfig } from "../../data/siteConfig";
+import displayFont from '@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url';
+import bodyFont from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 
 type Schema = Record<string, unknown>;
 
@@ -61,6 +63,8 @@ const schemaItems: Schema[] = [
 {robots && <meta name="robots" content={robots} />}
 <link rel="canonical" href={canonical} />
 <link rel="icon" type="image/png" href="/favicon.png" />
+<link rel="preload" href={displayFont} as="font" type="font/woff2" crossorigin="anonymous" />
+<link rel="preload" href={bodyFont} as="font" type="font/woff2" crossorigin="anonymous" />
 <meta property="og:type" content={ogType} />
 <meta property="og:site_name" content={siteConfig.name} />
 <meta property="og:title" content={title} />

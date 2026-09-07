@@ -11,12 +11,13 @@ const formEndpoint=serverDelivery?'/api/contact':'/';
 <MainLayout {...pageMetadata.contact}>
   <div class="container contact-layout">
     <div class="contact-intro"><span class="eyebrow">A GOOD NEXT STEP STARTS WITH HELLO.</span><h1>Let’s put your business on the map.</h1><p>Tell us a little about your business. We’ll take a look and help you find the right starting point.</p>
+      <div class="contact-jump"><Button href="#request">Start your request <span aria-hidden="true">↗</span></Button></div>
       <SceneWindow/>
       <div class="contact-expectations"><div><span>01 /</span><div><strong>You share the basics.</strong><p>Where you work and what you need.</p></div></div><div><span>02 /</span><div><strong>We review the fit.</strong><p>Your website, goals, and plan options.</p></div></div><div><span>03 /</span><div><strong>You get a clear next step.</strong><p>A recommendation, without obligation.</p></div></div></div>
       <p class="note">Plans from <strong>$99/month</strong> with <strong>$0 setup</strong>.<br />Minimum terms apply. <a class="text-link" href="/pricing/">See plans and commitments ↗</a></p>
       <p style="margin-top:30px;font-size:14px">Prefer to say hello by email?<br /><a class="text-link" href="mailto:hello@hometownboost.com">hello@hometownboost.com ↗</a></p>
     </div>
-    <form class="lead-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action={serverDelivery?'/api/contact':'/thank-you/'} data-form-endpoint={formEndpoint} data-form-enabled={String(formEnabled)}>
+    <form id="request" class="lead-form" tabindex="-1" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action={serverDelivery?'/api/contact':'/thank-you/'} data-form-endpoint={formEndpoint} data-form-enabled={String(formEnabled)}>
       <input type="hidden" name="form-name" value="contact"/>
       <p class="honeypot" aria-hidden="true"><label>Leave this field blank<input name="bot-field" tabindex="-1" autocomplete="off"/></label></p>
       {['landing_page','source_url','referrer','utm_source','utm_medium','utm_campaign','utm_content','utm_term'].map(name=><input type="hidden" name={name} id={name}/>)}
@@ -54,6 +55,10 @@ const formEndpoint=serverDelivery?'/api/contact':'/';
 </MainLayout>
 
 <style>
+  .contact-jump { display: none; }
+  #request { scroll-margin-top: 24px; }
+  @media (max-width: 980px) { .form-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 680px) { .contact-jump { display: block; margin-top: 24px; } }
   .form-receipt { margin-top: 18px; padding: 18px; border: 1px solid #b8d8c9; border-radius: 12px; background: #edf7f1; color: #245640; }
   .form-receipt p { margin-top: 7px; font-size: .9375rem; color: inherit; }
   .form-receipt a { min-height: 44px; margin-top: 8px; color: inherit; }

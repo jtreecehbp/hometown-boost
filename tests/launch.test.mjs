@@ -128,6 +128,17 @@ test("the moving tower stays in frame across mobile, tablet, desktop, and landsc
   }
 });
 
+test('portrait tablets keep the airborne tower beside the left-hand reading panel', () => {
+  const pose = sampleFlight(1 / 3);
+  const camera = new THREE.PerspectiveCamera();
+  frameLaunchCamera(camera, pose, 768, 1024);
+  const tank = new THREE.Vector3(0, 2, 0)
+    .applyEuler(new THREE.Euler(pose.pitch, 0, pose.bank))
+    .add(new THREE.Vector3(pose.x, REST_HEIGHT + pose.lift, pose.z))
+    .project(camera);
+  assert.ok(tank.x > 0.25, 'the tablet composition must not use the centered phone framing');
+});
+
 test("the rocket overtakes world-anchored landmarks and reversing scroll retraces the plane's crossing", () => {
   const world = createLaunchWorld(true);
   try {
@@ -185,9 +196,25 @@ test("every fly-past has a visible interval beside the tower on portrait and lan
   }
 });
 
-test("the film opens at street height, banks through clouds, and settles for pricing before looking home", () => {
+test("the film opens with a clear tower, banks through clouds, and settles for pricing before looking home", () => {
   const opening = sampleFlight(0), reveal = sampleFlight(0.555), end = sampleFlight(1);
-  assert.ok(opening.lookHeight + opening.elevation < 2.5);
+  const world = createLaunchWorld(true);
+  try {
+    updateLaunchWorld(world, opening, 0);
+    world.scene.updateMatrixWorld(true);
+    const camera = new THREE.PerspectiveCamera();
+    const ray = new THREE.Raycaster();
+    for (const [width, height] of [[390, 844], [1440, 900]]) {
+      frameLaunchCamera(camera, opening, width, height);
+      const target = new THREE.Vector3(0, REST_HEIGHT + 0.25, 0);
+      ray.set(camera.position, target.clone().sub(camera.position).normalize());
+      const hits = ray.intersectObjects([world.rocket, world.town], true);
+      assert.ok(hits.length, 'the opening must include the tower');
+      let first = hits[0].object;
+      while (first.parent && first.parent !== world.scene) first = first.parent;
+      assert.equal(first, world.rocket, 'a foreground building must not obscure the tank');
+    }
+  } finally { world.dispose(); }
   assert.ok(sampleFlight(0.33).bank < -0.2 && sampleFlight(0.41).bank > 0.2);
   assert.ok(sampleFlight(0.51).cloud > 0.9 && reveal.cloud < 0.1);
   assert.ok(reveal.distance > sampleFlight(0.465).distance * 1.35);

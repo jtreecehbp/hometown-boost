@@ -67,6 +67,20 @@ export function initContactForm() {
   const status = form.querySelector<HTMLElement>("[data-form-status]")!;
   const receipt = form.querySelector<HTMLElement>("[data-form-receipt]")!;
   let submitting = false;
+  const showReceipt = () => {
+    submitting = true;
+    button.disabled = true;
+    button.textContent = "Request sent";
+    form.removeAttribute("aria-busy");
+    status.hidden = true;
+    receipt.hidden = false;
+  };
+  const restoreReceipt = () => {
+    try { if (history.state?.hbContactSent === true) showReceipt(); }
+    catch { /* Some browser privacy modes restrict history state. */ }
+  };
+  restoreReceipt();
+  window.addEventListener('pageshow', restoreReceipt);
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (submitting) return;
@@ -113,10 +127,16 @@ export function initContactForm() {
       form.removeAttribute("aria-busy");
       return;
     }
-    // Commit the accepted state before navigation so Back never restores “Sending”.
-    button.textContent = "Request sent";
-    form.removeAttribute("aria-busy");
-    receipt.hidden = false;
+    // Keep only a receipt marker in this history entry, never the form answers.
+    // This also survives Back when the browser reloads instead of using its page cache.
+    showReceipt();
+    try {
+      const previous = history.state;
+      history.replaceState({
+        ...(previous && typeof previous === 'object' && !Array.isArray(previous) ? previous : {}),
+        hbContactSent: true,
+      }, '');
+    } catch { /* The current page still shows its confirmed receipt. */ }
     const detail = {
       event: "lead_submit_success",
       page_path: location.pathname,

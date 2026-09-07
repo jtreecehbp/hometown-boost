@@ -856,10 +856,11 @@ export function frameLaunchCamera(
   centered = false,
 ) {
   const aspect = Math.max(1, width) / Math.max(1, height),
-    mobile = aspect < 0.9;
+    mobile = width <= 680,
+    portrait = aspect < 0.9;
   camera.aspect = aspect;
-  camera.fov = pose.fov + (mobile && !centered ? pose.overlook * 7 : 0);
-  const distance = pose.distance * (mobile && !centered ? 1.48 + pose.overlook * 0.25 : 1);
+  camera.fov = pose.fov + (portrait && !centered ? pose.overlook * 7 : 0);
+  const distance = pose.distance * (portrait && !centered ? 1.48 + pose.overlook * 0.25 : 1);
   const focusX = pose.x * (1 - pose.overlook), focusZ = pose.z * (1 - pose.overlook);
   camera.position.set(
     focusX + Math.sin(pose.orbit) * distance,

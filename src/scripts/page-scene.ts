@@ -31,6 +31,7 @@ export function mountPageScene(host: HTMLElement, factory = loadGraphics) {
     button.setAttribute('aria-pressed', String(paused));
   };
   const stop = () => { cancelAnimationFrame(frame); frame = 0; last = 0; };
+  const updateControls = () => { controls.hidden = !visible || lost || focused || (!graphics && !paused); };
   const canAnimate = () => !!graphics && !paused && visible && !document.hidden && !suspended && !lost && !focused && !disposed;
   const render = () => {
     if (!graphics || lost || disposed) return;
@@ -65,8 +66,8 @@ export function mountPageScene(host: HTMLElement, factory = loadGraphics) {
     };
     viewport.style.opacity = String(1 - dock * (small ? 0.7 : 0.5));
     target = clamp(-page.top / Math.max(1, page.height - window.innerHeight));
-    visible = page.bottom > 100 && page.top < window.innerHeight;
-    controls.hidden = !visible || lost || (!graphics && !paused);
+    visible = page.bottom > window.innerHeight * 0.45 && page.top < window.innerHeight;
+    updateControls();
     if (!visible) stop();
     else { if (!canAnimate()) render(); start(); }
   };
@@ -84,11 +85,11 @@ export function mountPageScene(host: HTMLElement, factory = loadGraphics) {
         event.preventDefault(); lost = true; stop(); controls.hidden = true; delete scope.dataset.pageSceneReady;
       }, { signal: events.signal });
       graphics.canvas.addEventListener('webglcontextrestored', () => {
-        lost = false; onResize(); controls.hidden = !visible; start();
+        lost = false; onResize(); updateControls(); start();
       }, { signal: events.signal });
       graphics.resize(); measure(); progress = paused ? 0 : target; render(); label(); start();
     } catch {
-      paused = true; label(); controls.hidden = !visible;
+      paused = true; label(); updateControls();
     } finally { loading = false; }
   }
   const observer = new IntersectionObserver(entries => {
@@ -109,12 +110,15 @@ export function mountPageScene(host: HTMLElement, factory = loadGraphics) {
   document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else start(); }, { signal: events.signal });
   window.addEventListener('pagehide', event => { if (event.persisted) { suspended = true; stop(); } else dispose(); }, { signal: events.signal });
   window.addEventListener('pageshow', () => { suspended = false; onResize(); start(); }, { signal: events.signal });
-  const form = scope.querySelector('form');
-  form?.addEventListener('focusin', () => { focused = true; stop(); }, { signal: events.signal });
-  form?.addEventListener('focusout', event => {
-    focused = form.contains(event.relatedTarget as Node | null);
-    if (!focused) start();
-  }, { signal: events.signal });
+  const readingRegions = [...scope.querySelectorAll<HTMLElement>('form, .table-wrap')];
+  for (const region of readingRegions) {
+    region.addEventListener('focusin', () => { focused = true; stop(); updateControls(); }, { signal: events.signal });
+    region.addEventListener('focusout', event => {
+      focused = readingRegions.some(item => item.contains(event.relatedTarget as Node | null));
+      updateControls();
+      if (!focused) start();
+    }, { signal: events.signal });
+  }
   function dispose() {
     if (disposed) return;
     disposed = true; stop(); observer.disconnect(); resize.disconnect(); events.abort(); graphics?.dispose();

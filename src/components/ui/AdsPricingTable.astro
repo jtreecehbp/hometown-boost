@@ -2,14 +2,14 @@
 import { googleAdsPricing } from "../../data/pricingPlans";
 ---
 
-<div class="table-wrap" tabindex="0" role="region" aria-label="Google Ads pricing examples, scroll horizontally to compare costs">
+<div class="table-wrap ads-comparison" tabindex="0" role="region" aria-label="Google Ads pricing examples">
   <table>
     <caption>Google Ads pricing examples</caption>
     <thead>
       <tr>
-        <th scope="col">Monthly Ad Spend</th>
-        <th scope="col">Management Fee</th>
-        <th scope="col">Total Monthly Investment</th>
+        <th scope="col">Monthly ad budget</th>
+        <th scope="col">Our fee</th>
+        <th scope="col">Monthly total</th>
       </tr>
     </thead>
     <tbody>
@@ -23,3 +23,11 @@ import { googleAdsPricing } from "../../data/pricingPlans";
     </tbody>
   </table>
 </div>
+
+<style>
+  .ads-comparison table { min-width: 0; table-layout: fixed; }
+  @media (max-width: 680px) {
+    .ads-comparison th, .ads-comparison td { padding: 14px 10px; }
+    .ads-comparison th { font-size: 12px; }
+  }
+</style>

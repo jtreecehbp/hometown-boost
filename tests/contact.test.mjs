@@ -21,6 +21,7 @@ function fixture({
   endpoint = "/",
   dataLayer = [],
   navigationFails = false,
+  historyState = null,
 } = {}) {
   const fields = new Map(
     [
@@ -85,6 +86,8 @@ function fixture({
       if (type === "submit") submit = listener;
     },
   };
+  const pageEvents = {};
+  const history = { state: historyState, replaceState(value) { this.state = value; } };
   const sandbox = {
     exports: {},
     require() {
@@ -108,6 +111,7 @@ function fixture({
       assign: (url) => { if (navigationFails) throw new Error('navigation unavailable'); redirects.push(url); },
     },
     sessionStorage: { getItem: () => stored },
+    history,
     URLSearchParams,
     AbortSignal,
     FormData: class {
@@ -120,7 +124,7 @@ function fixture({
       if (result instanceof Error) throw result;
       return result;
     },
-    window: { dataLayer, dispatchEvent: (event) => events.push(event) },
+    window: { dataLayer, dispatchEvent: (event) => events.push(event), addEventListener(type, fn) { pageEvents[type] = fn; } },
     CustomEvent: class {
       constructor(type, options) {
         this.type = type;
@@ -141,6 +145,8 @@ function fixture({
     requests,
     redirects,
     events,
+    history,
+    pageEvents,
     submit: () => submit({ preventDefault() {} }),
   };
 }
@@ -251,6 +257,31 @@ test('accepted inquiries leave a sent receipt for page restoration and never sta
   assert.equal(f.attributes['aria-busy'], undefined);
   await f.submit();
   assert.equal(f.requests.length, 1);
+});
+
+test('Back restores the accepted receipt even when the contact document is loaded again', async () => {
+  const first = fixture({ historyState: { existing: 'retained' } });
+  await first.submit();
+  assert.deepEqual(JSON.parse(JSON.stringify(first.history.state)), { existing: 'retained', hbContactSent: true });
+  const restored = fixture({ historyState: first.history.state });
+  assert.equal(restored.receipt.hidden, false);
+  assert.equal(restored.button.textContent, 'Request sent');
+  assert.equal(restored.button.disabled, true);
+  await restored.submit();
+  assert.equal(restored.requests.length, 0);
+  const fresh = fixture();
+  assert.equal(fresh.button.disabled, false, 'a fresh inquiry has a new history entry');
+});
+
+test('page-cache restoration reapplies the receipt without retaining form answers in history', async () => {
+  const f = fixture();
+  await f.submit();
+  f.button.disabled = false;
+  f.receipt.hidden = true;
+  f.pageEvents.pageshow();
+  assert.equal(f.button.disabled, true);
+  assert.equal(f.receipt.hidden, false);
+  assert.deepEqual(Object.keys(f.history.state), ['hbContactSent']);
 });
 
 test('a confirmation-page navigation failure preserves the accepted result without allowing duplicate retries', async () => {

@@ -28,7 +28,8 @@ const rows = [
 ];
 ---
 
-<div class="table-wrap" tabindex="0" role="region" aria-label="Website plan comparison, scroll horizontally to see all plans">
+<p class="comparison-help">Scroll across for all four plans, and down for every feature. Plan names and feature labels stay in view.</p>
+<div class="table-wrap plan-comparison" tabindex="0" role="region" aria-label="Website plan comparison, scroll across for plans and down for features">
   <table>
     <caption>Detailed website plan comparison</caption>
     <thead>
@@ -51,3 +52,12 @@ const rows = [
     </tbody>
   </table>
 </div>
+
+<style>
+  .comparison-help { margin-bottom: 14px; max-width: 620px; font-size: .875rem; }
+  .plan-comparison { max-height: min(740px, calc(100svh - var(--header-height) - 64px)); overflow: auto; overscroll-behavior: contain; }
+  .plan-comparison table { border-collapse: separate; border-spacing: 0; }
+  .plan-comparison thead th { position: sticky; top: 0; z-index: 2; background: #edf5fb; box-shadow: 0 1px 0 var(--line); }
+  .plan-comparison th:first-child { position: sticky; left: 0; z-index: 1; min-width: 155px; background: #fff; box-shadow: 1px 0 0 var(--line); }
+  .plan-comparison thead th:first-child { z-index: 3; background: #edf5fb; }
+</style>

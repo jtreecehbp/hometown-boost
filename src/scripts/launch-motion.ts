@@ -33,14 +33,14 @@ const smooth = (value: number) => { const t = clamp(value); return t * t * (3 - 
 export const smoothRange = (start: number, end: number, value: number) => smooth((value - start) / (end - start));
 const ground: FlightPose = {
   progress: 0, lift: 0, x: 0, z: 0, bank: 0, pitch: 0, ignition: 0, smoke: 0,
-  orbit: 0.34, distance: 17, elevation: -2.2, lookHeight: 4.25, fov: 43,
+  orbit: 0.44, distance: 22, elevation: 3.5, lookHeight: 3.8, fov: 43,
   cameraRoll: 0, overlook: 0, cloud: 0, sceneOpen: 0, shutters: 0, birds: 0, network: 0,
 };
 const shot = (at: number, lift: number, pose: Partial<FlightPose>) => ({
   at, pose: { ...ground, lift, ignition: lift > 0 ? 1 : 0, ...pose },
 });
 const stops = [
-  // Begin on Main Street, then crane upward to reveal the full tower.
+  // Clear the foreground rooftops so the complete tower introduces the story.
   shot(0, 0, {}),
   shot(0.065, 0, { orbit: 0.54, distance: 21, elevation: 5, lookHeight: 3.8, fov: 41 }),
   shot(0.115, 0, { ignition: 0.3, smoke: 0.15, orbit: 0.6, distance: 19, elevation: 4, lookHeight: 3.7, fov: 40 }),
