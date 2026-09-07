@@ -3,7 +3,7 @@ import BaseHead from "../components/layout/BaseHead.astro";
 import Header from "../components/layout/Header.astro";
 import Footer from "../components/layout/Footer.astro";
 import PageBackdrop from '../components/PageBackdrop.astro';
-import { pageSceneForPath } from '../data/pageScenes';
+import { pageSceneForPath, type PageSceneId } from '../data/pageScenes';
 import "../styles/global.css";
 import '@fontsource-variable/manrope';
 import '@fontsource-variable/inter';
@@ -22,10 +22,11 @@ interface Props {
   robots?: string;
   schema?: Schema | Schema[];
   immersive?: boolean;
+  scene?: PageSceneId;
 }
 
-const { title, description, canonical, image, imageAlt, imageWidth, imageHeight, ogType, robots, schema, immersive = false } = Astro.props;
-const pageScene = immersive ? undefined : pageSceneForPath(Astro.url.pathname);
+const { title, description, canonical, image, imageAlt, imageWidth, imageHeight, ogType, robots, schema, immersive = false, scene } = Astro.props;
+const pageScene = immersive ? undefined : scene ?? pageSceneForPath(Astro.url.pathname);
 ---
 
 <!doctype html>

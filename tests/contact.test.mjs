@@ -19,6 +19,7 @@ function fixture({
   stored = "{}",
   result = { ok: true },
   endpoint = "/",
+  dataLayer = [],
 } = {}) {
   const fields = new Map(
     [
@@ -116,7 +117,7 @@ function fixture({
       if (result instanceof Error) throw result;
       return result;
     },
-    window: { dataLayer: [], dispatchEvent: (event) => events.push(event) },
+    window: { dataLayer, dispatchEvent: (event) => events.push(event) },
     CustomEvent: class {
       constructor(type, options) {
         this.type = type;
@@ -174,6 +175,31 @@ test("unavailable session storage data falls back to current campaign details", 
   const f = fixture({ stored: "not-json", query: "?utm_campaign=local" });
   assert.equal(f.fields.get("utm_campaign").value, "local");
   assert.equal(f.fields.get("referrer").value, "https://referrer.test/page");
+});
+
+test('invalid stored campaign shapes never disable the contact form', async () => {
+  for (const stored of ['null', '[]', '42', '"old-value"', '{"landing_page":{},"utm_source":false}']) {
+    const f = fixture({ stored, query: '?utm_source=local' });
+    assert.equal(f.fields.get('landing_page').value, '/contact/');
+    assert.equal(f.fields.get('utm_source').value, 'local');
+    await f.submit();
+    assert.deepEqual(f.redirects, ['/thank-you/']);
+  }
+  const f = fixture({ stored: JSON.stringify({ utm_campaign: 'a'.repeat(400) }) });
+  assert.equal(f.fields.get('utm_campaign').value.length, 200);
+});
+
+test('analytics errors cannot turn an accepted inquiry into a retry', async () => {
+  const brokenArray = [];
+  brokenArray.push = () => { throw new Error('analytics unavailable'); };
+  for (const dataLayer of [{}, brokenArray]) {
+    const f = fixture({ dataLayer });
+    await f.submit();
+    assert.deepEqual(f.redirects, ['/thank-you/']);
+    assert.equal(f.status.hidden, true);
+    await f.submit();
+    assert.equal(f.requests.length, 1);
+  }
 });
 test("preview mode never sends or pretends to receive an inquiry", async () => {
   const f = fixture({ enabled: false });

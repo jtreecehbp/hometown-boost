@@ -460,6 +460,12 @@ body.has-launch-story {
   .launch-plans { background: #f5faff66; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .film-beat { min-height: auto; padding: 55px 0; }
+  .film-beat { display: none; }
+  .flight-chapter:not(.launch-hero) { min-height: auto; padding-block: 65px; }
   .launch-stage__canvas, .launch-stage__fallback, .launch-chapters, .launch-controls { transition: none; }
 }
+
+/* Reading stays concise when motion is declined, unavailable, or JavaScript is disabled. */
+:is(html:not([data-enhanced]) .launch-world, .launch-world[data-launch-static]) .film-beat { display: none; }
+:is(html:not([data-enhanced]) .launch-world, .launch-world[data-launch-static]) .flight-chapter:not(.launch-hero) { min-height: auto; padding-block: 65px; }
+html:not([data-enhanced]) .launch-scroll { display: none; }

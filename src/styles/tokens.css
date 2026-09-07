@@ -1,4 +1,5 @@
 :root {
+  --header-height: 96px;
   --ink: #102e50;
   --muted: #4d657d;
   --paper: #fcfdff;
@@ -34,3 +35,5 @@
   --hb-radius-xl: 32px;
   --hb-max-width: 1240px;
 }
+@media (max-width: 900px) { :root { --header-height: 80px; } }
+@media (max-width: 680px) { :root { --header-height: 74px; } }

@@ -18,4 +18,5 @@ export const sceneLoaders: Record<PageSceneId, () => Promise<Factory>> = {
   profile: () => import('./profile.ts'),
   calls: () => import('./calls.ts'),
   channels: () => import('./channels.ts'),
+  notfound: () => import('./notfound.ts'),
 };

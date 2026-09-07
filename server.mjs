@@ -249,9 +249,28 @@ export function createAppServer({
       send(res, 404, "Not found.");
       return;
     }
+    let file;
+    let status = path === resolve(root, "404.html") ? 404 : 200;
     try {
-      const file = await stat(path);
+      file = await stat(path);
       if (!file.isFile()) throw new Error("Not a file");
+    } catch {
+      // Recover human-facing page URLs without disguising missing scripts or images.
+      if (!["", ".html"].includes(extname(url.pathname).toLowerCase())) {
+        send(res, 404, req.method === "HEAD" ? "" : "Not found.");
+        return;
+      }
+      path = join(root, "404.html");
+      status = 404;
+      try {
+        file = await stat(path);
+        if (!file.isFile()) throw new Error("Not a file");
+      } catch {
+        send(res, 404, req.method === "HEAD" ? "" : "Not found.");
+        return;
+      }
+    }
+    try {
       const extension = extname(path);
       const compressible = [
         ".html",
@@ -268,7 +287,9 @@ export function createAppServer({
         /\bgzip\b/.test(req.headers["accept-encoding"] || "");
       const headers = {
         "Content-Type": mimeTypes[extension] || "application/octet-stream",
-        "Cache-Control": url.pathname.startsWith("/_astro/")
+        "Cache-Control": status === 404
+          ? "no-store"
+          : url.pathname.startsWith("/_astro/")
           ? "public, max-age=31536000, immutable"
           : extension === ".html"
             ? "no-cache"
@@ -277,9 +298,9 @@ export function createAppServer({
       if (compressible) headers.Vary = "Accept-Encoding";
       if (compressed) headers["Content-Encoding"] = "gzip";
       else headers["Content-Length"] = String(file.size);
-      if (url.pathname === "/__forms.html")
+      if (url.pathname === "/__forms.html" || status === 404)
         headers["X-Robots-Tag"] = "noindex, nofollow";
-      res.writeHead(200, headers);
+      res.writeHead(status, headers);
       if (req.method === "HEAD") {
         res.end();
         return;

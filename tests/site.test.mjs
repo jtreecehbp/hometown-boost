@@ -10,8 +10,9 @@ const walk = (dir) =>
 const pages = walk(root).filter(
   (file) => file.endsWith(".html") && !file.endsWith("__forms.html"),
 );
-test("all 17 pages have one main heading, metadata, and valid structured data", () => {
-  assert.equal(pages.length, 17);
+test("all 17 content pages and the recovery page have one main heading, metadata, and valid structured data", () => {
+  assert.equal(pages.filter(file => !file.endsWith("404.html")).length, 17);
+  assert.ok(pages.includes(join(root, "404.html")));
   for (const file of pages) {
     const html = readFileSync(file, "utf8"),
       label = relative(root, file);
@@ -27,6 +28,12 @@ test("all 17 pages have one main heading, metadata, and valid structured data", 
     ))
       assert.doesNotThrow(() => JSON.parse(match[1]), label);
   }
+});
+
+test('the recovery page is kept out of search results and the sitemap', () => {
+  const html = readFileSync(join(root, '404.html'), 'utf8');
+  assert.match(html, /<meta name="robots" content="noindex,follow"/);
+  assert.doesNotMatch(readFileSync(join(root, 'sitemap.xml'), 'utf8'), /\/404/);
 });
 test("every local navigation, asset, and section anchor resolves", () => {
   const failures = [];
@@ -55,6 +62,20 @@ test("every local navigation, asset, and section anchor resolves", () => {
     }
   }
   assert.deepEqual(failures, []);
+});
+
+test('all pages expose native mobile navigation and discoverable supporting routes', () => {
+  for (const file of pages) {
+    const html = readFileSync(file, 'utf8');
+    assert.match(html, /<details[^>]*class="mobile-menu"/);
+    assert.match(html, /<summary[^>]*aria-label="Main menu"/);
+    const menu = html.match(/<nav[^>]*class="mobile-menu__links"[\s\S]*?<\/nav>/)?.[0];
+    assert.ok(menu, file);
+    for (const href of ['/services/', '/pricing/', '/how-it-works/', '/industries/', '/google-ads/', '/about/', '/resources/', '/faq/', '/contact/']) {
+      assert.ok(menu.includes('href="' + href + '"'), file + ': ' + href);
+    }
+    assert.doesNotMatch(html, /data-menu-button/, 'the core disclosure must not depend on JavaScript');
+  }
 });
 test("plan commitments and form registration remain consistent", () => {
   const pricing = readFileSync(join(root, "pricing/index.html"), "utf8");

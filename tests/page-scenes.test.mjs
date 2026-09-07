@@ -10,13 +10,13 @@ import { framePageCamera } from '../src/scripts/page-scene-renderer.ts';
 
 test('every supporting page, including individual guides, has a unique scene and one reserved window', () => {
   const ids = Object.keys(pageScenes);
-  assert.equal(ids.length, 16);
+  assert.equal(ids.length, 17);
   assert.deepEqual(Object.keys(sceneLoaders).sort(), [...ids].sort());
   for (const id of ids) {
     const config = pageScenes[id];
     assert.equal(pageSceneForPath(config.path), id);
     assert.equal(pageSceneForPath(config.path.slice(0, -1)), id);
-    const html = readFileSync('dist' + config.path + 'index.html', 'utf8');
+    const html = readFileSync(id === 'notfound' ? 'dist/404.html' : 'dist' + config.path + 'index.html', 'utf8');
     assert.equal((html.match(/data-page-scene="/g) || []).length, 1, config.path);
     assert.ok(html.includes('data-page-scene="' + id + '"'), config.path);
     assert.equal((html.match(/data-scene-window/g) || []).length, 1, config.path);
@@ -36,7 +36,7 @@ function snapshot(root) {
   return parts;
 }
 
-test('the 16 scenes have distinct geometry, bounded detail, and reversible scroll choreography', async () => {
+test('all supporting scenes have distinct geometry, bounded detail, and reversible scroll choreography', async () => {
   const signatures = new Set();
   for (const [id, load] of Object.entries(sceneLoaders)) {
     const { create } = await load();
@@ -68,7 +68,7 @@ test('the 16 scenes have distinct geometry, bounded detail, and reversible scrol
       disposeModel(model.root);
     }
   }
-  assert.equal(signatures.size, 16, 'no pages share the same model');
+  assert.equal(signatures.size, 17, 'no pages share the same model');
 });
 
 test('every scene stays inside its reserved composition on phone and desktop', async () => {

@@ -32,9 +32,12 @@ export function initContactForm() {
         ? "You’re asking about Hometown " + plan + "."
         : "Let’s talk about a website for " + industry + ".";
   }
-  let attribution: Record<string, string> = {};
+  let attribution: Record<string, unknown> = {};
   try {
-    attribution = JSON.parse(sessionStorage.getItem("hb-attribution") || "{}");
+    const saved: unknown = JSON.parse(sessionStorage.getItem("hb-attribution") || "{}");
+    if (saved && typeof saved === 'object' && !Array.isArray(saved)) {
+      attribution = saved as Record<string, unknown>;
+    }
   } catch {
     /* Direct visits still capture current context. */
   }
@@ -49,14 +52,16 @@ export function initContactForm() {
     "utm_term",
   ]) {
     const input = form.querySelector<HTMLInputElement>('[name="' + key + '"]')!;
-    input.value =
+    const firstTouch = typeof attribution[key] === 'string' ? attribution[key] as string : '';
+    const value =
       key === "source_url"
         ? location.origin + location.pathname
         : key === "landing_page"
-          ? attribution[key] || location.pathname
+          ? firstTouch || location.pathname
           : key === "referrer"
-            ? attribution[key] || document.referrer.split("?")[0]
-            : attribution[key] || params.get(key) || "";
+            ? firstTouch || document.referrer.split("?")[0]
+            : firstTouch || params.get(key) || "";
+    input.value = value.slice(0, key.startsWith('utm_') ? 200 : 1000);
   }
   const button = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
   const status = form.querySelector<HTMLElement>("[data-form-status]")!;
@@ -101,10 +106,14 @@ export function initContactForm() {
         page_path: location.pathname,
         plan: planSelect.value,
       };
-      (
-        window as Window & { dataLayer?: Record<string, unknown>[] }
-      ).dataLayer?.push(detail);
-      window.dispatchEvent(new CustomEvent("hometown:conversion", { detail }));
+      // Optional analytics must never change a confirmed inquiry into a retry.
+      try {
+        const dataLayer = (window as Window & { dataLayer?: Record<string, unknown>[] }).dataLayer;
+        if (Array.isArray(dataLayer)) dataLayer.push(detail);
+      } catch { /* Delivery is already confirmed. */ }
+      try {
+        window.dispatchEvent(new CustomEvent("hometown:conversion", { detail }));
+      } catch { /* Confirmation does not depend on event listeners. */ }
       location.assign("/thank-you/");
     } catch {
       status.textContent =

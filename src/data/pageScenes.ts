@@ -15,6 +15,7 @@ export const pageScenes = {
   profile: { path: '/resources/google-business-profile-basics/', label: 'A business worth finding', mood: 'town' },
   calls: { path: '/resources/old-website-costing-calls/', label: 'Reconnect the conversation', mood: 'sky' },
   channels: { path: '/resources/website-vs-google-ads/', label: 'Two routes, working together', mood: 'clear' },
+  notfound: { path: '/404/', label: 'Find your way home', mood: 'sky' },
 } as const;
 
 export type PageSceneId = keyof typeof pageScenes;

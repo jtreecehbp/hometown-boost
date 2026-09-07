@@ -1,0 +1,20 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Button from '../components/ui/Button.astro';
+---
+
+<MainLayout title="Page Not Found | Hometown Boost" description="Find your way back to Hometown Boost. Explore our websites, compare plans, or get in touch." robots="noindex,follow" scene="notfound">
+  <PageHero eyebrow="404 / A SMALL DETOUR" title="Let’s get you back home." description="We can’t find that page. The link may have changed, but a good next step is right here.">
+    <div class="actions">
+      <Button href="/">Back to hometown <span aria-hidden="true">↗</span></Button>
+      <Button href="/services/" variant="outline">Explore our services</Button>
+    </div>
+    <p class="recovery-links">Looking for something specific? <a href="/pricing/">Compare plans</a> or <a href="/contact/">get in touch</a>.</p>
+  </PageHero>
+</MainLayout>
+
+<style>
+  .recovery-links { margin-top: 28px; font-size: 1rem; }
+  .recovery-links a { text-decoration: underline; text-underline-offset: 4px; font-weight: 650; }
+</style>

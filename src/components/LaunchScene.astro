@@ -7,8 +7,7 @@
   <div class="launch-stage__horizon"></div>
 </div>
 <script>
+  import { loadLaunch } from '../scripts/launch-loader';
   const root = document.querySelector<HTMLElement>('[data-launch-world]');
-  if (root) requestAnimationFrame(() => {
-    import('../scripts/launch-scene').then(({mountLaunch}) => mountLaunch(root)).catch(() => {});
-  });
+  if (root) loadLaunch(root);
 </script>

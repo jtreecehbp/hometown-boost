@@ -81,6 +81,28 @@ test("valid inquiries forward only registered fields and confirm after the provi
   assert.equal(native.headers.get("location"), "/thank-you/");
 });
 
+test("missing pages offer navigation while retaining 404 status and missing assets remain errors", async (t) => {
+  const f = await fixture(t);
+  for (const route of ['/an-old-page/', '/an-old-page', '/an-old-page.html', '/404.html']) {
+    const response = await fetch(f.url + route);
+    assert.equal(response.status, 404, route);
+    assert.match(response.headers.get('content-type'), /^text\/html/);
+    assert.equal(response.headers.get('cache-control'), 'no-store');
+    assert.equal(response.headers.get('x-robots-tag'), 'noindex, nofollow');
+    const html = await response.text();
+    assert.match(html, /Let’s get you back home/);
+    assert.match(html, /data-page-scene="notfound"/);
+    assert.match(html, /href="\/contact\/"/);
+  }
+  const head = await fetch(f.url + '/an-old-page/', { method: 'HEAD' });
+  assert.equal(head.status, 404);
+  assert.equal(await head.text(), '');
+  const script = await fetch(f.url + '/_astro/absent.js');
+  assert.equal(script.status, 404);
+  assert.match(script.headers.get('content-type'), /^text\/plain/);
+  assert.equal(await script.text(), 'Not found.');
+});
+
 test("invalid, oversized, cross-origin, and honeypot submissions never reach the form provider", async (t) => {
   const f = await fixture(t);
   assert.equal((await f.submit({ ...valid, email: "invalid" })).status, 400);

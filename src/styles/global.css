@@ -119,7 +119,7 @@ select:focus-visible {
   top: 10px;
 }
 .header {
-  height: 96px;
+  height: var(--header-height);
   position: sticky;
   top: 0;
   z-index: 30;

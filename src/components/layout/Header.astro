@@ -2,25 +2,61 @@
 import Button from '../ui/Button.astro';
 import Brand from './Brand.astro';
 const links = [{label:'What we do',href:'/services/'},{label:'How it works',href:'/how-it-works/'},{label:'Our plans',href:'/pricing/'},{label:'About us',href:'/about/'}];
+const explore = [{label:'Who we help',href:'/industries/'},{label:'Google Ads',href:'/google-ads/'},{label:'Helpful resources',href:'/resources/'},{label:'Questions & answers',href:'/faq/'}];
+const current = (href: string) => Astro.url.pathname === href || (href === '/resources/' && Astro.url.pathname.startsWith(href));
 ---
 <header class="header"><div class="container header__inner">
   <Brand />
-  <button class="menu-toggle" type="button" aria-label="Open main menu" aria-expanded="false" aria-controls="main-navigation" data-menu-button><span></span><span></span></button>
-  <nav class="nav" id="main-navigation" aria-label="Main navigation" data-main-menu>
-    {links.map(link => <a class="nav__link" href={link.href} aria-current={Astro.url.pathname === link.href ? 'page' : undefined}>{link.label}</a>)}
-    <a class="nav__mobile-cta" href="/contact/">Find my plan <span aria-hidden="true">↗</span></a>
+  <nav class="main-nav" aria-label="Main navigation">
+    {links.map(link => <a class="nav__link" href={link.href} aria-current={current(link.href) ? 'page' : undefined}>{link.label}</a>)}
+    <details class="nav-explore" data-nav-disclosure><summary class="nav__link">Explore <span aria-hidden="true">⌄</span></summary><div class="nav-explore__links">
+      {explore.map(link => <a href={link.href} aria-current={current(link.href) ? 'page' : undefined}>{link.label}<span aria-hidden="true">↗</span></a>)}
+    </div></details>
   </nav>
   <Button class="header__cta" href="/contact/" size="sm">Let’s talk <span aria-hidden="true">↗</span></Button>
+  <details class="mobile-menu" data-nav-disclosure>
+    <summary class="mobile-menu__toggle" aria-label="Main menu"><span></span><span></span></summary>
+    <nav class="mobile-menu__links" aria-label="Mobile navigation">
+      {[...links, ...explore].map(link => <a href={link.href} aria-current={current(link.href) ? 'page' : undefined}>{link.label}<span aria-hidden="true">↗</span></a>)}
+      <a class="mobile-menu__cta" href="/contact/">Find my plan <span aria-hidden="true">↗</span></a>
+    </nav>
+  </details>
 </div></header>
 <script>
-  const button = document.querySelector<HTMLButtonElement>('[data-menu-button]');
-  const menu = document.querySelector<HTMLElement>('[data-main-menu]');
-  if (button && menu) {
-    const setOpen = (open: boolean) => { button.setAttribute('aria-expanded', String(open)); button.setAttribute('aria-label', open ? 'Close main menu' : 'Open main menu'); menu.classList.toggle('is-open', open); };
-    button.addEventListener('click', () => setOpen(button.getAttribute('aria-expanded') !== 'true'));
-    menu.addEventListener('click', event => { if ((event.target as Element).closest('a')) setOpen(false); });
-    document.addEventListener('keydown', event => { if (event.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') { setOpen(false); button.focus(); } });
-    document.addEventListener('click', event => { if (!(event.target as Element).closest('.header')) setOpen(false); });
-    matchMedia('(min-width: 901px)').addEventListener('change', event => { if (event.matches) setOpen(false); });
-  }
+  const menus = [...document.querySelectorAll<HTMLDetailsElement>('[data-nav-disclosure]')];
+  menus.forEach(menu => {
+    menu.addEventListener('click', event => { if ((event.target as Element).closest('a')) menu.open = false; });
+    menu.addEventListener('focusout', event => { if (event.relatedTarget && !menu.contains(event.relatedTarget as Node)) menu.open = false; });
+  });
+  document.addEventListener('click', event => menus.forEach(menu => { if (!menu.contains(event.target as Node)) menu.open = false; }));
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    menus.forEach(menu => { if (menu.open) { menu.open = false; menu.querySelector('summary')?.focus(); } });
+  });
+  matchMedia('(min-width: 1081px)').addEventListener('change', () => menus.forEach(menu => { menu.open = false; }));
 </script>
+<style>
+  .main-nav { margin-left: auto; display: flex; align-items: center; gap: clamp(20px, 2.1vw, 30px); }
+  .nav-explore { position: relative; }
+  summary { list-style: none; cursor: pointer; }
+  summary::-webkit-details-marker { display: none; }
+  .nav-explore summary { display: flex; align-items: center; gap: 8px; }
+  .nav-explore__links { position: absolute; top: calc(100% + 10px); right: -24px; width: 245px; padding: 10px; background: #fff; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 18px 45px #153e641c; }
+  .nav-explore__links a { display: flex; justify-content: space-between; align-items: center; min-height: 46px; padding: 10px 14px; border-radius: 8px; font-size: .875rem; }
+  .nav-explore__links a:hover, .nav-explore__links a[aria-current] { background: #edf6fd; color: #174b76; }
+  .mobile-menu { display: none; }
+  @media (max-width: 1080px) {
+    .main-nav { display: none; }
+    :global(.header__cta) { margin-left: auto; }
+    .mobile-menu { display: block; order: 3; }
+    .mobile-menu__toggle { width: 44px; height: 44px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 10px; }
+    .mobile-menu__toggle span { width: 18px; height: 2px; background: var(--ink); transition: transform .2s; }
+    .mobile-menu[open] .mobile-menu__toggle span:first-child { transform: translateY(4px) rotate(45deg); }
+    .mobile-menu[open] .mobile-menu__toggle span:last-child { transform: translateY(-4px) rotate(-45deg); }
+    .mobile-menu__links { position: absolute; top: calc(var(--header-height) - 1px); left: 0; right: 0; padding: 16px 32px 24px; background: #fff; box-shadow: 0 20px 35px #153e641a; border-bottom: 1px solid var(--line); max-height: calc(100dvh - var(--header-height)); overflow-y: auto; overscroll-behavior: contain; }
+    .mobile-menu__links a { min-height: 48px; padding: 11px 5px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-bottom: 1px solid #e9f0f6; font-size: 1rem; }
+    .mobile-menu__links a[aria-current] { color: #b74810; font-weight: 650; }
+    .mobile-menu__links .mobile-menu__cta { background: var(--accent); border: none; border-radius: 10px; padding-inline: 16px; margin-top: 14px; font-weight: 650; }
+  }
+  @media (max-width: 380px) { .mobile-menu { margin-left: auto; } }
+</style>

@@ -8,7 +8,7 @@ import {
 } from "./launch-motion";
 
 /** One canvas, normal document scrolling, and an absolute, reversible flight path. */
-export function mountLaunch(root: HTMLElement) {
+export function mountLaunch(root: HTMLElement, { forcePlay = false } = {}) {
   if (root.dataset.launchMounted) return;
   root.dataset.launchMounted = "true";
   const stage = root.querySelector<HTMLElement>("[data-launch-stage]")!;
@@ -34,7 +34,7 @@ export function mountLaunch(root: HTMLElement) {
     return;
   }
 
-  let paused = preference.matches;
+  let paused = preference.matches && !forcePlay;
   let suspended = false;
   let lostContext = false;
   let disposed = false;

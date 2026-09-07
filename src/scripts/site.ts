@@ -15,7 +15,9 @@ document.addEventListener("click", (event) => {
         ? "footer"
         : "content",
   };
-  trackingWindow.dataLayer?.push(detail);
+  try {
+    if (Array.isArray(trackingWindow.dataLayer)) trackingWindow.dataLayer.push(detail);
+  } catch { /* Keep navigation and first-party conversion events independent of analytics. */ }
   window.dispatchEvent(new CustomEvent("hometown:conversion", { detail }));
 });
 // Preserve campaign context in this tab; never store form fields or personal data.
