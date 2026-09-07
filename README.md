@@ -73,6 +73,8 @@ The form has four required fields; optional fields remain in a disclosure. Plan,
 
 Stored campaign data is validated before prefilling hidden fields. Optional analytics is isolated from delivery confirmation, so an analytics failure cannot present a successfully accepted inquiry as a failed submission.
 
+After acceptance the form records a sent receipt and clears its busy state before opening the thank-you page. Returning through the browser’s page cache therefore preserves confirmation rather than “Sending.” If navigation is unavailable the receipt remains usable, including a deliberate link to start another inquiry; the accepted request cannot be retried as a duplicate.
+
 Form detection remains enabled on the linked Netlify form-receiver project. Coolify forwards URL-encoded inquiries through `/api/contact`; the client requires an explicit success response before navigating to `/thank-you/`. Failures keep the entered details and offer retry. Default local builds show an explanatory message and do not transmit inquiries. The standalone server returns 503 when form delivery is not configured.
 
 For reference, legacy Netlify deploys use `dist`. Do not publish new previews there unless the owner changes the active hosting preference:

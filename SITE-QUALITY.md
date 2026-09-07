@@ -20,12 +20,14 @@ The active objective is to iterate until the entire Hometown Boost site is finis
 - Added a lightweight homepage loader that checks reduced motion and data saving before downloading the 3D engine. Added explicit Play, hidden-tab deferral, late-load cleanup, and a concise reading layout. Browser verification is still required.
 - Found supporting scenes used hard-coded header offsets that differed from the actual header. They now use the shared responsive header-height token.
 - Confirmed missing page URLs on the preview returned only `Not found.`. Added a recovery page with a unique compass scene and direct navigation; the server preserves the 404 status, keeps it out of search results, and still returns plain errors for missing assets.
+- Reproduced the contact form retaining its sending/busy state after acceptance, and a failed confirmation-page navigation presenting acceptance as a delivery failure. The form now records a sent receipt before navigation and keeps duplicate protection; real browser Back behavior still needs direct verification.
+- Put the actual starting price, minimum-term context, and direct plan/comparison links in the pricing introduction. Resource links now have distinct accessible names that include the guide title.
 
 ## Automated evidence for this iteration
 
 - Astro check: 108 files, no errors, warnings, or hints.
 - Coolify-mode static build: 17 content pages plus the 404 recovery page.
-- All 48 tests pass, including simulated contact delivery, motion preferences, deferred loading, reversible geometry, route coverage, navigation links, and 404/HEAD/asset responses.
+- All 50 tests pass, including simulated contact delivery and accepted-state preservation, motion preferences, deferred loading, reversible geometry, route coverage, navigation links, and 404/HEAD/asset responses.
 - No real inquiry was submitted. These checks do not establish rendered appearance, actual browser performance, or conversion results.
 
 ## Pending direct verification

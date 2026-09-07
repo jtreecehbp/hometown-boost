@@ -65,6 +65,7 @@ export function initContactForm() {
   }
   const button = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
   const status = form.querySelector<HTMLElement>("[data-form-status]")!;
+  const receipt = form.querySelector<HTMLElement>("[data-form-receipt]")!;
   let submitting = false;
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -101,20 +102,6 @@ export function initContactForm() {
         throw new Error("The form service did not accept the request.");
       if (endpoint === "/api/contact" && (await response.json()).ok !== true)
         throw new Error("The form service did not confirm the request.");
-      const detail = {
-        event: "lead_submit_success",
-        page_path: location.pathname,
-        plan: planSelect.value,
-      };
-      // Optional analytics must never change a confirmed inquiry into a retry.
-      try {
-        const dataLayer = (window as Window & { dataLayer?: Record<string, unknown>[] }).dataLayer;
-        if (Array.isArray(dataLayer)) dataLayer.push(detail);
-      } catch { /* Delivery is already confirmed. */ }
-      try {
-        window.dispatchEvent(new CustomEvent("hometown:conversion", { detail }));
-      } catch { /* Confirmation does not depend on event listeners. */ }
-      location.assign("/thank-you/");
     } catch {
       status.textContent =
         "Your request could not be confirmed. Your details are still here. Please try again, or email hello@hometownboost.com.";
@@ -124,6 +111,26 @@ export function initContactForm() {
       button.innerHTML = originalText;
       submitting = false;
       form.removeAttribute("aria-busy");
+      return;
     }
+    // Commit the accepted state before navigation so Back never restores “Sending”.
+    button.textContent = "Request sent";
+    form.removeAttribute("aria-busy");
+    receipt.hidden = false;
+    const detail = {
+      event: "lead_submit_success",
+      page_path: location.pathname,
+      plan: planSelect.value,
+    };
+    // Neither optional analytics nor navigation can turn acceptance into a retry.
+    try {
+      const dataLayer = (window as Window & { dataLayer?: Record<string, unknown>[] }).dataLayer;
+      if (Array.isArray(dataLayer)) dataLayer.push(detail);
+    } catch { /* Delivery is already confirmed. */ }
+    try {
+      window.dispatchEvent(new CustomEvent("hometown:conversion", { detail }));
+    } catch { /* Confirmation does not depend on event listeners. */ }
+    try { location.assign("/thank-you/"); }
+    catch { receipt.focus(); }
   });
 }

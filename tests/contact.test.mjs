@@ -20,6 +20,7 @@ function fixture({
   result = { ok: true },
   endpoint = "/",
   dataLayer = [],
+  navigationFails = false,
 } = {}) {
   const fields = new Map(
     [
@@ -56,6 +57,7 @@ function fixture({
       },
     },
     context = { hidden: true, textContent: "" },
+    receipt = { hidden: true, focused: false, focus() { this.focused = true; } },
     optional = { open: false },
     button = { disabled: false, innerHTML: "Send", textContent: "Send" };
   const attributes = {};
@@ -68,6 +70,7 @@ function fixture({
     querySelector(selector) {
       if (selector === "button[type=submit]") return button;
       if (selector === "[data-form-status]") return status;
+      if (selector === "[data-form-receipt]") return receipt;
       if (selector === "[data-source-message]") return context;
       if (selector === "[data-optional-details]") return optional;
       return fields.get(selector.match(/name=["']?([^\]"']+)/)?.[1]);
@@ -102,7 +105,7 @@ function fixture({
       search: query,
       origin: "https://example.test",
       pathname: "/contact/",
-      assign: (url) => redirects.push(url),
+      assign: (url) => { if (navigationFails) throw new Error('navigation unavailable'); redirects.push(url); },
     },
     sessionStorage: { getItem: () => stored },
     URLSearchParams,
@@ -130,6 +133,7 @@ function fixture({
   return {
     fields,
     status,
+    receipt,
     context,
     optional,
     button,
@@ -236,6 +240,28 @@ test("accepted submissions encode all fields and then show confirmation", async 
   assert.deepEqual(f.redirects, ["/thank-you/"]);
   assert.equal(f.events[0].detail.event, "lead_submit_success");
   assert.equal("email" in f.events[0].detail, false);
+});
+
+test('accepted inquiries leave a sent receipt for page restoration and never stay busy', async () => {
+  const f = fixture();
+  await f.submit();
+  assert.equal(f.button.textContent, 'Request sent');
+  assert.equal(f.button.disabled, true);
+  assert.equal(f.receipt.hidden, false);
+  assert.equal(f.attributes['aria-busy'], undefined);
+  await f.submit();
+  assert.equal(f.requests.length, 1);
+});
+
+test('a confirmation-page navigation failure preserves the accepted result without allowing duplicate retries', async () => {
+  const f = fixture({ navigationFails: true });
+  await f.submit();
+  assert.equal(f.status.hidden, true, 'no delivery error after acceptance');
+  assert.equal(f.receipt.hidden, false);
+  assert.equal(f.receipt.focused, true);
+  assert.equal(f.button.disabled, true);
+  await f.submit();
+  assert.equal(f.requests.length, 1);
 });
 test("a second click during a submission cannot duplicate the request", async () => {
   const f = fixture();

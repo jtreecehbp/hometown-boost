@@ -16,8 +16,10 @@ const faqs=selectFaqs(['Why are there minimum terms?','What happens after the mi
 const schema={'@context':'https://schema.org','@type':'FAQPage',mainEntity:faqs.map(f=>({'@type':'Question',name:f.question,acceptedAnswer:{'@type':'Answer',text:f.answer}}))};
 ---
 <MainLayout {...pageMetadata.pricing} schema={schema}>
-  <PageHero eyebrow="YOUR NEXT CHAPTER, PRICED CLEARLY." title="Big plans for your business. A simple plan for your website." description="No setup fees. No guessing what’s included. Choose the support that fits today, with room to grow tomorrow." center />
-  <Section class="section--compact"><div class="grid grid--4 pricing-grid">{pricingPlans.map(plan=><PricingCard plan={plan} showNotIncluded/>)}</div>
+  <PageHero eyebrow="YOUR NEXT CHAPTER, PRICED CLEARLY." title="A website plan for your next chapter." description={`From $${pricingPlans[0].price}/month with $0 setup. Your website build, hosting, and ongoing care, with a 12- or 24-month minimum depending on your plan.`}>
+    <div class="actions"><Button href="#plans">See the four plans <span aria-hidden="true">↓</span></Button><Button href="#compare" variant="outline">Compare the details</Button></div>
+  </PageHero>
+  <Section id="plans" class="section--compact"><div class="grid grid--4 pricing-grid">{pricingPlans.map(plan=><PricingCard plan={plan} showNotIncluded/>)}</div>
     <p class="pricing-footnote">Your website build and support are spread across the minimum term. After that, plans continue month to month unless canceled with 30 days’ written notice. <a href="/terms/">Read the terms ↗</a></p>
   </Section>
   <Section variant="light" eyebrow="START WHERE YOU ARE." title="There’s a right-sized next step." align="center"><PlanSelector/></Section>
