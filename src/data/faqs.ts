@@ -16,22 +16,22 @@ export const faqCategories: FAQCategory[] = [
     items: [
       {
         question: "Are there setup fees?",
-        answer: "No. Hometown Boost website plans do not require setup fees.",
+        answer: "No. Every website plan has a $0 setup fee. Your website build and ongoing support are covered by the monthly plan, with a 24-month minimum for Lite and a 12-month minimum for Starter, Growth, and Leader.",
       },
       {
         question: "Why are there minimum terms?",
         answer:
-          "Minimum terms make the no-setup-fee model possible. The website build, hosting, maintenance, and support are spread across the minimum service term instead of being charged as a large upfront website bill.",
+          "The minimum term spreads the cost of your website build, hosting, maintenance, and support over monthly payments. You can see both the monthly price and the total minimum commitment for each plan on the Pricing page.",
       },
       {
         question: "Why is Lite a 24-month plan?",
         answer:
-          "Lite is the lowest-cost entry plan. The 24-month minimum helps spread the cost of building and supporting the site over time while keeping the monthly price low.",
+          "Lite has our lowest monthly price. Its 24-month minimum spreads the cost of building and supporting your one-page website over a longer period.",
       },
       {
         question: "Can I upgrade later?",
         answer:
-          "Yes. Clients can move into a higher plan as their business grows or their needs change.",
+          "Yes. You can move to a higher plan when you need more pages or support. Get in touch to discuss the right scope for your business.",
       },
       {
         question: "What happens after the minimum term?",
@@ -49,13 +49,18 @@ export const faqCategories: FAQCategory[] = [
     title: "Website Plans",
     items: [
       {
+        question: "Which plan is right for my business?",
+        answer:
+          "Lite gives you a simple one-page website. Starter adds room for more information and a small monthly edit. Growth pairs a website of up to five pages with Google Business Profile support. Leader adds more service and service-area pages, ongoing SEO improvements, and priority updates. If you’re unsure, tell us about your business and we’ll recommend a starting point.",
+      },
+      {
         question: "Is hosting included?",
-        answer: "Yes. Hosting and SSL/security are included with the website plans.",
+        answer: "Yes. Every website plan includes hosting, SSL/security, and maintenance, so your website and its ongoing care are covered by one monthly plan.",
       },
       {
         question: "Do you write the content?",
         answer:
-          "Hometown Boost includes reasonable content help based on the plan. Larger copywriting needs, blog posts, or extensive page writing may be quoted separately.",
+          "We include reasonable content help based on your plan, using the business and service details you provide. Larger copywriting projects, blog posts, or extensive page writing may be quoted separately.",
       },
       {
         question: "What if I need more pages?",
@@ -70,12 +75,12 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "Can I update my site?",
         answer:
-          "Yes. Update support depends on the plan. Lite includes a quarterly small update, Starter includes a small monthly edit, Growth includes monthly edits, and Leader includes priority monthly updates.",
+          "We handle updates according to your plan. Lite includes a quarterly small update, Starter includes a small monthly edit, Growth includes monthly edits, and Leader includes priority monthly updates.",
       },
       {
         question: "What do you need from me to start?",
         answer:
-          "Helpful starting items include your business name, logo, contact info, services, service area, hours, photos if available, existing website if any, domain access if available, and any details customers need to know before contacting you.",
+          "Start with your business name, contact details, services, service area, and hours. A logo, business photos, and your current website are helpful if you have them. When it’s time to build, we’ll also need any required domain access and the details customers should know before contacting you.",
       },
       {
         question: "Do I own the website?",
@@ -90,7 +95,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "Can you help with my Google Business Profile?",
         answer:
-          "Yes. The level of help depends on the plan. Starter includes a checkup, while Growth and Leader include more optimization support.",
+          "Yes. Starter includes a Google Business Profile checkup. Growth and Leader include profile optimization, review link / QR setup, and one profile post per month.",
       },
       {
         question: "Are results guaranteed?",
@@ -100,7 +105,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "What is local SEO foundation?",
         answer:
-          "Local SEO foundation means the basic website structure and page setup that helps search engines understand your business, services, and service area.",
+          "It’s the website structure and page setup that helps search engines understand what you do and where you work. Growth includes this foundation; Leader adds ongoing SEO improvements and service-area pages.",
       },
     ],
   },
@@ -114,7 +119,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "Who pays the Google Ads budget?",
         answer:
-          "The client pays Google directly for ad spend. Hometown Boost charges a separate management fee.",
+          "You pay your ad budget directly to Google. Hometown Boost charges the monthly management fee separately.",
       },
       {
         question: "Is ad spend included in the management fee?",
@@ -128,7 +133,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "What kind of ads do you manage?",
         answer:
-          "Hometown Boost starts with Google Search Ads only. Meta, TikTok, display, video, and advanced campaign types are not part of the starter ads offer.",
+          "The offer covers one primary Google Search campaign for your main service or priority offer, targeted to your service area. Meta, TikTok, display, video, and advanced campaign types are outside this offer.",
       },
       {
         question: "Is Google Ads included?",
@@ -138,7 +143,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "Can I add Google Ads?",
         answer:
-          "Yes. Google Ads management is optional and is usually best for Growth and Leader clients, or Starter clients with a ready landing page.",
+          "Yes. Google Ads management is optional and is usually best for Growth and Leader clients, or Starter clients with a ready landing page. We can help you assess your services, service area, and website before you start.",
       },
     ],
   },

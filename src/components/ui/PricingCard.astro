@@ -16,7 +16,7 @@ const features = typeof featureLimit === 'number' ? compactFeatures[plan.id].sli
   <p class="pricing-card__for">{plan.bestFor}</p>
   <div class="pricing-card__price">${plan.price}<span>/ month</span></div>
   <p class="pricing-card__terms">$0 setup · {plan.minimumMonths}-month minimum</p>
-  <Button href={plan.ctaHref} variant={plan.featured ? 'primary' : 'outline'}>Choose {plan.shortName} <span aria-hidden="true">↗</span></Button>
+  <Button href={plan.ctaHref} variant={plan.featured ? 'primary' : 'outline'}>{plan.ctaLabel} <span aria-hidden="true">↗</span></Button>
   <ul class="check-list">{features.map(feature => <li>{feature}</li>)}</ul>
   {showNotIncluded && <details class="plan-exclusions"><summary>What’s outside this plan?</summary><ul>{plan.notIncluded.map(feature => <li>{feature}</li>)}</ul></details>}
   <p class="pricing-card__commitment">{plan.minimumCommitment} total minimum commitment</p>

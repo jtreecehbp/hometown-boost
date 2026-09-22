@@ -1,5 +1,13 @@
 # Site quality review
 
+## September 22 brand and sales copy pass
+
+- The shared header/footer wordmark now reads Hometown Boost, with capital H and B. All customer-facing uses of neighbor/neighbors were removed, including the illustrative website.
+- Homepage, service, industry, process, pricing, About, inquiry, FAQ, and resource copy now explains concrete benefits, plan differences, and what happens after an inquiry. The rocket story and existing prices, minimum terms, and inclusions remain intact.
+- Plan-card actions explicitly ask about a plan and preserve plan selection on the inquiry form. Website and Google Ads pricing are clearly distinguished in shared calls to action.
+- Browser checks cover all 18 routes at 390, 768, and 1440 pixels, plus nine key pages at 320 pixels: no document overflow, broken loaded images, incorrect wordmark capitalization, or neighbor wording in visible copy. Desktop and mobile visual spot-checks covered the homepage, About, plan cards, and final homepage invitation.
+- The build and 54-test suite pass. The required-field test now counts HTML control attributes rather than matching the word required in surrounding copy.
+
 ## September 22, 2026 readiness pass
 
 - Leader is $599/month everywhere it is displayed, with the existing 12-month term and a $7,188 minimum commitment. Plan inclusions and the other three prices are unchanged.

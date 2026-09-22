@@ -9,7 +9,7 @@ import {pageMetadata} from '../data/metadata';
 const schema={'@context':'https://schema.org','@type':'FAQPage',mainEntity:allFaqs.map(faq=>({'@type':'Question',name:faq.question,acceptedAnswer:{'@type':'Answer',text:faq.answer}}))};
 ---
 <MainLayout {...pageMetadata.faq} schema={schema}>
-  <PageHero eyebrow="GOOD QUESTIONS. STRAIGHT ANSWERS." title="A little clarity goes a long way." description="The details on plans, pricing, website ownership, and ongoing support. If there’s something else on your mind, we’re an email away."/>
+  <PageHero eyebrow="KNOW WHAT TO EXPECT." title="Your website questions, answered." description="Understand what your plan includes, how updates work, and what you’re committing to. Start here for details on pricing, ownership, local SEO, and Google Ads."/>
   <Section>{faqCategories.map(category=><div class="faq-category"><h2>{category.title}</h2><FAQAccordion items={category.items}/></div>)}</Section>
-  <CTASection title="Still have something on your mind?" description="Send us your question. We’ll help you find a clear next step." primaryCta={{label:'Ask us a question',href:'/contact/'}}/>
+  <CTASection title="Have a question about your business?" description="Tell us what you need help with. We’ll explain your options and help you choose a starting point." primaryCta={{label:'Ask us a question',href:'/contact/'}}/>
 </MainLayout>

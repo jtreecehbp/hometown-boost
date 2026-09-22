@@ -5,9 +5,9 @@ const startingPriceMonthly = pricingPlans[0].priceLabel.replace("/mo", "/month")
 
 export const siteConfig = {
   name: "Hometown Boost",
-  tagline: "Websites and local marketing for hometown businesses.",
+  tagline: "Websites and local marketing for local businesses.",
   description:
-    `Professional websites for hometown businesses with no setup fees. Hometown Boost builds, hosts, and supports websites for local service businesses starting at ${startingPriceMonthly}.`,
+    `Website design, hosting, and ongoing care for local businesses from ${startingPriceMonthly} with $0 setup. Compare plans, support, and minimum terms.`,
   url: configuredUrl.replace(/\/$/, ""),
   email: "hello@hometownboost.com",
   phone: "",

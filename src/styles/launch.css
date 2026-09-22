@@ -246,6 +246,7 @@ body.has-launch-story {
 .launch-detail > span { font-size: .75rem; font-weight: 600; color: #2c5b7f; letter-spacing: .1em; }
 .launch-detail p { font-size: .875rem; color: var(--launch-muted); margin-top: 9px; }
 .launch-smallprint { font-size: .8125rem !important; color: #506a80 !important; line-height: 1.7 !important; margin-top: 22px !important; }
+.launch-smallprint a { text-decoration: underline; text-underline-offset: 3px; }
 .launch-process { margin: 25px 0 6px; display: grid; gap: 0; }
 .launch-process > div { display: flex; align-items: center; gap: 18px; border-bottom: 1px solid var(--launch-line); padding: 17px 0; }
 .launch-process span {
@@ -324,7 +325,7 @@ body.has-launch-story {
 .launch-questions .faq-list summary:after { color: var(--launch-accent); }
 .launch-questions .faq-list details p { font-size: .9375rem; }
 .launch-finale { min-height: 110svh; padding-bottom: 150px; }
-.launch-finale .launch-copy h2 { font-size: clamp(4rem, 7vw, 7rem); line-height: 1.05; }
+.launch-finale .launch-copy h2 { font-size: clamp(3.2rem, 5.1vw, 5rem); line-height: 1.08; }
 .launch-finale .launch-copy > p { font-size: 1.1875rem; }
 .launch-replay { display: inline-flex; margin-top: 42px; gap: 20px; color: var(--launch-muted); font-size: .875rem; }
 .launch-replay:hover { color: var(--launch-accent); }
@@ -450,7 +451,7 @@ body.has-launch-story {
   .launch-questions .faq-split { padding: 30px 24px; gap: 28px; background: #fffffff5; border-radius: 22px; }
   .launch-questions h2 { font-size: 2.5rem; }
   .launch-finale { min-height: 110svh; align-items: flex-start; padding-top: 105px; padding-bottom: 300px; }
-  .launch-finale .launch-copy h2 { font-size: 4.25rem; }
+  .launch-finale .launch-copy h2 { font-size: clamp(3rem, 11.5vw, 4.1rem); }
   .launch-finale .launch-copy > p { font-size: 1.0625rem; }
   .launch-finale .actions .btn { font-size: .875rem; gap: 15px; }
   .launch-chapters { display: none; }

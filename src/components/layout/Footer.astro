@@ -8,9 +8,9 @@ const groups = [
 ---
 <footer class="footer"><div class="container">
   <div class="footer__top">
-    <div class="footer__brand"><Brand /><p>Good at what you do?<br />Let’s make sure your town knows it.</p><a class="text-link" href={`mailto:${siteConfig.email}`}>{siteConfig.email} <span aria-hidden="true">↗</span></a></div>
+    <div class="footer__brand"><Brand /><p>Websites built for your business.<br />Ongoing care, handled for you.</p><a class="text-link" href={`mailto:${siteConfig.email}`}>{siteConfig.email} <span aria-hidden="true">↗</span></a></div>
     {groups.map(group => <div><h3>{group.title}</h3><ul>{group.links.map(([label,href]) => <li><a href={href}>{label}</a></li>)}</ul></div>)}
-    <div class="footer__hello"><span class="status-dot"></span><h3>Your next chapter<br />starts here.</h3><a class="text-link" href="/contact/">Let’s talk about your business <span aria-hidden="true">↗</span></a></div>
+    <div class="footer__hello"><h3>Find the right plan<br />for your business.</h3><a class="text-link" href="/contact/">Get a recommendation <span aria-hidden="true">↗</span></a></div>
   </div>
   <div class="footer__bottom"><p>© {new Date().getFullYear()} Hometown Boost</p><p>Made for the businesses that make a hometown.</p><div><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div></div>
 </div></footer>

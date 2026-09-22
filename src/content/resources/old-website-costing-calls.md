@@ -1,10 +1,10 @@
 ---
-title: "How to know when your old website is costing you calls"
+title: "Is your website making it harder for customers to contact you?"
 description: "Common signs that an outdated local business website may be making it harder for customers to contact you."
 category: "Websites"
 ---
 
-An old website can still load and still be hurting your business. The issue is not age by itself. The issue is whether the site helps customers trust you and take action.
+You know your website, but a first-time customer needs to understand it quickly. Check whether its information, layout, and contact options still reflect your business and make the next step clear.
 
 ## Warning signs
 
@@ -18,8 +18,8 @@ An old website can still load and still be hurting your business. The issue is n
 
 ## What to fix first
 
-Start with the parts closest to a lead: phone calls, forms, service clarity, and mobile usability. After that, improve trust sections, local SEO basics, and ongoing maintenance.
+Start with the steps a customer takes to reach you. Test the phone link and contact form. Make your main services and service area easy to find, and check them on a phone. Then update your photos, business details, and search information.
 
 ## Keep it simple
 
-A better local business website does not need fancy effects. It needs clear information, a professional look, and easy ways for customers to contact you.
+Clear information, a professional design, and easy contact options should lead the way. Every section should help customers understand your business or decide what to do next.

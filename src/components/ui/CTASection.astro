@@ -1,10 +1,11 @@
 ---
 import Button from './Button.astro';
+import {pricingPlans} from '../../data/pricingPlans';
 interface Cta { label: string; href: string; variant?: 'primary'|'secondary'|'outline'|'ghost'; }
-interface Props { eyebrow?: string; title?: string; description?: string; primaryCta?: Cta; secondaryCta?: Cta; }
-const {eyebrow='YOUR HOMETOWN. YOUR NEXT CHAPTER.',title='You do great work. Let’s get it noticed.',description='A better website. A clearer path to customers. A team to take it off your plate.',primaryCta={label:'Find my plan',href:'/contact/'},secondaryCta}=Astro.props;
+interface Props { eyebrow?: string; title?: string; description?: string; primaryCta?: Cta; secondaryCta?: Cta; note?: string; }
+const {eyebrow='A WEBSITE THAT WORKS FOR YOUR BUSINESS',title='Make it easier for customers to choose you.',description='Tell us about your business. We’ll recommend a website plan with the pages and support you need.',primaryCta={label:'Find my plan',href:'/contact/'},secondaryCta,note=`Website plans from $${pricingPlans[0].price}/month. $0 setup. Minimum terms apply.`}=Astro.props;
 ---
 <section class="section cta-section"><div class="container"><div class="cta-band">
-  <div><span class="eyebrow">{eyebrow}</span><h2>{title}</h2><p>{description}</p><div class="actions"><Button href={primaryCta.href}>{primaryCta.label} <span aria-hidden="true">↗</span></Button>{secondaryCta && <Button href={secondaryCta.href} variant="outline">{secondaryCta.label}</Button>}</div><p class="note">Plans from $99/month. $0 setup. Minimum terms apply.</p></div>
+  <div><span class="eyebrow">{eyebrow}</span><h2>{title}</h2><p>{description}</p><div class="actions"><Button href={primaryCta.href}>{primaryCta.label} <span aria-hidden="true">↗</span></Button>{secondaryCta && <Button href={secondaryCta.href} variant="outline">{secondaryCta.label}</Button>}</div><p class="note">{note}</p></div>
   <div class="cta-band__arrow" aria-hidden="true">↗</div>
 </div></div></section>

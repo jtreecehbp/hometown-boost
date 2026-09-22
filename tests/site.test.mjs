@@ -93,7 +93,7 @@ test("plan commitments and form registration remain consistent", () => {
   const contact = readFileSync(join(root, "contact/index.html"), "utf8"),
     registration = readFileSync(join(root, "__forms.html"), "utf8");
   const form = contact.match(/<form\b[\s\S]*?<\/form>/)[0];
-  assert.equal((form.match(/\srequired[\s>]/g) || []).length, 4);
+  assert.equal((form.match(/<(?:input|select|textarea)\b[^>]*\srequired[\s>]/g) || []).length, 4);
   for (const [, name] of form.matchAll(
     /<(?:input|select|textarea)\b[^>]*\bname="([^"]+)"/g,
   ))

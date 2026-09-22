@@ -16,18 +16,18 @@ const faqs=selectFaqs(['Why are there minimum terms?','What happens after the mi
 const schema={'@context':'https://schema.org','@type':'FAQPage',mainEntity:faqs.map(f=>({'@type':'Question',name:f.question,acceptedAnswer:{'@type':'Answer',text:f.answer}}))};
 ---
 <MainLayout {...pageMetadata.pricing} schema={schema}>
-  <PageHero eyebrow="YOUR NEXT CHAPTER, PRICED CLEARLY." title="A website plan for your next chapter." description={`From $${pricingPlans[0].price}/month with $0 setup. Your website build, hosting, and ongoing care, with a 12- or 24-month minimum depending on your plan.`}>
-    <div class="actions"><Button href="#plans">See the four plans <span aria-hidden="true">↓</span></Button><Button href="#compare" variant="outline">Compare the details</Button></div>
+  <PageHero eyebrow="CLEAR PRICING. ONGOING SUPPORT." title="A better website. A plan that fits." description={`Make it easier for customers to understand your services and contact you. Website plans start at $${pricingPlans[0].price}/month with $0 setup, hosting, and ongoing care. Lite has a 24-month minimum; all other plans have a 12-month minimum.`}>
+    <div class="actions"><Button href="#plans">Find your plan <span aria-hidden="true">↓</span></Button><Button href="#compare" variant="outline">Compare what’s included</Button></div>
   </PageHero>
   <Section id="plans" class="section--compact"><div class="grid grid--4 pricing-grid">{pricingPlans.map(plan=><PricingCard plan={plan} showNotIncluded/>)}</div>
-    <p class="pricing-footnote">Your website build and support are spread across the minimum term. After that, plans continue month to month unless canceled with 30 days’ written notice. <a href="/terms/">Read the terms ↗</a></p>
+    <p class="pricing-footnote">Your website build and support are spread across the minimum term. Each plan’s total minimum commitment is shown above. After the minimum term is complete and the account is paid in full, plans continue month to month unless canceled with 30 days’ written notice. <a href="/terms/">Read the terms ↗</a></p>
   </Section>
-  <Section variant="light" eyebrow="START WHERE YOU ARE." title="There’s a right-sized next step." align="center"><PlanSelector/></Section>
-  <Section id="compare" eyebrow="THE DETAILS, ALL IN ONE PLACE." title="Compare your options." description="Every plan includes hosting, SSL, maintenance, mobile-friendly design, and a clear way for customers to get in touch."><span id="plan-comparison"></span><PricingComparisonTable/></Section>
-  <Section variant="light" eyebrow="A LITTLE EXTRA, WHEN YOU NEED IT." title="Add to your plan." description={addOnScopeNote}>
+  <Section variant="light" eyebrow="CHOOSE BY WHAT YOU NEED." title="Start with your business priorities." align="center"><PlanSelector/></Section>
+  <Section id="compare" eyebrow="KNOW WHAT YOU’RE GETTING." title="Compare every plan." description="Every plan includes mobile-friendly design, hosting, SSL, maintenance, and a clear way for customers to contact you. Higher plans add more pages and local marketing support."><span id="plan-comparison"></span><PricingComparisonTable/></Section>
+  <Section variant="light" eyebrow="MORE HELP, WHEN YOU NEED IT." title="Add the support your business needs." description={addOnScopeNote}>
     <div class="grid grid--3">{addOns.map(addOn=><article class="card"><h3>{addOn.name}</h3><p>{addOn.price}</p></article>)}</div>
   </Section>
-  <Section><div class="split"><div><span class="eyebrow">READY FOR MORE SEARCH TRAFFIC?</span><h2 style="margin-top:20px">Put Google Ads to work.</h2><p style="margin-top:22px">Optional Google Search Ads management, with a separate budget paid directly to Google.</p></div><div class="card"><h3>{googleAdsPricing.formulaLabel}</h3><p>{googleAdsPricing.note} Website plan fees are separate.</p><Button href="/google-ads/" variant="primary">See how ads work <span aria-hidden="true">↗</span></Button></div></div></Section>
-  <Section variant="light" title="Before you choose." align="center"><FAQAccordion items={faqs}/></Section>
-  <CTASection title="A little guidance goes a long way." description="Tell us about your business. We’ll recommend a starting point that fits your needs." primaryCta={{label:'Help me find my plan',href:'/contact/'}}/>
+  <Section><div class="split"><div><span class="eyebrow">REACH PEOPLE SEARCHING FOR YOUR SERVICES.</span><h2 style="margin-top:20px">Add Google Search Ads.</h2><p style="margin-top:22px">Pair your website with a focused search campaign for your services and area. We’ll help you assess whether your website, budget, and business are ready for paid search.</p></div><div class="card"><h3>{googleAdsPricing.formulaLabel}</h3><p>{googleAdsPricing.note} Website plan fees are separate.</p><Button href="/google-ads/" variant="primary">Explore Google Ads <span aria-hidden="true">↗</span></Button></div></div></Section>
+  <Section variant="light" title="Understand the commitment." align="center"><FAQAccordion items={faqs}/></Section>
+  <CTASection title="Not sure which plan fits?" description="Tell us what you do, where you work, and what your website needs to do better. We’ll recommend a starting point by email, with no obligation." primaryCta={{label:'Get my recommendation',href:'/contact/'}}/>
 </MainLayout>

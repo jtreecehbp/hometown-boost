@@ -18,9 +18,11 @@ Google Ads can bring targeted traffic faster, but ads work best when they send p
 
 - Your website or landing page is ready
 - You can handle more calls or form leads
-- Your jobs have enough value to support ad spend
+- Your typical job value and margins can support a paid advertising budget
 - You can test for at least a few months
 
 ## The practical order
 
 Build the foundation first, then add traffic. Ads cannot fix a confusing website, and a good website can support both organic local visibility and paid campaigns.
+
+Before you spend on ads, check that the destination page explains the service, names the area you serve, and gives customers a clear way to call or request a quote.

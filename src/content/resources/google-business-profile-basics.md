@@ -21,6 +21,8 @@ For many local customers, your Google Business Profile is the first place they s
 
 Your website and Google profile should support each other. The profile helps customers find you in local search and maps. The website gives them more detail, builds trust, and gives them a place to take the next step.
 
-## Keep expectations honest
+## Keep your profile current
 
-Optimizing a profile does not guarantee rankings or leads. It does help create a cleaner, more complete local presence.
+Review your hours, contact details, services, and photos whenever your business changes. Check that your website shows the same information, and make sure the website and contact links work.
+
+A complete profile helps customers make an informed choice. Search rankings and lead volume still depend on your market, competition, and other factors.

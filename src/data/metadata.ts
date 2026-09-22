@@ -6,7 +6,7 @@ export const pageMetadata = {
   home: {
     title: "Hometown Boost | Websites & Local Marketing for Local Businesses",
     description:
-      "Professional monthly websites, hosting, maintenance, local SEO foundation, and optional Google Ads support for hometown service businesses.",
+      `Help customers find your business and get in touch. Website design, hosting, and ongoing care from ${startingPriceMonthly} with $0 setup. Minimum terms apply.`,
   },
   pricing: {
     title: "Pricing | Hometown Boost Website Plans",
@@ -26,7 +26,7 @@ export const pageMetadata = {
   industries: {
     title: "Industries We Serve | Hometown Boost",
     description:
-      "Websites and local marketing support for plumbers, HVAC companies, electricians, roofers, landscapers, lawn care, towing companies, shops, and other hometown businesses.",
+      "Websites and local marketing support for plumbers, HVAC companies, electricians, roofers, landscapers, lawn care, towing companies, shops, and other local businesses.",
   },
   googleAds: {
     title: "Google Ads Management | Hometown Boost",
@@ -44,9 +44,9 @@ export const pageMetadata = {
       "Answers to common questions about Hometown Boost website plans, pricing, hosting, SEO, Google Business Profile help, and Google Ads management.",
   },
   contact: {
-    title: "Contact Hometown Boost",
+    title: "Find Your Website Plan | Hometown Boost",
     description:
-      "Tell us about your local business, website needs, service area, and plan interest. We will follow up with a clear next step.",
+      "Tell us what your business needs. Get a website plan recommendation by email, with clear pricing and scope before you commit.",
   },
   resources: {
     title: "Resources | Hometown Boost",

@@ -910,7 +910,7 @@ select:focus-visible {
   font-size: 14px;
   line-height: 1.6;
   margin: 18px 0 24px;
-  min-height: 63px;
+  min-height: 4.8em;
 }
 .pricing-card__price {
   font-family: var(--font-display);
@@ -1577,7 +1577,7 @@ select:focus-visible {
     gap: 20px;
   }
   .pricing-card__for {
-    min-height: 42px;
+    min-height: 3.2em;
   }
   .footer__top {
     gap: 25px;
