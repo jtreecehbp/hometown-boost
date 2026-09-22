@@ -83,11 +83,11 @@ test("plan commitments and form registration remain consistent", () => {
     "$99",
     "$179",
     "$329",
-    "$549",
+    "$599",
     "$2,376",
     "$2,148",
     "$3,948",
-    "$6,588",
+    "$7,188",
   ])
     assert.ok(pricing.includes(amount), amount);
   const contact = readFileSync(join(root, "contact/index.html"), "utf8"),
@@ -110,7 +110,7 @@ test("one continuous launch scene loads separately from useful HTML content", ()
   assert.equal((home.match(/data-flight-cue=/g) || []).length, 3);
   assert.match(home, /data-launch-controls hidden/);
   assert.match(home, /Pause motion/);
-  for (const amount of ["$99", "$179", "$329", "$549"])
+  for (const amount of ["$99", "$179", "$329", "$599"])
     assert.ok(home.includes(amount));
   assert.doesNotMatch(
     readFileSync(join(root, "contact/index.html"), "utf8"),

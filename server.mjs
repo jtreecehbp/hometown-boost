@@ -55,6 +55,46 @@ const json = (res, status, data) =>
   send(res, status, JSON.stringify(data), {
     "Content-Type": "application/json; charset=utf-8",
   });
+const wantsJson = (req) =>
+  String(req.headers.accept || "").toLowerCase().includes("application/json");
+const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => ({
+  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+})[character]);
+
+function contactError(req, res, status, message) {
+  if (wantsJson(req)) {
+    json(res, status, { ok: false, error: message });
+    return;
+  }
+  const explanation = status === 503
+    ? "The contact form is temporarily unavailable. Please email us so we can help."
+    : status === 415
+      ? "Please return to the contact form and try again."
+      : status === 413
+        ? "Your inquiry is too long. Please shorten it and try again."
+        : message === "Invalid inquiry."
+          ? "Please return to the contact form and check your details."
+          : message;
+  send(res, status, `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#10253f">
+<title>Let’s Try Again | Hometown Boost</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#edf6fd;color:#10253f;font:1rem/1.65 system-ui,sans-serif}
+header,main{width:min(100% - 40px,680px);margin-inline:auto}header{padding:32px 0}header a{font-weight:800;font-size:1.15rem;text-decoration:none}
+main{margin-bottom:48px;padding:clamp(24px,6vw,48px);background:#fff;border:1px solid #d6e4ee;border-radius:24px;box-shadow:0 20px 60px #10253f0a}
+h1{font-size:clamp(2rem,6vw,2.8rem);line-height:1.12;letter-spacing:-.035em;margin:0 0 24px}p{margin:0 0 20px;overflow-wrap:anywhere}
+a{color:#174b76;text-underline-offset:4px}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}.actions a{display:inline-flex;align-items:center;min-height:48px;padding:12px 18px;border-radius:10px;font-weight:700;text-decoration:none;border:1px solid #bccfdf}.actions a:first-child{background:#10253f;color:#fff;border-color:#10253f}
+a:focus-visible{outline:3px solid #d95b0b;outline-offset:4px}.label{font-size:.75rem;font-weight:800;letter-spacing:.13em;color:#a34210}
+</style></head><body><header><a href="/">Hometown Boost</a></header><main>
+<p class="label">LET’S GET YOU CONNECTED</p><h1>We couldn’t confirm your request.</h1>
+<p>${escapeHtml(explanation)}</p><p>Use your browser’s Back button to review your details, or open the contact form to start again.</p>
+<div class="actions"><a href="/contact/">Return to contact form</a><a href="mailto:hello@hometownboost.com">Email Hometown Boost</a></div>
+</main></body></html>`, {
+    "Content-Type": "text/html; charset=utf-8",
+    "X-Robots-Tag": "noindex, nofollow",
+  });
+}
 
 function serviceEndpoint(value) {
   if (!value) return null;
@@ -130,10 +170,7 @@ export function createAppServer({
     if (url.pathname === "/api/contact" && req.method === "POST") {
       if (!endpoint) {
         req.resume();
-        json(res, 503, {
-          ok: false,
-          error: "The form service is not configured.",
-        });
+        contactError(req, res, 503, "The form service is not configured.");
         return;
       }
       if (
@@ -142,12 +179,12 @@ export function createAppServer({
           .startsWith("application/x-www-form-urlencoded")
       ) {
         req.resume();
-        json(res, 415, { ok: false, error: "Unsupported form format." });
+        contactError(req, res, 415, "Unsupported form format.");
         return;
       }
       if (Number(req.headers["content-length"] || 0) > 32768) {
         req.resume();
-        json(res, 413, { ok: false, error: "The inquiry is too large." });
+        contactError(req, res, 413, "The inquiry is too large.");
         return;
       }
       if (req.headers.origin) {
@@ -156,17 +193,14 @@ export function createAppServer({
             throw new Error("origin");
         } catch {
           req.resume();
-          json(res, 403, {
-            ok: false,
-            error: "Submit this form from the website.",
-          });
+          contactError(req, res, 403, "Submit this form from the website.");
           return;
         }
       }
       try {
         const input = await readForm(req);
         if (input.get("form-name") !== "contact" || input.get("bot-field")) {
-          json(res, 400, { ok: false, error: "Invalid inquiry." });
+          contactError(req, res, 400, "Invalid inquiry.");
           return;
         }
         const payload = new URLSearchParams({
@@ -176,10 +210,7 @@ export function createAppServer({
         for (const [field, max] of Object.entries(limits)) {
           const value = (input.get(field) || "").trim();
           if (value.length > max) {
-            json(res, 400, {
-              ok: false,
-              error: "Please shorten the " + field + " field.",
-            });
+            contactError(req, res, 400, "Please shorten the " + field + " field.");
             return;
           }
           payload.set(field, value);
@@ -190,10 +221,7 @@ export function createAppServer({
           ) ||
           !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.get("email"))
         ) {
-          json(res, 400, {
-            ok: false,
-            error: "Enter your name, business, valid email, and service area.",
-          });
+          contactError(req, res, 400, "Enter your name, business, valid email, and service area.");
           return;
         }
         const result = await fetchImpl(endpoint.href, {
@@ -204,24 +232,18 @@ export function createAppServer({
           redirect: "follow",
         });
         if (!result.ok) {
-          json(res, 502, {
-            ok: false,
-            error: "Your inquiry could not be confirmed. Please try again.",
-          });
+          contactError(req, res, 502, "Your inquiry could not be confirmed. Please try again.");
           return;
         }
         // Release the upstream response without storing inquiry details or logging them.
         await result.body?.cancel();
-        if (String(req.headers.accept || "").includes("application/json"))
+        if (wantsJson(req))
           json(res, 200, { ok: true });
         else send(res, 303, "", { Location: "/thank-you/" });
       } catch (error) {
         if (!res.headersSent && !res.destroyed)
-          json(res, error.message === "too-large" ? 413 : 502, {
-            ok: false,
-            error:
-              "Your inquiry could not be confirmed. Please try again or email hello@hometownboost.com.",
-          });
+          contactError(req, res, error.message === "too-large" ? 413 : 502,
+            "Your inquiry could not be confirmed. Please try again or email hello@hometownboost.com.");
       }
       return;
     }

@@ -14,11 +14,11 @@ const valid = {
 };
 async function fixture(
   t,
-  { status = 200, fail = false, configured = true } = {},
+  { status = 200, fail = false, configured = true, indexing = false } = {},
 ) {
   const requests = [];
   const server = createAppServer({
-    indexing: false,
+    indexing,
     formServiceUrl: configured ? "https://forms-fixture.netlify.app/" : "",
     fetchImpl: async (url, options) => {
       requests.push({ url, ...options });
@@ -136,5 +136,37 @@ test("unconfigured, rejected, and offline delivery never return a success respon
     const response = await f.submit();
     assert.equal(response.status, config.configured === false ? 503 : 502);
     assert.equal((await response.json()).ok, false);
+  }
+});
+
+test("native form failures offer a readable recovery page without exposing submitted details", async (t) => {
+  const cases = [
+    { config: { configured: false }, status: 503 },
+    { config: { status: 422 }, status: 502 },
+    { config: { fail: true }, status: 502 },
+    { fields: { email: "invalid" }, status: 400 },
+    { fields: { "bot-field": "filled" }, status: 400 },
+    { fields: { message: "x".repeat(40000) }, status: 413 },
+    { headers: { Origin: "https://other.example" }, status: 403 },
+    { headers: { "Content-Type": "application/json" }, status: 415 },
+  ];
+  for (const item of cases) {
+    const f = await fixture(t, { indexing: true, ...item.config });
+    const response = await f.submit({
+      ...valid,
+      name: "Private form answer <script>alert(1)</script>",
+      ...item.fields,
+    }, { Accept: "text/html,application/xhtml+xml", ...item.headers });
+    assert.equal(response.status, item.status);
+    assert.match(response.headers.get("content-type"), /^text\/html/);
+    assert.equal(response.headers.get("cache-control"), "no-store");
+    assert.equal(response.headers.get("x-robots-tag"), "noindex, nofollow");
+    const html = await response.text();
+    assert.match(html, /<html lang="en">/);
+    assert.match(html, /<h1>We couldn’t confirm your request\.<\/h1>/);
+    assert.match(html, /href="\/contact\/"/);
+    assert.match(html, /href="mailto:hello@hometownboost\.com"/);
+    assert.match(html, /Back button/);
+    assert.doesNotMatch(html, /Private form answer|owner@example\.test|<script/);
   }
 });

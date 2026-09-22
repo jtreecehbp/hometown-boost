@@ -899,6 +899,8 @@ select:focus-visible {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  min-height: 32px;
   gap: 8px;
 }
 .pricing-card__topline h3 {
@@ -959,8 +961,21 @@ select:focus-visible {
   text-underline-offset: 3px;
 }
 .plan-exclusions {
-  font-size: 12px;
+  font-size: 14px;
   margin-bottom: 20px;
+}
+.plan-exclusions summary {
+  min-height: 44px;
+  padding-block: 11px;
+  cursor: pointer;
+  color: var(--ink);
+}
+.plan-exclusions[open] summary {
+  margin-bottom: 8px;
+}
+.plan-exclusions ul {
+  margin-top: 0;
+  color: var(--muted);
 }
 .faq-split {
   display: grid;
@@ -2287,7 +2302,7 @@ select:focus-visible {
 }
 .pricing-card__terms,
 .pricing-card__commitment {
-  font-size: 13px;
+  font-size: 14px;
 }
 .pricing-card__price span {
   font-size: 14px;
@@ -2315,7 +2330,7 @@ select:focus-visible {
 @media (max-width: 680px) {
   .pricing-card__terms,
   .pricing-card__commitment {
-    font-size: 13px;
+    font-size: 14px;
   }
   .scene-card strong {
     font-size: 12px;

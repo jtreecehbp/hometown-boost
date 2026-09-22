@@ -1,5 +1,15 @@
 # Site quality review
 
+## September 22, 2026 readiness pass
+
+- Leader is $599/month everywhere it is displayed, with the existing 12-month term and a $7,188 minimum commitment. Plan inclusions and the other three prices are unchanged.
+- Pricing headings and amounts align on desktop. Commitment text and plan exclusions are easier to read; exclusions and homepage motion controls have larger touch targets.
+- Native form failures now have a responsive recovery page, email fallback, correct failure status, and no submitted details in the response. JavaScript clients retain the same JSON contract.
+- Coolify-mode production build succeeds. All 54 automated checks pass; Astro reports zero errors, warnings, or hints across 110 files.
+- Browser DOM checks cover all 18 pages at 390, 768, and 1440 pixels, plus Home, Pricing, Contact, and Google Ads at 320 pixels. No horizontal document overflow, broken loaded images, or application console errors were found in those checks. Visual spot-checks cover the phone homepage, desktop pricing alignment, tablet rocket ascent, phone inquiry failure, and native form recovery.
+- Local simulated inquiries verified the Leader selection, empty-field validation, rejection with retained answers, successful confirmation, and disabled duplicate submission after Back. The native no-script failure path was also reviewed in the browser. The fixture sends no real inquiries.
+- The existing preview answers health and form-configuration checks successfully and remains excluded from search. Final-domain publication requires enabling indexing on the production application and confirming a real inquiry in the owner's inbox; these are not claimed by the local tests.
+
 Release review: September 7, 2026. The owner approved browser testing. The issues found during this review have been corrected. This document records local review evidence and release requirements; the release response identifies the verified public deployment. This is evidence of the tested build, not a guarantee about every device or future conversion results.
 
 ## Visual coverage

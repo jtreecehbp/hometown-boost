@@ -95,7 +95,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "Are results guaranteed?",
         answer:
-          "No. No honest provider can guarantee rankings, lead volume, ad results, revenue, or specific business outcomes. Hometown Boost focuses on building a stronger online foundation, improving presentation, making your business easier to contact, and supporting practical local visibility.",
+          "No. Search rankings, lead volume, ad results, and revenue depend on your market, competition, and other factors outside our control. We focus on a useful website, a clear path to contact you, and practical support for your local visibility.",
       },
       {
         question: "What is local SEO foundation?",

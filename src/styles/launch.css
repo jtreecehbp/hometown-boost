@@ -376,7 +376,7 @@ body.has-launch-story {
 .launch-world:not(.is-active) .launch-chapters { visibility: hidden; pointer-events: none; }
 .launch-controls__chapter { font-size: .8125rem; white-space: nowrap; }
 .launch-controls__divider { height: 15px; width: 1px; background: #bfd2e1; }
-.launch-controls button { min-height: 38px; padding: 7px 12px; border: 0; border-radius: 25px; background: #eaf3fa; color: var(--launch-ink); font-size: .8125rem; display: flex; gap: 12px; align-items: center; white-space: nowrap; }
+.launch-controls button { min-height: 44px; padding: 7px 12px; border: 0; border-radius: 25px; background: #eaf3fa; color: var(--launch-ink); font-size: .875rem; display: flex; gap: 12px; align-items: center; white-space: nowrap; }
 .launch-controls button:hover { background: #dbeaf6; }
 .has-launch-story .footer { position: relative; background: #fff; border-color: #d6e5ef; }
 .has-launch-story .footer p,
@@ -455,7 +455,7 @@ body.has-launch-story {
   .launch-finale .actions .btn { font-size: .875rem; gap: 15px; }
   .launch-chapters { display: none; }
   .launch-controls { bottom: 10px; gap: 10px; padding-left: 14px; }
-  .launch-controls button { min-height: 40px; }
+  .launch-controls button { min-height: 44px; }
   .launch-replay { margin-top: 28px; }
   .launch-plans { background: #f5faff66; }
 }

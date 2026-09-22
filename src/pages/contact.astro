@@ -3,7 +3,9 @@ import MainLayout from '../layouts/MainLayout.astro';
 import Button from '../components/ui/Button.astro';
 import SceneWindow from '../components/SceneWindow.astro';
 import {pageMetadata} from '../data/metadata';
-import {planInterestOptions} from '../data/pricingPlans';
+import {planInterestOptions,pricingPlans} from '../data/pricingPlans';
+import {siteConfig} from '../data/siteConfig';
+const startingPriceMonthly=pricingPlans[0].priceLabel.replace('/mo','/month');
 const serverDelivery=import.meta.env.PUBLIC_FORM_DELIVERY==='server';
 const formEnabled=serverDelivery||import.meta.env.NETLIFY==='true'||import.meta.env.PUBLIC_FORM_DELIVERY==='netlify';
 const formEndpoint=serverDelivery?'/api/contact':'/';
@@ -14,8 +16,8 @@ const formEndpoint=serverDelivery?'/api/contact':'/';
       <div class="contact-jump"><Button href="#request">Start your request <span aria-hidden="true">↗</span></Button></div>
       <SceneWindow/>
       <div class="contact-expectations"><div><span>01 /</span><div><strong>You share the basics.</strong><p>Where you work and what you need.</p></div></div><div><span>02 /</span><div><strong>We review the fit.</strong><p>Your website, goals, and plan options.</p></div></div><div><span>03 /</span><div><strong>You get a clear next step.</strong><p>A recommendation, without obligation.</p></div></div></div>
-      <p class="note">Plans from <strong>$99/month</strong> with <strong>$0 setup</strong>.<br />Minimum terms apply. <a class="text-link" href="/pricing/">See plans and commitments ↗</a></p>
-      <p style="margin-top:30px;font-size:14px">Prefer to say hello by email?<br /><a class="text-link" href="mailto:hello@hometownboost.com">hello@hometownboost.com ↗</a></p>
+      <p class="note">Plans from <strong>{startingPriceMonthly}</strong> with <strong>$0 setup</strong>.<br />Minimum terms apply. <a class="text-link" href="/pricing/">See plans and commitments ↗</a></p>
+      <p style="margin-top:30px;font-size:14px">Prefer to say hello by email?<br /><a class="text-link" href={`mailto:${siteConfig.email}`}>{siteConfig.email} ↗</a></p>
     </div>
     <form id="request" class="lead-form" tabindex="-1" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action={serverDelivery?'/api/contact':'/thank-you/'} data-form-endpoint={formEndpoint} data-form-enabled={String(formEnabled)}>
       <input type="hidden" name="form-name" value="contact"/>
