@@ -7,7 +7,7 @@ export const siteConfig = {
   name: "Hometown Boost",
   tagline: "Websites and local marketing for local businesses.",
   description:
-    `Website design, hosting, and ongoing care for local businesses from ${startingPriceMonthly} with $0 setup. Compare plans, support, and minimum terms.`,
+    `Website and Google Business Profile management for local businesses from ${startingPriceMonthly} with $0 setup. Compare plans, support, and minimum terms.`,
   url: configuredUrl.replace(/\/$/, ""),
   email: "hello@hometownboost.com",
   phone: "",

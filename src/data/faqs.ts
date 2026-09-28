@@ -1,4 +1,4 @@
-import { googleAdsPricing } from "./pricingPlans";
+import { googleAdsPricing, integrationScopeNote } from "./pricingPlans";
 
 export type FAQ = {
   question: string;
@@ -16,7 +16,7 @@ export const faqCategories: FAQCategory[] = [
     items: [
       {
         question: "Are there setup fees?",
-        answer: "No. Every website plan has a $0 setup fee. Your website build and ongoing support are covered by the monthly plan, with a 24-month minimum for Lite and a 12-month minimum for Starter, Growth, and Leader.",
+        answer: "No. Every website plan has a $0 setup fee. Your website build and ongoing support are covered by the monthly plan, with a 12-month minimum for each plan.",
       },
       {
         question: "Why are there minimum terms?",
@@ -24,14 +24,14 @@ export const faqCategories: FAQCategory[] = [
           "The minimum term spreads the cost of your website build, hosting, maintenance, and support over monthly payments. You can see both the monthly price and the total minimum commitment for each plan on the Pricing page.",
       },
       {
-        question: "Why is Lite a 24-month plan?",
+        question: "What does Connect add?",
         answer:
-          "Lite has our lowest monthly price. Its 24-month minimum spreads the cost of building and supporting your one-page website over a longer period.",
+          "Connect includes everything in Foundation, plus supported CRM or job-software connections, online booking, automatic inquiry follow-up, and ongoing integration management. The upgrade is $120 per month. We agree on the tools and workflow before work begins.",
       },
       {
         question: "Can I upgrade later?",
         answer:
-          "Yes. You can move to a higher plan when you need more pages or support. Get in touch to discuss the right scope for your business.",
+          "Yes. You can move from Foundation to Connect when you want your website connected to your business tools and customer follow-up. Get in touch to discuss the right scope for your business.",
       },
       {
         question: "What happens after the minimum term?",
@@ -51,7 +51,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "Which plan is right for my business?",
         answer:
-          "Lite gives you a simple one-page website. Starter adds room for more information and a small monthly edit. Growth pairs a website of up to five pages with Google Business Profile support. Leader adds more service and service-area pages, ongoing SEO improvements, and priority updates. If you’re unsure, tell us about your business and we’ll recommend a starting point.",
+          "Foundation combines a website of up to five pages with ongoing Google Business Profile management, review requests, and monthly care and reporting. Connect adds supported integrations, booking, and automatic inquiry follow-up. Leader focuses on expanded service-area coverage, ongoing SEO, and priority updates. If you’re unsure, tell us about your business and we’ll recommend a starting point.",
       },
       {
         question: "Is hosting included?",
@@ -75,7 +75,11 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "Can I update my site?",
         answer:
-          "We handle updates according to your plan. Lite includes a quarterly small update, Starter includes a small monthly edit, Growth includes monthly edits, and Leader includes priority monthly updates.",
+          "We handle updates according to your plan. Foundation and Connect include one monthly batch of routine text and photo updates. Leader includes priority monthly updates.",
+      },
+      {
+        question: "Are all integrations and software fees included?",
+        answer: integrationScopeNote,
       },
       {
         question: "What do you need from me to start?",
@@ -95,7 +99,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "Can you help with my Google Business Profile?",
         answer:
-          "Yes. Starter includes a Google Business Profile checkup. Growth and Leader include profile optimization, review link / QR setup, and one profile post per month.",
+          "Yes. Every plan includes ongoing management of one Google Business Profile: initial optimization, business information and hours updates, two posts per month, review monitoring and response support, and review link / QR setup.",
       },
       {
         question: "Are results guaranteed?",
@@ -105,7 +109,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "What is local SEO foundation?",
         answer:
-          "It’s the website structure and page setup that helps search engines understand what you do and where you work. Growth includes this foundation; Leader adds ongoing SEO improvements and service-area pages.",
+          "It’s the website structure and page setup that helps search engines understand what you do and where you work. Every plan includes this foundation; Leader adds ongoing SEO improvements and service-area pages.",
       },
     ],
   },
@@ -143,7 +147,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "Can I add Google Ads?",
         answer:
-          "Yes. Google Ads management is optional and is usually best for Growth and Leader clients, or Starter clients with a ready landing page. We can help you assess your services, service area, and website before you start.",
+          "Yes. Google Ads management is optional for businesses with a suitable website, landing page, and advertising budget. We can help you assess your services, service area, and website before you start.",
       },
     ],
   },
@@ -153,7 +157,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "How do updates work?",
         answer:
-          "Update support depends on the plan. Lite includes a quarterly small update, Starter includes a small monthly edit, Growth includes monthly edits, and Leader includes priority monthly updates. Larger redesigns, major copywriting, new page builds, advanced integrations, or rush requests may be quoted separately.",
+          "Update support depends on the plan. Foundation and Connect include one monthly batch of routine text and photo updates. Leader includes priority monthly updates. Larger redesigns, major copywriting, new page builds, advanced integrations, or rush requests may be quoted separately.",
       },
     ],
   },

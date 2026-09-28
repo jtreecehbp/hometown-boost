@@ -4,15 +4,14 @@ import type { PricingPlan } from '../../data/pricingPlans';
 interface Props { plan: PricingPlan; featureLimit?: number; showNotIncluded?: boolean; }
 const {plan,featureLimit,showNotIncluded=false} = Astro.props;
 const compactFeatures = {
-  lite: [plan.websiteSize, 'Mobile-friendly design', 'Hosting & SSL included', 'Contact form & click-to-call', 'Quarterly small update'],
-  starter: [plan.websiteSize, 'Hosting & SSL included', 'Google profile checkup', 'Monthly small edit', 'Quarterly reporting'],
-  growth: [plan.websiteSize, 'Local SEO foundation', 'Google profile optimization', 'Review link & QR setup', 'Monthly edits & reporting'],
-  leader: [plan.websiteSize, 'Everything in Growth', 'Service-area SEO pages', 'Ongoing SEO improvements', 'Priority updates & strategy'],
+  foundation: [plan.websiteSize, 'Ongoing Google profile management', 'Review requests & response support', 'Monthly updates & reporting', 'Hosting, security & maintenance'],
+  connect: ['Everything in Foundation', 'CRM & business-tool connections', 'Online booking & calendar sync', 'Automatic inquiry follow-up', 'Ongoing integration management'],
+  leader: [plan.websiteSize, 'Managed Google profile & reviews', 'Service-area SEO pages', 'Ongoing SEO improvements', 'Priority updates & strategy'],
 };
 const features = typeof featureLimit === 'number' ? compactFeatures[plan.id].slice(0,featureLimit) : plan.highlights;
 ---
 <article class:list={['pricing-card',{'pricing-card--featured':plan.featured}]}>
-  <div class="pricing-card__topline"><h3>{plan.shortName}</h3>{plan.featured && <span class="pill">Recommended</span>}</div>
+  <div class="pricing-card__topline"><h3>{plan.shortName}</h3>{plan.featured && <span class="pill">{plan.badge || "Recommended"}</span>}</div>
   <p class="pricing-card__for">{plan.bestFor}</p>
   <div class="pricing-card__price">${plan.price}<span>/ month</span></div>
   <p class="pricing-card__terms">$0 setup · {plan.minimumMonths}-month minimum</p>

@@ -1,5 +1,15 @@
 # Site quality review
 
+## September 28, 2026 pricing and production migration
+
+- Foundation ($129/month) combines the former entry plans. Connect ($249/month) adds supported business-tool connections, booking, automated inquiry follow-up, and ongoing integration support. Google Business Profile management and two posts per month are included in every plan. Existing Leader ($599) and 12-month terms are retained.
+- Pricing cards, comparison, FAQs, service/industry descriptions, metadata, terms, and inquiry selections agree. Old plan query links still select the appropriate new plan. Basic review link/QR setup is included; the separate artwork add-on is labeled as custom print-ready artwork.
+- Permanent redirects cover retired routes from the previous production sitemap, retaining campaign tags and pointing to existing sections or guides. Unknown pages still return a real 404.
+- Coolify-mode build and all 57 automated tests pass. Astro diagnostics report zero errors, warnings, or hints. Tests cover production indexing, preview exclusion, redirects, form behavior, pricing commitments, page/asset links, and the rocket scene.
+- Browser checks at 320, 768, and 1440 pixels cover Home, Pricing, Services, and Contact with no document overflow, broken loaded images, or captured application errors. Desktop and 390-pixel phone pricing cards were visually inspected. Connect links select Connect; a local simulated inquiry reaches Thank You. No real inquiry was sent by these checks.
+- Production uses the existing custom-domain Coolify application with Dockerfile deployment and indexing enabled. Preview keeps its own app and indexing disabled. Previous production settings and image identity were saved before the switch; final deployment evidence is recorded in the central project task.
+- A live inbox delivery test remains pending the owner's permission to send one labeled test inquiry. Provider configuration and simulated success do not establish inbox delivery.
+
 ## September 22 brand and sales copy pass
 
 - The shared header/footer wordmark now reads Hometown Boost, with capital H and B. All customer-facing uses of neighbor/neighbors were removed, including the illustrative website.

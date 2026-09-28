@@ -6,7 +6,7 @@ export const addOns = [
   { name: "Citation cleanup package", price: "$299-$499" },
   { name: "Logo refresh", price: "$299-$599" },
   { name: "Full logo/brand kit", price: "$799+" },
-  { name: "Review card / QR code design", price: "$99" },
+  { name: "Custom print-ready review-card artwork", price: "$99 one-time; basic review link and QR setup included in every plan" },
   { name: "Call tracking setup", price: "$49/mo plus software cost" },
   { name: "Rush update", price: "$75+" },
   { name: "Extra monthly support hour", price: "$75-$100/hr" },

@@ -6,17 +6,17 @@ export const pageMetadata = {
   home: {
     title: "Hometown Boost | Websites & Local Marketing for Local Businesses",
     description:
-      `Help customers find your business and get in touch. Website design, hosting, and ongoing care from ${startingPriceMonthly} with $0 setup. Minimum terms apply.`,
+      `Help customers find your business and get in touch. Website and Google Business Profile management from ${startingPriceMonthly} with $0 setup. Minimum terms apply.`,
   },
   pricing: {
     title: "Pricing | Hometown Boost Website Plans",
     description:
-      `Simple monthly website plans starting at ${startingPriceMonthly} with no setup fee, hosting included, maintenance included, and clear minimum commitments.`,
+      `Compare Hometown Foundation and Connect. Website and Google Business Profile management from ${startingPriceMonthly}, with integrations and automation available. $0 setup; minimum terms apply.`,
   },
   services: {
     title: "Services | Hometown Boost",
     description:
-      "Website design, hosting, maintenance, local SEO foundation, Google Business Profile support, review tools, and optional Google Ads management.",
+      "Website design, hosting, maintenance, local SEO foundation, ongoing Google Business Profile management, review tools, supported integrations, and optional Google Ads management.",
   },
   howItWorks: {
     title: "How It Works | Hometown Boost",

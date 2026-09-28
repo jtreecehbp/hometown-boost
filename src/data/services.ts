@@ -21,10 +21,10 @@ export const services = [
     icon: "map-pin",
   },
   {
-    title: "Google Business Profile Help",
-    summary: "Setup, checkup, and optimization depending on your plan.",
+    title: "Google Business Profile Management",
+    summary: "Ongoing Google Business Profile management in every plan.",
     details:
-      "Your website and Google Business Profile should work together. We help with business info, services, categories, descriptions, and ongoing support on higher plans.",
+      "We keep your profile information current, publish two posts each month, support review responses, and report on performance alongside your website.",
     icon: "storefront",
   },
   {

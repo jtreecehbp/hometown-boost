@@ -7,6 +7,7 @@ import WebsiteDemo from '../components/WebsiteDemo.astro';
 import CTASection from '../components/ui/CTASection.astro';
 import {services} from '../data/services';
 import {pageMetadata} from '../data/metadata';
+import {integrationScopeNote} from '../data/pricingPlans';
 ---
 <MainLayout {...pageMetadata.services}>
   <section class="page-hero"><div class="container page-intro"><div><span class="eyebrow">MORE THAN A WEBSITE BUILD.</span><h1>Look professional.<br />Make it easy to call.</h1><p>Give customers a clear view of your services and an easy way to reach you. We handle the website, hosting, and ongoing care, with local search support based on your plan.</p><div class="actions"><Button href="/contact/">Find my plan <span aria-hidden="true">↗</span></Button><Button href="/pricing/" variant="outline">Compare plans</Button></div></div><SceneWindow/></div></section>
@@ -15,7 +16,11 @@ import {pageMetadata} from '../data/metadata';
   </Section>
   <section class="section dark-section" id="websites"><div class="container service-showcase"><div><span class="eyebrow">YOUR BEST FIRST IMPRESSION.</span><h2 style="margin:20px 0">A good website should earn its place in your business.</h2><p>We make your services clear, your service area easy to find, and the next step simple. Your real photos, reviews, and credentials add the reasons to trust you.</p><ul class="check-list"><li>Clear service information and contact paths</li><li>Layouts built for phones and larger screens</li><li>Your business details, accurately presented</li><li>Hosting, SSL, and plan-based updates</li></ul><Button href="/pricing/" variant="secondary">Find your website plan <span aria-hidden="true">↗</span></Button></div><WebsiteDemo/></div></section>
   <Section id="visibility" eyebrow="MAKE YOUR BUSINESS EASIER TO FIND." title="Clear information. More reasons to get in touch.">
-    <div class="grid grid--3"><article class="card"><span class="eyebrow">YOUR WEBSITE</span><h3>Say what you do.<br />Show where you work.</h3><p>Clear service pages and search-friendly structure help customers and search engines understand what you offer and where you work.</p></article><article class="card"><span class="eyebrow">YOUR GOOGLE PROFILE</span><h3>Keep your business information in sync.</h3><p>Starter includes a profile checkup. Growth and Leader add optimization and monthly posting support.</p></article><article class="card"><span class="eyebrow">YOUR REPUTATION</span><h3>Let your real work do the talking.</h3><p>Growth and Leader include review link and QR setup to make requesting feedback easier, plus room to feature your real reviews and work.</p></article></div>
+    <div class="grid grid--3"><article class="card"><span class="eyebrow">YOUR WEBSITE</span><h3>Say what you do.<br />Show where you work.</h3><p>Clear service pages and search-friendly structure help customers and search engines understand what you offer and where you work.</p></article><article class="card"><span class="eyebrow">YOUR GOOGLE PROFILE</span><h3>Keep your business information in sync.</h3><p>Every plan includes ongoing Google Business Profile management, information updates, two posts per month, and review response support.</p></article><article class="card"><span class="eyebrow">YOUR REPUTATION</span><h3>Let your real work do the talking.</h3><p>Every plan includes review requests, a review link and QR code, and room to showcase your real reviews and work.</p></article></div>
     <p class="note" style="margin-top:25px">Local SEO helps search engines understand your business. Rankings, traffic, and lead volume depend on your market and are not guaranteed.</p>
-  </Section><CTASection/>
+  </Section>
+  <Section id="integrations" variant="light" eyebrow="AVAILABLE WITH CONNECT" title="Connect your website to the way you work." description="Send website inquiries into supported CRM or job software, connect your booking calendar, and automate customer follow-up. We handle setup, testing, monitoring, and support for the agreed connections.">
+    <p>{integrationScopeNote}</p><div class="actions"><Button href="/contact/?plan=connect">Explore Connect <span aria-hidden="true">↗</span></Button></div>
+  </Section>
+  <CTASection/>
 </MainLayout>

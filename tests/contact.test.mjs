@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import vm from "node:vm";
 import ts from "typescript";
+import { planLabelsById } from "../src/data/pricingPlans.ts";
 
 const compiled = ts.transpileModule(
   readFileSync(new URL("../src/scripts/contact.ts", import.meta.url), "utf8"),
@@ -92,12 +93,7 @@ function fixture({
     exports: {},
     require() {
       return {
-        planLabelsById: {
-          lite: "Lite",
-          starter: "Starter",
-          growth: "Growth",
-          leader: "Leader",
-        },
+        planLabelsById,
       };
     },
     document: {
@@ -152,14 +148,14 @@ function fixture({
 }
 test("plan and campaign links populate the inquiry with first-touch context", () => {
   const f = fixture({
-    query: "?plan=GROWTH&utm_source=later",
+    query: "?plan=CONNECT&utm_source=later",
     stored: JSON.stringify({
       landing_page: "/services/",
       utm_source: "first",
       utm_campaign: "summer",
     }),
   });
-  assert.equal(f.fields.get("planInterest").value, "Growth");
+  assert.equal(f.fields.get("planInterest").value, "Connect");
   assert.equal(f.fields.get("landing_page").value, "/services/");
   assert.equal(f.fields.get("utm_source").value, "first");
   assert.equal(f.context.hidden, false);
@@ -168,6 +164,13 @@ test("plan and campaign links populate the inquiry with first-touch context", ()
     "https://example.test/contact/",
   );
 });
+test("existing campaign links select their replacement plan", () => {
+  for (const [plan, label] of [["lite", "Foundation"], ["starter", "Foundation"], ["growth", "Connect"], ["foundation", "Foundation"], ["leader", "Leader"]]) {
+    const f = fixture({ query: "?plan=" + plan });
+    assert.equal(f.fields.get("planInterest").value, label);
+  }
+});
+
 test("ads and industry links reveal and populate optional fields", () => {
   const f = fixture({ query: "?service=GOOGLE-ADS&industry=Tree%20Services" });
   assert.equal(f.fields.get("googleAdsInterest").value, "Yes");
@@ -231,7 +234,7 @@ test("a rejected or failed submission keeps the details and offers retry", async
   }
 });
 test("accepted submissions encode all fields and then show confirmation", async () => {
-  const f = fixture({ query: "?plan=growth" });
+  const f = fixture({ query: "?plan=connect" });
   await f.submit();
   assert.equal(f.requests.length, 1);
   assert.equal(f.requests[0].method, "POST");
@@ -242,7 +245,7 @@ test("accepted submissions encode all fields and then show confirmation", async 
   const body = new URLSearchParams(f.requests[0].body);
   assert.equal(body.get("form-name"), "contact");
   assert.equal(body.get("email"), "owner@example.test");
-  assert.equal(body.get("planInterest"), "Growth");
+  assert.equal(body.get("planInterest"), "Connect");
   assert.deepEqual(f.redirects, ["/thank-you/"]);
   assert.equal(f.events[0].detail.event, "lead_submit_success");
   assert.equal("email" in f.events[0].detail, false);

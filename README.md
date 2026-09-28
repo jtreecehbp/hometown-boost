@@ -1,10 +1,10 @@
 # Hometown Boost
 
-A full Astro marketing-site rebuild around “Big things start local.” The homepage follows the Hometown Boost water tower as it launches from a three-dimensional town. The existing 17 pages, four website plans, add-on prices, minimum commitments, resources, and Netlify form field contract are retained.
+A full Astro marketing-site rebuild around “Big things start local.” The homepage follows the Hometown Boost water tower as it launches from a three-dimensional town. The site has 17 content pages plus a recovery page. Foundation is $129/month, Connect is $249/month, and the existing Leader plan remains $599/month. All plans include ongoing Google Business Profile management; Connect adds supported integrations and automated inquiry follow-up. The existing 12-month minimums and Netlify form field contract are retained.
 
 ## Active hosting: Coolify
 
-Use Coolify for this rebuild until the owner requests another hosting change. The deployment branch is `preview/3d-launch` in `jtreecehbp/hometown-boost`. It intentionally remains separate from the other site version on `main` and the existing custom-domain application.
+The owner authorized promoting the rocket site to the live domain on September 28, 2026. Production uses `main` in `jtreecehbp/hometown-boost`, with the existing Coolify application `g13cs3l4ds0nv8cz1hop7ohw` serving https://hometownboost.com and redirecting www to the apex. Use the Dockerfile build pack and runtime `SITE_INDEXING=on` in production. See `deployment-notes.md` for the release and rollback procedure.
 
 Active preview: https://hometown-boost-preview.40.160.2.98.sslip.io. Reuse the Coolify application `hometown-boost-3d-preview` (ID `bklwhohxof5n40qep7h8n26a`) for future deployments from this branch.
 
@@ -50,7 +50,7 @@ The site-output tests inspect `dist`, so build first. For the active Coolify con
 | --- | --- |
 | Home | The HB tower's cinematic flight from town to clouds and back toward home |
 | Services | Website pieces assemble in a miniature workshop; the support gear turns |
-| Pricing | Four platforms rise to different levels of support |
+| Pricing | Three platforms rise to different levels of support |
 | How it works | A brief, website, approval mark, and launch parcel move through a production line |
 | Industries | A delivery van circles a neighborhood of different storefronts |
 | About | Local roots connect a growing tree to nearby businesses |
@@ -68,6 +68,8 @@ The site-output tests inspect `dist`, so build first. For the active Coolify con
 | Missing page | A two-tone compass needle finds its bearing in a brass cradle |
 
 ## Inquiry delivery
+
+Legacy Lite and Starter inquiry links select Foundation, and Growth links select Connect. Retired service, industry, and resource URLs redirect permanently to relevant pages, preserving campaign query parameters.
 
 The form has four required fields; optional fields remain in a disclosure. Plan, industry, and Google Ads query parameters populate the form. All fields match `public/__forms.html`.
 

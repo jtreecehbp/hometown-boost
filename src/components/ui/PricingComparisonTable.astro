@@ -1,34 +1,36 @@
 ---
 import { pricingPlans } from "../../data/pricingPlans";
 
-const [lite, starter, growth, leader] = pricingPlans;
-const rows = [
+const detailRows = [
   ["Monthly price", ...pricingPlans.map((plan) => plan.priceLabel)],
   ["Setup fee", ...pricingPlans.map((plan) => plan.setupFeeLabel)],
   ["Minimum term", ...pricingPlans.map((plan) => plan.minimumTerm)],
   ["Minimum commitment", ...pricingPlans.map((plan) => plan.minimumCommitment)],
-  ["Website size", lite.websiteSize, starter.websiteSize, growth.websiteSize, leader.websiteSize],
-  ["Hosting included", "Yes", "Yes", "Yes", "Yes"],
-  ["SSL/security", "Yes", "Yes", "Yes", "Yes"],
-  ["Mobile-friendly design", "Yes", "Yes", "Yes", "Yes"],
-  ["Contact form", "Yes", "Yes", "Yes", "Yes"],
-  ["Click-to-call buttons", "Yes", "Yes", "Yes", "Yes"],
-  ["Basic SEO setup", "Yes", "Yes", "Yes", "Yes"],
-  ["Google Business Profile checkup", "No or light business-info review", "Yes", "Yes", "Yes"],
-  ["Google Business Profile optimization", "No", "No", "Yes", "Yes"],
-  ["Review link / QR setup", "No", "Optional add-on", "Yes", "Yes"],
-  ["Monthly Google Business Profile post", "No", "No", "1/month", "1/month"],
-  ["Updates", "Quarterly small update", "Small monthly edit", "Monthly edits", "Priority monthly updates"],
-  ["Reporting", "No", "Quarterly", "Monthly", "Monthly"],
-  ["Service-area pages", "No", "No", "Add-on", "Included/limited"],
-  ["Ongoing SEO improvements", "No", "No", "Foundation only", "Yes"],
-  ["Citation cleanup starter", "No", "No", "Add-on", "Yes"],
-  ["Quarterly strategy call", "No", "No", "No", "Yes"],
-  ["Google Ads management", "Not included", "Optional if qualified", "Optional add-on", "Optional add-on"],
+  ["Website size", ...pricingPlans.map((plan) => plan.websiteSize)],
 ];
+const features = [
+  { label: "Hosting, security, and maintenance", foundation: "Included", connect: "Included", leader: "Included" },
+  { label: "Contact form and click-to-call", foundation: "Included", connect: "Included", leader: "Included" },
+  { label: "Local SEO setup", foundation: "Included", connect: "Included", leader: "Included" },
+  { label: "Ongoing Google Business Profile management", foundation: "1 profile", connect: "1 profile", leader: "1 profile" },
+  { label: "Google Business Profile posts", foundation: "2/month", connect: "2/month", leader: "2/month" },
+  { label: "Review requests, link, and QR setup", foundation: "Included", connect: "Included", leader: "Included" },
+  { label: "Review monitoring and response support", foundation: "Included", connect: "Included", leader: "Included" },
+  { label: "Website text and photo updates", foundation: "One monthly batch", connect: "One monthly batch", leader: "Priority monthly updates" },
+  { label: "Website and Google performance report", foundation: "Monthly", connect: "Monthly", leader: "Monthly" },
+  { label: "Supported CRM or job-software connections", foundation: "Not included", connect: "Included in agreed scope", leader: "Quoted separately" },
+  { label: "Booking and calendar integration", foundation: "Not included", connect: "Included in agreed scope", leader: "Quoted separately" },
+  { label: "Automated inquiry follow-up", foundation: "Not included", connect: "Included in agreed scope", leader: "Quoted separately" },
+  { label: "Integration monitoring and support", foundation: "Not included", connect: "Included", leader: "Quoted separately" },
+  { label: "Ongoing SEO and service-area pages", foundation: "Quoted separately", connect: "Quoted separately", leader: "Included/limited" },
+  { label: "Citation cleanup starter", foundation: "Quoted separately", connect: "Quoted separately", leader: "Included" },
+  { label: "Quarterly strategy call", foundation: "Not included", connect: "Not included", leader: "Included" },
+  { label: "Google Ads management", foundation: "Optional if ready", connect: "Optional if ready", leader: "Optional if ready" },
+];
+const rows = [...detailRows, ...features.map((feature) => [feature.label, ...pricingPlans.map((plan) => feature[plan.id])])];
 ---
 
-<p class="comparison-help">Scroll across for all four plans, and down for every feature. Plan names and feature labels stay in view.</p>
+<p class="comparison-help">Scroll across to compare plans, and down for every feature. Plan names and feature labels stay in view.</p>
 <div class="table-wrap plan-comparison" tabindex="0" role="region" aria-label="Website plan comparison, scroll across for plans and down for features">
   <table>
     <caption>Detailed website plan comparison</caption>
@@ -36,7 +38,7 @@ const rows = [
       <tr>
         <th scope="col">Feature</th>
         {pricingPlans.map((plan) => (
-          <th scope="col" class={plan.id === "growth" ? "table-highlight" : undefined}>{plan.shortName}</th>
+          <th scope="col" class={plan.featured ? "table-highlight" : undefined}>{plan.shortName}</th>
         ))}
       </tr>
     </thead>
@@ -45,7 +47,7 @@ const rows = [
         <tr>
           <th scope="row">{row[0]}</th>
           {row.slice(1).map((cell, index) => (
-            <td class={pricingPlans[index].id === "growth" ? "table-highlight" : undefined}>{cell}</td>
+            <td class={pricingPlans[index].featured ? "table-highlight" : undefined}>{cell}</td>
           ))}
         </tr>
       ))}

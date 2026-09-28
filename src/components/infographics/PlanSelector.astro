@@ -3,16 +3,15 @@ import Icon from "../icons/Icon.astro";
 import { pricingPlans } from "../../data/pricingPlans";
 
 const planNeeds = {
-  lite: { need: "Get your business online with one clear page.", icon: "storefront" },
-  starter: { need: "Explain your services across a few focused pages.", icon: "browser" },
-  growth: { need: "Strengthen your website and Google Business Profile.", icon: "chart" },
+  foundation: { need: "Have your website, Google profile, and reviews handled.", icon: "storefront" },
+  connect: { need: "Connect your business tools and automate customer follow-up.", icon: "chart" },
   leader: { need: "Cover more services and areas with ongoing SEO support.", icon: "rocket" },
 };
 ---
 
 <div class="infographic plan-selector" aria-label="Which Hometown Boost plan fits you">
   {pricingPlans.map((plan) => (
-    <a class={`plan-selector__item ${plan.featured ? "plan-selector__item--growth" : ""}`} href={plan.ctaHref}>
+    <a class={`plan-selector__item ${plan.featured ? "plan-selector__item--featured" : ""}`} href={plan.ctaHref}>
       <span class="icon-circle"><Icon name={planNeeds[plan.id].icon} /></span>
       <span>{planNeeds[plan.id].need}</span>
       <strong>{plan.shortName}</strong>
@@ -23,7 +22,7 @@ const planNeeds = {
 <style>
   .plan-selector {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 0.85rem;
   }
 
@@ -42,12 +41,12 @@ const planNeeds = {
     font-size: 1.4rem;
   }
 
-  .plan-selector__item--growth {
+  .plan-selector__item--featured {
     border-color: var(--hb-orange);
     background: var(--hb-cream);
   }
 
-  .plan-selector__item--growth strong {
+  .plan-selector__item--featured strong {
     color: var(--hb-orange-dark);
   }
 

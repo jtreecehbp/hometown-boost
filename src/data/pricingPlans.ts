@@ -1,4 +1,4 @@
-export type PricingPlanId = "lite" | "starter" | "growth" | "leader";
+export type PricingPlanId = "foundation" | "connect" | "leader";
 
 export type PricingPlan = {
   id: PricingPlanId;
@@ -20,139 +20,98 @@ export type PricingPlan = {
   notIncluded: string[];
 };
 
+export const everyPlanFeatures = [
+  "Website design, hosting, security, and maintenance",
+  "Ongoing management of one Google Business Profile",
+  "Two Google Business Profile posts each month",
+  "Review requests, review link, and QR-code setup",
+  "Monthly website text and photo updates",
+  "Website and Google performance tracking and reporting",
+];
+
+export const integrationScopeNote = "We confirm the supported tools, connections, and workflows with you before work begins. Any third-party subscriptions, messaging usage, or custom development outside the agreed scope are explained and quoted separately.";
+
+function definePlan(plan: Omit<PricingPlan, "priceLabel" | "setupFeeLabel" | "minimumTerm" | "minimumCommitment" | "ctaHref">): PricingPlan {
+  return {
+    ...plan,
+    priceLabel: `$${plan.price}/mo`,
+    setupFeeLabel: "$0 setup fee",
+    minimumTerm: `${plan.minimumMonths}-month minimum`,
+    minimumCommitment: `$${(plan.price * plan.minimumMonths).toLocaleString("en-US")}`,
+    ctaHref: `/contact/?plan=${plan.id}`,
+  };
+}
+
 export const pricingPlans: PricingPlan[] = [
-  {
-    id: "lite",
-    name: "Hometown Lite",
-    shortName: "Lite",
-    price: 99,
-    priceLabel: "$99/mo",
-    setupFeeLabel: "$0 setup fee",
-    minimumTerm: "24-month minimum",
-    minimumMonths: 24,
-    minimumCommitment: "$2,376",
-    websiteSize: "1-page website",
-    bestFor: "One clear page for your services, business details, and customer inquiries.",
-    featured: false,
-    ctaLabel: "Ask about Lite",
-    ctaHref: "/contact/?plan=lite",
-    highlights: [
-      "1-page website",
-      "Mobile-friendly design",
-      "Hosting included",
-      "SSL/security included",
-      "Click-to-call button",
-      "Contact form",
-      "Basic SEO setup",
-      "Business info setup",
-      "Quarterly small update",
-      "Basic maintenance",
-    ],
-    notIncluded: [
-      "Ongoing SEO",
-      "Monthly Google Business Profile posting",
-      "Monthly reports",
-      "Advanced copywriting",
-      "Blogs",
-      "Service-area pages",
-      "Google Ads management",
-      "Unlimited edits",
-    ],
-  },
-  {
-    id: "starter",
-    name: "Hometown Starter",
-    shortName: "Starter",
-    price: 179,
-    priceLabel: "$179/mo",
-    setupFeeLabel: "$0 setup fee",
-    minimumTerm: "12-month minimum",
+  definePlan({
+    id: "foundation",
+    name: "Hometown Foundation",
+    shortName: "Foundation",
+    price: 129,
     minimumMonths: 12,
-    minimumCommitment: "$2,148",
-    websiteSize: "1-3 page website",
-    bestFor: "More room to explain your services, with a small edit each month.",
-    featured: false,
-    ctaLabel: "Ask about Starter",
-    ctaHref: "/contact/?plan=starter",
-    highlights: [
-      "1-3 page website",
-      "Mobile-friendly design",
-      "Hosting included",
-      "SSL/security included",
-      "Basic maintenance",
-      "Contact form",
-      "Click-to-call buttons",
-      "Basic SEO setup",
-      "Google Business Profile checkup",
-      "Monthly small edit",
-      "Quarterly report",
-    ],
-    notIncluded: [
-      "Ongoing SEO campaigns",
-      "Citation cleanup",
-      "Blog writing",
-      "Google Ads management",
-      "Monthly Google Business Profile posts",
-      "Advanced landing pages",
-    ],
-  },
-  {
-    id: "growth",
-    name: "Hometown Growth",
-    shortName: "Growth",
-    price: 329,
-    priceLabel: "$329/mo",
-    setupFeeLabel: "$0 setup fee",
-    minimumTerm: "12-month minimum",
-    minimumMonths: 12,
-    minimumCommitment: "$3,948",
     websiteSize: "Up to 5-page website",
-    bestFor: "A website built for inquiries, plus Google Business Profile support.",
-    featured: true,
-    badge: "Recommended",
-    ctaLabel: "Ask about Growth",
-    ctaHref: "/contact/?plan=growth",
+    bestFor: "Your website and Google Business Profile, handled together.",
+    featured: false,
+    ctaLabel: "Start with Foundation",
     highlights: [
-      "Up to 5-page website",
-      "Mobile-first lead-focused design",
-      "Hosting included",
-      "SSL/security included",
-      "Website maintenance",
-      "Local SEO foundation",
-      "Google Business Profile optimization",
-      "Review link / QR setup",
-      "Lead-focused contact setup",
-      "1 Google Business Profile post per month",
-      "Monthly edits",
-      "Monthly report",
-      "Trust-building sections",
+      "Up to 5-page mobile-friendly website",
+      "Ongoing Google Business Profile management",
+      "2 Google Business Profile posts per month",
+      "Review-request emails and one reminder",
+      "Review link, QR code, and website review showcase",
+      "Review monitoring and response support",
+      "Contact form, click-to-call, and local SEO setup",
+      "Monthly website updates and performance report",
+      "Hosting, security, and maintenance included",
     ],
     notIncluded: [
-      "Blog writing unless added",
-      "Google Ads management unless added",
-      "Full citation campaigns unless added",
-      "Advanced CRM setup",
-      "Guaranteed rankings",
+      "CRM or job-software integrations",
+      "Booking workflows and automated inquiry follow-up",
+      "Ongoing SEO campaigns or new page creation",
+      "Google Ads management and advertising spend",
     ],
-  },
-  {
+  }),
+  definePlan({
+    id: "connect",
+    name: "Hometown Connect",
+    shortName: "Connect",
+    price: 249,
+    minimumMonths: 12,
+    websiteSize: "Up to 5-page website",
+    bestFor: "Your website, business tools, and customer follow-up working together.",
+    featured: true,
+    badge: "Integrations + automation",
+    ctaLabel: "Explore Connect",
+    highlights: [
+      "Everything in Foundation, including GBP management",
+      "Supported CRM or job-software connections",
+      "Online booking and calendar integration",
+      "Automatic inquiry acknowledgment and follow-up",
+      "Lead and customer information synced to your tools",
+      "Integration setup, testing, and ongoing monitoring",
+      "Troubleshooting and agreed workflow adjustments",
+      "Inquiry-source reporting where supported",
+    ],
+    notIncluded: [
+      "Third-party software subscriptions or messaging usage",
+      "Custom software development or unsupported integrations",
+      "Ongoing SEO campaigns or new page creation",
+      "Google Ads management and advertising spend",
+    ],
+  }),
+  definePlan({
     id: "leader",
     name: "Hometown Leader",
     shortName: "Leader",
     price: 599,
-    priceLabel: "$599/mo",
-    setupFeeLabel: "$0 setup fee",
-    minimumTerm: "12-month minimum",
     minimumMonths: 12,
-    minimumCommitment: "$7,188",
     websiteSize: "Up to 8-10 page website",
     bestFor: "More service and area pages, ongoing SEO, and priority updates.",
     featured: false,
     ctaLabel: "Ask about Leader",
-    ctaHref: "/contact/?plan=leader",
     highlights: [
       "Up to 8-10 page website",
-      "Everything in Growth",
+      "Website care, GBP management, and review support",
       "Expanded service pages",
       "Service-area SEO pages",
       "Ongoing SEO improvements",
@@ -169,7 +128,7 @@ export const pricingPlans: PricingPlan[] = [
       "Guaranteed rankings",
       "Video production",
     ],
-  },
+  }),
 ];
 
 export const googleAdsPricing = {
@@ -206,10 +165,15 @@ export const planInterestOptions = [
   ...pricingPlans.map((plan) => plan.shortName),
 ];
 
-export const planLabelsById = Object.fromEntries(
-  pricingPlans.map((plan) => [plan.id, plan.shortName]),
-) as Record<PricingPlanId, string>;
+// Keep previously shared plan links useful after the two-plan consolidation.
+export const planLabelsById: Record<string, string> = {
+  ...Object.fromEntries(pricingPlans.map((plan) => [plan.id, plan.shortName])),
+  lite: "Foundation",
+  starter: "Foundation",
+  growth: "Connect",
+};
 
 export function getPlanById(id: string | null) {
-  return pricingPlans.find((plan) => plan.id === id);
+  if (!id || !Object.hasOwn(planLabelsById, id)) return undefined;
+  return pricingPlans.find((plan) => plan.shortName === planLabelsById[id]);
 }

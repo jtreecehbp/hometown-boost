@@ -7,6 +7,25 @@ import { createGzip } from "node:zlib";
 import { pipeline } from "node:stream/promises";
 
 const defaultRoot = fileURLToPath(new URL("./dist/", import.meta.url));
+// Preserve published links from the previous live site when the rocket site replaces it.
+const legacyRedirects = new Map([
+  ["/results", "/how-it-works/"],
+  ["/reviews", "/services/#visibility"],
+  ["/services/website-design", "/services/#websites"],
+  ["/services/local-seo", "/services/#visibility"],
+  ["/services/google-business-profile", "/services/#visibility"],
+  ["/services/reputation-management", "/services/#visibility"],
+  ["/services/paid-advertising", "/google-ads/"],
+  ["/services/call-tracking", "/services/#integrations"],
+  ...["equipment-dealers", "contractors", "home-services", "hvac", "plumbing", "septic-services", "lawn-care", "repair-shops", "automotive", "retail-businesses", "professional-services"].map(industry => ["/industries/" + industry, "/industries/"]),
+  ["/resources/rank-higher-google-maps", "/resources/google-business-profile-basics/"],
+  ["/resources/website-not-generating-calls", "/resources/old-website-costing-calls/"],
+  ["/resources/get-more-google-reviews", "/resources/google-business-profile-basics/"],
+  ["/resources/google-business-profile-mistakes", "/resources/google-business-profile-basics/"],
+  ["/resources/marketing-metrics-to-track", "/resources/website-vs-google-ads/"],
+  ["/resources/equipment-dealer-website", "/resources/local-business-website-essentials/"],
+  ["/resources/contractor-local-search", "/resources/google-business-profile-basics/"],
+]);
 const mimeTypes = {
   ".css": "text/css; charset=utf-8",
   ".gif": "image/gif",
@@ -250,6 +269,15 @@ export function createAppServer({
     if (req.method !== "GET" && req.method !== "HEAD") {
       req.resume();
       send(res, 405, "Method not allowed.", { Allow: "GET, HEAD" });
+      return;
+    }
+    const legacyDestination = legacyRedirects.get(url.pathname.replace(/\/$/, ""));
+    if (legacyDestination) {
+      const destination = new URL(legacyDestination, "http://localhost");
+      send(res, 301, "", {
+        Location: destination.pathname + url.search + destination.hash,
+        "Cache-Control": "public, max-age=3600",
+      });
       return;
     }
     if (url.pathname === "/robots.txt" && !indexing) {

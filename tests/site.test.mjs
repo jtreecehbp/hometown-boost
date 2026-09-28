@@ -80,13 +80,11 @@ test('all pages expose native mobile navigation and discoverable supporting rout
 test("plan commitments and form registration remain consistent", () => {
   const pricing = readFileSync(join(root, "pricing/index.html"), "utf8");
   for (const amount of [
-    "$99",
-    "$179",
-    "$329",
+    "$129",
+    "$249",
     "$599",
-    "$2,376",
-    "$2,148",
-    "$3,948",
+    "$1,548",
+    "$2,988",
     "$7,188",
   ])
     assert.ok(pricing.includes(amount), amount);
@@ -102,6 +100,14 @@ test("plan commitments and form registration remain consistent", () => {
       name + " must be registered",
     );
   assert.match(contact, /data-form-enabled="(?:true|false)"/);
+  for (const label of ["Foundation", "Connect", "Leader"]) {
+    assert.ok(contact.includes('value="' + label + '"'), label);
+    assert.ok(registration.includes('<option>' + label + '</option>'), label);
+  }
+  for (const file of pages) {
+    const html = readFileSync(file, "utf8");
+    assert.doesNotMatch(html, /Hometown (?:Lite|Starter|Growth)|\$179\/mo|\$329\/mo|24-month minimum/, relative(root, file));
+  }
 });
 test("one continuous launch scene loads separately from useful HTML content", () => {
   const home = readFileSync(join(root, "index.html"), "utf8");
@@ -110,7 +116,7 @@ test("one continuous launch scene loads separately from useful HTML content", ()
   assert.equal((home.match(/data-flight-cue=/g) || []).length, 3);
   assert.match(home, /data-launch-controls hidden/);
   assert.match(home, /Pause motion/);
-  for (const amount of ["$99", "$179", "$329", "$599"])
+  for (const amount of ["$129", "$249", "$599"])
     assert.ok(home.includes(amount));
   assert.doesNotMatch(
     readFileSync(join(root, "contact/index.html"), "utf8"),
