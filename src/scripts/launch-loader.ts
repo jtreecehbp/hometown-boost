@@ -9,11 +9,13 @@ export function loadLaunch(root: HTMLElement, loader = defaultLoader) {
   const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
   const events = new AbortController();
   let waiting = preference.matches || !!connection?.saveData;
+  let engaged = window.scrollY > 0;
   let loading = false, disposed = false, mounted = false, preferenceVersion = 0;
   let cancelScheduled: (() => void) | undefined;
-  // Give useful HTML two paint opportunities before optional geometry work.
+  // The scroll-driven scene is optional until a visitor starts exploring.
+  // Then give useful HTML two paint opportunities before geometry work.
   function scheduleStart() {
-    if (cancelScheduled || waiting || disposed || mounted || loading || document.hidden) return;
+    if (!engaged || cancelScheduled || waiting || disposed || mounted || loading || document.hidden) return;
     let frame = 0, idle = 0, timer = 0;
     const cancel = () => { cancelAnimationFrame(frame); if (idle) window.cancelIdleCallback?.(idle); clearTimeout(timer); cancelScheduled = undefined; };
     cancelScheduled = cancel;
@@ -70,7 +72,10 @@ export function loadLaunch(root: HTMLElement, loader = defaultLoader) {
     else scheduleStart();
   }, { signal: events.signal });
   document.addEventListener('visibilitychange', () => { if (document.hidden) cancelScheduled?.(); else scheduleStart(); }, { signal: events.signal });
-  window.addEventListener('scroll', active, { passive: true, signal: events.signal });
+  window.addEventListener('scroll', () => {
+    active();
+    if (window.scrollY > 0) { engaged = true; scheduleStart(); }
+  }, { passive: true, signal: events.signal });
   window.addEventListener('pagehide', event => { cancelScheduled?.(); if (!event.persisted) { disposed = true; events.abort(); } }, { signal: events.signal });
   window.addEventListener('pageshow', scheduleStart, { signal: events.signal });
   if (waiting) readingMode();
