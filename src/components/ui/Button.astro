@@ -15,10 +15,12 @@ const {
 } = Astro.props;
 const className = Astro.props.class ?? "";
 const classes = `btn btn--${variant} btn--${size} ${className}`;
+const plan=href?.match(/[?&]plan=(foundation|connect|marketing)(?:&|$)/)?.[1];
+const cta=plan ? `choose_${plan}` : href?.startsWith('/contact/') || href === '#request' ? 'request_recommendation' : undefined;
 ---
 
 {href ? (
-  <a href={href} class={classes}>
+  <a href={href} class={classes} data-hb-cta={cta}>
     <slot />
   </a>
 ) : (

@@ -11,7 +11,7 @@ export const pageMetadata = {
   pricing: {
     title: "Pricing | Hometown Boost Website Plans",
     description:
-      `Compare Hometown Foundation and Connect. Website and Google Business Profile management from ${startingPriceMonthly}, with integrations and automation available. $0 setup; minimum terms apply.`,
+      `Compare Foundation, Connect, and Local Marketing. Website and Google Business Profile management from ${startingPriceMonthly}, with integrations and automation available. $0 setup; minimum terms apply.`,
   },
   services: {
     title: "Services | Hometown Boost",
@@ -31,7 +31,7 @@ export const pageMetadata = {
   googleAds: {
     title: "Google Ads Management | Hometown Boost",
     description:
-      `Simple Google Search Ads management for local businesses, priced at ${googleAdsPricing.formulaLabel}.`,
+      `Google Search Ads management included with Local Marketing at $699/month, or add standalone management at ${googleAdsPricing.formulaLabel}. Ad spend is separate.`,
   },
   about: {
     title: "About Hometown Boost | Practical Website Help for Local Businesses",

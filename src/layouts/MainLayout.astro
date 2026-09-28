@@ -2,6 +2,7 @@
 import BaseHead from "../components/layout/BaseHead.astro";
 import Header from "../components/layout/Header.astro";
 import Footer from "../components/layout/Footer.astro";
+import AnalyticsConsent from '../components/AnalyticsConsent.astro';
 import PageBackdrop from '../components/PageBackdrop.astro';
 import { pageSceneForPath, type PageSceneId } from '../data/pageScenes';
 import "../styles/global.css";
@@ -23,10 +24,11 @@ interface Props {
   schema?: Schema | Schema[];
   immersive?: boolean;
   scene?: PageSceneId;
+  quiet?: boolean;
 }
 
-const { title, description, canonical, image, imageAlt, imageWidth, imageHeight, ogType, robots, schema, immersive = false, scene } = Astro.props;
-const pageScene = immersive ? undefined : scene ?? pageSceneForPath(Astro.url.pathname);
+const { title, description, canonical, image, imageAlt, imageWidth, imageHeight, ogType, robots, schema, immersive = false, scene, quiet = false } = Astro.props;
+const pageScene = immersive || quiet ? undefined : scene ?? pageSceneForPath(Astro.url.pathname);
 ---
 
 <!doctype html>
@@ -52,6 +54,7 @@ const pageScene = immersive ? undefined : scene ?? pageSceneForPath(Astro.url.pa
       {pageScene ? <><PageBackdrop scene={pageScene}/><div class="page-content"><slot /></div></> : <slot />}
     </main>
     <Footer />
+    <AnalyticsConsent />
     <script>
       import '../scripts/site';
     </script>

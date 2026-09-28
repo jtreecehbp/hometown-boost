@@ -10,8 +10,8 @@ const walk = (dir) =>
 const pages = walk(root).filter(
   (file) => file.endsWith(".html") && !file.endsWith("__forms.html"),
 );
-test("all 17 content pages and the recovery page have one main heading, metadata, and valid structured data", () => {
-  assert.equal(pages.filter(file => !file.endsWith("404.html")).length, 17);
+test("all 19 content pages and the recovery page have one main heading, metadata, and valid structured data", () => {
+  assert.equal(pages.filter(file => !file.endsWith("404.html")).length, 19);
   assert.ok(pages.includes(join(root, "404.html")));
   for (const file of pages) {
     const html = readFileSync(file, "utf8"),
@@ -82,10 +82,10 @@ test("plan commitments and form registration remain consistent", () => {
   for (const amount of [
     "$129",
     "$249",
-    "$599",
+    "$699",
     "$1,548",
     "$2,988",
-    "$7,188",
+    "$8,388",
   ])
     assert.ok(pricing.includes(amount), amount);
   const contact = readFileSync(join(root, "contact/index.html"), "utf8"),
@@ -100,7 +100,7 @@ test("plan commitments and form registration remain consistent", () => {
       name + " must be registered",
     );
   assert.match(contact, /data-form-enabled="(?:true|false)"/);
-  for (const label of ["Foundation", "Connect", "Leader"]) {
+  for (const label of ["Foundation", "Connect", "Local Marketing"]) {
     assert.ok(contact.includes('value="' + label + '"'), label);
     assert.ok(registration.includes('<option>' + label + '</option>'), label);
   }
@@ -116,7 +116,7 @@ test("one continuous launch scene loads separately from useful HTML content", ()
   assert.equal((home.match(/data-flight-cue=/g) || []).length, 3);
   assert.match(home, /data-launch-controls hidden/);
   assert.match(home, /Pause motion/);
-  for (const amount of ["$129", "$249", "$599"])
+  for (const amount of ["$129", "$249", "$699"])
     assert.ok(home.includes(amount));
   assert.doesNotMatch(
     readFileSync(join(root, "contact/index.html"), "utf8"),

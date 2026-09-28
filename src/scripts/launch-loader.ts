@@ -10,6 +10,21 @@ export function loadLaunch(root: HTMLElement, loader = defaultLoader) {
   const events = new AbortController();
   let waiting = preference.matches || !!connection?.saveData;
   let loading = false, disposed = false, mounted = false, preferenceVersion = 0;
+  let cancelScheduled: (() => void) | undefined;
+  // Give useful HTML two paint opportunities before optional geometry work.
+  function scheduleStart() {
+    if (cancelScheduled || waiting || disposed || mounted || loading || document.hidden) return;
+    let frame = 0, idle = 0, timer = 0;
+    const cancel = () => { cancelAnimationFrame(frame); if (idle) window.cancelIdleCallback?.(idle); clearTimeout(timer); cancelScheduled = undefined; };
+    cancelScheduled = cancel;
+    frame = requestAnimationFrame(() => {
+      frame = requestAnimationFrame(() => {
+        const ready = () => { cancelScheduled = undefined; if (!waiting && !document.hidden && !disposed) void start(); };
+        if (window.requestIdleCallback) idle = window.requestIdleCallback(ready, { timeout: 1500 });
+        else timer = window.setTimeout(ready, 50);
+      });
+    });
+  }
   const active = () => {
     if (disposed || mounted) return;
     const visible = root.getBoundingClientRect().bottom > window.innerHeight * 0.45;
@@ -26,6 +41,7 @@ export function loadLaunch(root: HTMLElement, loader = defaultLoader) {
     active();
   }
   async function start(forcePlay = false) {
+    cancelScheduled?.();
     if (disposed || mounted || loading) return;
     loading = true;
     const version = preferenceVersion;
@@ -50,13 +66,14 @@ export function loadLaunch(root: HTMLElement, loader = defaultLoader) {
   preference.addEventListener('change', () => {
     preferenceVersion++;
     waiting = preference.matches || !!connection?.saveData;
-    if (waiting) readingMode();
-    else if (!document.hidden) void start();
+    if (waiting) { cancelScheduled?.(); readingMode(); }
+    else scheduleStart();
   }, { signal: events.signal });
-  document.addEventListener('visibilitychange', () => { if (!document.hidden && !waiting) void start(); }, { signal: events.signal });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) cancelScheduled?.(); else scheduleStart(); }, { signal: events.signal });
   window.addEventListener('scroll', active, { passive: true, signal: events.signal });
-  window.addEventListener('pagehide', event => { if (!event.persisted) { disposed = true; events.abort(); } }, { signal: events.signal });
+  window.addEventListener('pagehide', event => { cancelScheduled?.(); if (!event.persisted) { disposed = true; events.abort(); } }, { signal: events.signal });
+  window.addEventListener('pageshow', scheduleStart, { signal: events.signal });
   if (waiting) readingMode();
-  else if (!document.hidden) void start();
-  return () => { disposed = true; events.abort(); };
+  else scheduleStart();
+  return () => { disposed = true; cancelScheduled?.(); events.abort(); };
 }

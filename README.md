@@ -1,6 +1,6 @@
 # Hometown Boost
 
-A full Astro marketing-site rebuild around “Big things start local.” The homepage follows the Hometown Boost water tower as it launches from a three-dimensional town. The site has 17 content pages plus a recovery page. Foundation is $129/month, Connect is $249/month, and the existing Leader plan remains $599/month. All plans include ongoing Google Business Profile management; Connect adds supported integrations and automated inquiry follow-up. The existing 12-month minimums and Netlify form field contract are retained.
+A full Astro marketing-site rebuild around “Big things start local.” The homepage follows the Hometown Boost water tower as it launches from a three-dimensional town. The site has 19 content pages plus a recovery page. Foundation is $129/month, Connect is $249/month, and Local Marketing is $699/month plus ad spend. All plans include ongoing Google Business Profile management; Connect adds supported integrations and automated inquiry follow-up. Local Marketing includes Connect plus one Google Search campaign, call/form tracking where supported, and local SEO/landing-page improvements. The existing 12-month minimums and Netlify form field contract are retained.
 
 ## Active hosting: Coolify
 
@@ -36,12 +36,12 @@ The site-output tests inspect `dist`, so build first. For the active Coolify con
 - `src/scripts/launch-motion.ts` maps measured sections and weighted scene cues to one deterministic timeline. Tall mobile pricing cards and expanded FAQ answers retain their chapter timing. The tank and roof separate from fixed steel supports, and reverse scrolling retraces the same path.
 - `src/scripts/launch-cinema.ts` supplies opening storefront shutters, birds that scatter during ignition, the van’s curved street route, a baked orange exhaust trail, and warm connections spreading among the businesses at the end. A waving mechanic appears beside the launch pad and again on the satellite. All activity shares the existing pause and reduced-motion controls. `scene-sculpt.ts` batches the small model details; no additional image downloads or render loop is required.
 - The homepage has chapter links and a pause/play control. Its lightweight loader checks reduced motion and data saving before downloading 3D; those visitors see the emblem and a concise reading layout until they choose Play. Hidden tabs defer startup. Rendering pauses offscreen and in background tabs, resumes after page-cache restoration, and falls back to the emblem if WebGL is unavailable or its context is lost. Pixel density and frame rate are capped for mobile.
-- Each of the other 16 pages has its own miniature scene, camera composition, and scroll choreography. `src/data/pageScenes.ts` maps routes to distinct modules in `src/scripts/page-scenes/`; the homepage retains its continuous rocket story.
+- Editorial pages retain their miniature scenes. Pricing, contact, the advertising landing page, and the sample report use plain HTML without a 3D scene. `src/data/pageScenes.ts` maps routes to distinct modules in `src/scripts/page-scenes/`; the homepage retains its continuous rocket story.
 - A separate 404 recovery page has a compass scene and routes back to home, services, pricing, and contact. The server returns an actual 404 response and excludes it from indexing; missing assets remain plain errors.
 - Supporting scenes begin in a reserved space beside the introduction, then move toward the edge and soften as readers scroll. Prices, articles, legal text, and form fields remain normal HTML. The background cannot capture scrolling or cover links. One shared renderer and one model module load near the scene's viewport; the graphics library is shared with the homepage and cached across routes.
 - Reduced-motion and data-saving preferences keep the static emblem and skip the supporting scene download until Play is chosen. Pause freezes the choreography. Background tabs, the footer, page-cache suspension, and form or comparison-table focus stop the render loop. Motion controls hide during form/table interaction. Context failure retains the emblem and useful page content.
 - The supplied logo was developed into a 3D image and an image-generation cutout. The source cutout is `public/images/hometown-boost/hb-rocket-emblem.png`; optimized display and navigation assets are `hb-rocket-emblem.webp` and `hb-rocket-mark.webp` in the same directory. `public/favicon.png` uses the same tower. The 3D scene itself uses native geometry, not the flat image.
-- Existing social-preview artwork and metadata are preserved.
+- The 1200x630 social-preview-v2 image uses the approved rocket emblem and the current $129 website/GBP offer.
 - The sample landscaping website is explicitly labeled as an illustrative concept, not a client project.
 
 ## Page animations
@@ -50,14 +50,14 @@ The site-output tests inspect `dist`, so build first. For the active Coolify con
 | --- | --- |
 | Home | The HB tower's cinematic flight from town to clouds and back toward home |
 | Services | Website pieces assemble in a miniature workshop; the support gear turns |
-| Pricing | Three platforms rise to different levels of support |
+| Pricing | Compact plan comparison; no 3D download |
 | How it works | A brief, website, approval mark, and launch parcel move through a production line |
 | Industries | A delivery van circles a neighborhood of different storefronts |
 | About | Local roots connect a growing tree to nearby businesses |
 | Google Ads | A search signal sweeps across a miniature local map |
 | FAQ | Answer cards unfold beneath a sculpted question mark |
 | Resources | An open book turns a page beneath floating bookmarks |
-| Contact | A paper plane follows a curved path toward a hometown mailbox |
+| Contact | Form-first layout; no 3D download |
 | Thank you | A check rises from an open envelope as ribbons settle around it |
 | Privacy | A closed lock, slow combination dial, and protective perimeter |
 | Terms | Pages align beside a scope ruler and an agreement seal settles into place |
@@ -69,7 +69,7 @@ The site-output tests inspect `dist`, so build first. For the active Coolify con
 
 ## Inquiry delivery
 
-Legacy Lite and Starter inquiry links select Foundation, and Growth links select Connect. Retired service, industry, and resource URLs redirect permanently to relevant pages, preserving campaign query parameters.
+Legacy Lite and Starter inquiry links select Foundation, and Growth links select Connect, and Leader links select Local Marketing. Retired service, industry, and resource URLs redirect permanently to relevant pages, preserving campaign query parameters.
 
 The form has four required fields; optional fields remain in a disclosure. Plan, industry, and Google Ads query parameters populate the form. All fields match `public/__forms.html`.
 
@@ -94,13 +94,13 @@ A draft deployment does not replace the production deployment.
 
 ## Conversion measurement
 
-`hometown:conversion` custom events are emitted for `cta_click` and `lead_submit_success`. Events are also pushed to an existing `window.dataLayer` if one is installed. No analytics provider or advertising pixel is installed by this rebuild, and form answers are not included in analytics events.
+`hometown:conversion` custom events are emitted for `cta_click` and `lead_submit_success`. Events are also pushed to an existing `window.dataLayer` if one is installed. The consent-controlled GA4 adapter is prepared but stays off until a verified property is configured. No advertising pixel is active. Form answers are not included in analytics events. See MONITORING.md for activation checks, campaign links, and the follow-up routine.
 
-First-touch page, referring page, and campaign tags are retained in session storage and included with the inquiry. The privacy page describes this behavior. Conversion gains require real traffic and an analytics destination to measure.
+First-touch page, referring origin, and campaign tags are retained in session storage and included with the inquiry. The privacy page describes this behavior. Conversion gains require real traffic and an analytics destination to measure.
 
 ## Verification
 
-Automated tests cover inquiry prefills, malformed campaign storage, unknown plan values, disabled preview delivery, accepted/rejected/offline requests, duplicate submission protection, all 17 pages, internal links and assets, metadata, schema JSON, pricing commitments, and form registration. Server tests use a mocked provider to verify forwarding, failure handling, validation, health checks, gzip, no-index headers, and path containment. Flight tests check reversible ascent, stationary supports, section timing, numeric camera framing at seven screen sizes, finite geometry, and a bounded draw-call count. Controller tests use mocked rendering to exercise pause, reduced motion, background suspension, page caching, and WebGL failure/restoration. These are local behavioral, geometry, and static-output checks; they do not submit a real inquiry or perform browser visual QA.
+Automated tests cover inquiry prefills, malformed campaign storage, unknown plan values, disabled preview delivery, accepted/rejected/offline requests, duplicate submission protection, all 19 pages, internal links and assets, metadata, schema JSON, pricing commitments, and form registration. Server tests use a mocked provider to verify forwarding, failure handling, validation, health checks, gzip, no-index headers, and path containment. Flight tests check reversible ascent, stationary supports, section timing, numeric camera framing at seven screen sizes, finite geometry, and a bounded draw-call count. Controller tests use mocked rendering to exercise pause, reduced motion, background suspension, page caching, and WebGL failure/restoration. These are local behavioral, geometry, and static-output checks; they do not submit a real inquiry or perform browser visual QA.
 
 Supporting-page tests additionally verify unique models and complete route coverage, actual projected geometry on phone/tablet/desktop, bounded geometry complexity, reversible movement, deferred loading, explicit Play under reduced motion/data saving, form-focus suspension, and cleanup after delayed loads. Each page has one reserved scene window and one canvas, with no duplicate homepage or legacy town renderer.
 
@@ -111,3 +111,9 @@ The fixture's `qa_mode` query parameter supports `reduced-motion`, `save-data`, 
 The current whole-site quality review, evidence, and release requirements are tracked in `SITE-QUALITY.md`. The header uses native disclosures for mobile navigation and the desktop Explore menu, with optional Escape/outside-click enhancements.
 
 The 3D runtime is loaded separately from the page. Text, navigation, pricing, and forms render without waiting for it. The homepage emblem is about 142 KB and the navigation emblem is about 7 KB; the full-resolution PNG is retained as a source asset.
+
+## September 28 advertising-readiness update
+
+`/start/` is the focused $129 website/GBP landing page for launch traffic. `/sample-report/` is a clearly labeled illustrative report, excluded from search indexing. About and the landing page introduce Jordan and link to live website examples; no testimonials or performance results were invented. Specific supported software and delivery-time promises still need the owner's confirmed details.
+
+The single authorized live test HB-20260928-01 was stored in Netlify and delivered to jordan@hometownboost.com after adding the missing submission notification. See MONITORING.md for receiver/hook identifiers. Analytics remains off pending Google account setup; the footer explains its state. The homepage waits for two paint opportunities and an idle callback before importing the optional rocket scene.

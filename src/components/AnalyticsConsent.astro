@@ -1,0 +1,20 @@
+---
+import {getMonitoringConfig} from '../monitoring/config.mjs';
+const config=getMonitoringConfig({
+  WEBSITE_ANALYTICS_ENABLED:import.meta.env.PUBLIC_WEBSITE_ANALYTICS_ENABLED,
+  GA4_MEASUREMENT_ID:import.meta.env.PUBLIC_GA4_MEASUREMENT_ID,
+  GA4_AUTOMATIC_MEASUREMENT_DISABLED:import.meta.env.PUBLIC_GA4_AUTOMATIC_MEASUREMENT_DISABLED,
+});
+---
+<section class="analytics-choice" aria-label="Optional website analytics" data-analytics-choice data-config={JSON.stringify(config)} hidden>
+  <h2>Help us understand what’s useful.</h2>
+  <p data-analytics-available hidden>With your permission, Google Analytics measures page visits, contact clicks, and accepted inquiries. We don’t send your form answers. <a href="/privacy/#analytics">Read the details.</a></p>
+  <p data-analytics-unavailable hidden>Optional analytics is currently off. You can still use the website and send an inquiry.</p>
+  <p class="note" data-analytics-message role="status"></p>
+  <div class="analytics-choice__actions" data-analytics-actions hidden><button type="button" class="btn btn--outline" data-analytics-allow>Allow analytics</button><button type="button" class="btn btn--outline" data-analytics-decline>Decline analytics</button></div>
+  <button type="button" class="analytics-choice__close" data-analytics-close>Close settings</button>
+</section>
+<script>import {initMonitoring} from '../scripts/monitoring'; initMonitoring();</script>
+<style>
+.analytics-choice{position:fixed;z-index:1000;bottom:20px;left:20px;width:min(490px,calc(100% - 40px));padding:24px;background:white;border:1px solid #bbcbd6;border-radius:16px;box-shadow:0 12px 50px #10253f26;max-height:calc(100svh - 40px);overflow:auto}.analytics-choice[hidden]{display:none}.analytics-choice h2{font-size:1.2rem;margin:0 0 12px}.analytics-choice p{font-size:.92rem}.analytics-choice__actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.analytics-choice__actions[hidden]{display:none}.analytics-choice__actions button{font-size:.85rem;padding:12px 10px}.analytics-choice__close{border:0;background:none;text-decoration:underline;color:#174b76;min-height:44px;margin-top:10px;cursor:pointer}@media(max-width:360px){.analytics-choice{left:12px;bottom:12px;width:calc(100% - 24px);padding:18px}.analytics-choice__actions{grid-template-columns:1fr}}
+</style>

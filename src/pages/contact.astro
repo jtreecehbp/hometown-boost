@@ -1,67 +1,27 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import Button from '../components/ui/Button.astro';
-import SceneWindow from '../components/SceneWindow.astro';
+import LeadForm from '../components/LeadForm.astro';
 import {pageMetadata} from '../data/metadata';
-import {planInterestOptions,pricingPlans} from '../data/pricingPlans';
+import {pricingPlans} from '../data/pricingPlans';
 import {siteConfig} from '../data/siteConfig';
 const startingPriceMonthly=pricingPlans[0].priceLabel.replace('/mo','/month');
-const serverDelivery=import.meta.env.PUBLIC_FORM_DELIVERY==='server';
-const formEnabled=serverDelivery||import.meta.env.NETLIFY==='true'||import.meta.env.PUBLIC_FORM_DELIVERY==='netlify';
-const formEndpoint=serverDelivery?'/api/contact':'/';
 ---
-<MainLayout {...pageMetadata.contact}>
+<MainLayout {...pageMetadata.contact} quiet>
   <div class="container contact-layout">
-    <div class="contact-intro"><span class="eyebrow">LET’S FIND YOUR NEXT STEP.</span><h1>Make your website work harder for your business.</h1><p>Need a new website, a better one, or more local visibility? Tell us what you want to improve. We’ll review your needs and recommend a plan by email.</p>
+    <div class="contact-intro"><span class="eyebrow">LET’S FIND YOUR NEXT STEP.</span><h1>Make your website work harder for your business.</h1><p>Need a new website, a better one, or more local visibility? Tell us what you want to improve. Jordan will review your needs and recommend a plan by email.</p>
       <div class="contact-jump"><Button href="#request">Get my recommendation <span aria-hidden="true">↗</span></Button></div>
-      <SceneWindow/>
+
       <div class="contact-expectations"><div><span>01 /</span><div><strong>Tell us about your business.</strong><p>Your services, your area, and what you need help with.</p></div></div><div><span>02 /</span><div><strong>We review your options.</strong><p>The website features and support that fit your goals.</p></div></div><div><span>03 /</span><div><strong>Decide with a clear recommendation.</strong><p>We’ll reply by email. Sending this form does not sign you up for a plan.</p></div></div></div>
       <p class="note">Website plans from <strong>{startingPriceMonthly}</strong> with <strong>$0 setup</strong>.<br />Minimum terms apply. <a class="text-link" href="/pricing/">See plans and commitments ↗</a></p>
       <p style="margin-top:30px;font-size:14px">Prefer to email us directly?<br /><a class="text-link" href={`mailto:${siteConfig.email}`}>{siteConfig.email} ↗</a></p>
     </div>
-    <form id="request" class="lead-form" tabindex="-1" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action={serverDelivery?'/api/contact':'/thank-you/'} data-form-endpoint={formEndpoint} data-form-enabled={String(formEnabled)}>
-      <input type="hidden" name="form-name" value="contact"/>
-      <p class="honeypot" aria-hidden="true"><label>Leave this field blank<input name="bot-field" tabindex="-1" autocomplete="off"/></label></p>
-      {['landing_page','source_url','referrer','utm_source','utm_medium','utm_campaign','utm_content','utm_term'].map(name=><input type="hidden" name={name} id={name}/>)}
-      <h2>Tell us what your business needs.</h2><p>Start with four required details. Add anything else you’d like us to know.</p>
-      <p class="contact-context" data-source-message hidden></p>
-      <div class="form-grid">
-        <div class="form-field"><label for="name">Your name *</label><input id="name" name="name" autocomplete="name" required maxlength="120" placeholder="First and last name"/></div>
-        <div class="form-field"><label for="businessName">Business name *</label><input id="businessName" name="businessName" autocomplete="organization" required maxlength="160" placeholder="Your business"/></div>
-        <div class="form-field full"><label for="email">Email address *</label><input id="email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@yourbusiness.com"/></div>
-        <div class="form-field full"><label for="serviceArea">City or service area *</label><input id="serviceArea" name="serviceArea" autocomplete="address-level2" required maxlength="200" placeholder="Where do you serve your customers?"/></div>
-        <div class="form-field full"><label for="planInterest">Have a plan in mind? <span>Optional</span></label><select id="planInterest" name="planInterest">{planInterestOptions.map(option=><option value={option}>{option}</option>)}</select></div>
-        <div class="form-field full"><label for="message">What would you like to improve? <span>Optional</span></label><textarea id="message" name="message" rows="3" maxlength="5000" placeholder="Tell us about your services, your current website, or the customers you want to reach."></textarea></div>
-      </div>
-      <details class="form-optional" data-optional-details><summary>Add a website, phone, or other details</summary><div class="form-grid">
-        <div class="form-field full"><label for="websiteUrl">Current website <span>Optional</span></label><input id="websiteUrl" name="websiteUrl" type="text" inputmode="url" autocomplete="url" maxlength="500" placeholder="yourbusiness.com"/></div>
-        <div class="form-field"><label for="phone">Phone <span>Optional</span></label><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40"/></div>
-        <div class="form-field"><label for="industry">Business type <span>Optional</span></label><input id="industry" name="industry" maxlength="150" placeholder="e.g. Landscaping"/></div>
-        <div class="form-field full"><label for="googleAdsInterest">Interested in Google Ads?</label><select id="googleAdsInterest" name="googleAdsInterest"><option value="Not sure yet">Not sure yet</option><option value="Yes">Yes</option><option value="No">No</option></select></div>
-      </div></details>
-      <div class="actions"><Button type="submit" size="lg">Get my recommendation <span aria-hidden="true">↗</span></Button></div>
-      <p class="note">No obligation to buy. We’ll review your details and reply to the email address above.</p>
-      <p class="note privacy-note">By submitting, you agree we may contact you about this inquiry. <a href="/privacy/">Privacy policy</a></p>
-      <p class="form-status" role="alert" tabindex="-1" hidden data-form-status></p>
-      <div class="form-receipt" role="status" tabindex="-1" hidden data-form-receipt>
-        <strong>Your request was sent.</strong>
-        <p>We’ll review your business details and reply by email with a recommended next step.</p>
-        <a class="text-link" href="/contact/">Start another inquiry <span aria-hidden="true">↗</span></a>
-      </div>
-    </form>
+    <LeadForm/>
   </div>
-  <script>
-    import {initContactForm} from '../scripts/contact';
-    initContactForm();
-  </script>
+
 </MainLayout>
 
 <style>
-  .contact-jump { display: none; }
-  #request { scroll-margin-top: 24px; }
-  @media (max-width: 980px) { .form-grid { grid-template-columns: 1fr; } }
-  @media (max-width: 680px) { .contact-jump { display: block; margin-top: 24px; } }
-  .form-receipt { margin-top: 18px; padding: 18px; border: 1px solid #b8d8c9; border-radius: 12px; background: #edf7f1; color: #245640; }
-  .form-receipt p { margin-top: 7px; font-size: .9375rem; color: inherit; }
-  .form-receipt a { min-height: 44px; margin-top: 8px; color: inherit; }
+.contact-jump{display:none}.contact-expectations{margin-top:24px}
+@media(max-width:680px){.contact-jump{display:block;margin-top:20px}.contact-expectations{display:none}.contact-intro h1{font-size:2.5rem}.contact-intro p{font-size:1rem}.contact-layout{gap:26px}}
 </style>

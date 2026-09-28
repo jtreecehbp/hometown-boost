@@ -22,8 +22,8 @@ const {
   title,
   description,
   canonical = new URL(Astro.url.pathname, siteConfig.url).toString(),
-  image = "/images/hometown-boost/social-preview.png",
-  imageAlt = "Hometown Boost websites and local marketing for hometown businesses.",
+  image = "/images/hometown-boost/social-preview-v2.png",
+  imageAlt = "Hometown Boost: your website and Google profile handled together from $129/month. $0 setup, 12-month minimum.",
   imageWidth = 1200,
   imageHeight = 630,
   ogType = "website",
@@ -58,6 +58,7 @@ const schemaItems: Schema[] = [
 <script is:inline>document.documentElement.dataset.enhanced = 'true';</script>
 <meta name="theme-color" content="#10253f" />
 <meta name="generator" content={Astro.generator} />
+<meta name="google-site-verification" content="Wrq01wyANm0R_Sebyz4bGFdcwARSWJDF3m9prtB5_80" />
 <title>{title}</title>
 <meta name="description" content={description} />
 {robots && <meta name="robots" content={robots} />}

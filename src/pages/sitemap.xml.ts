@@ -4,6 +4,7 @@ import { siteConfig } from "../data/siteConfig";
 const staticPages = [
   "/",
   "/pricing/",
+  "/start/",
   "/services/",
   "/how-it-works/",
   "/industries/",

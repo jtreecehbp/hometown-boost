@@ -64,6 +64,7 @@ function fixture({
     button = { disabled: false, innerHTML: "Send", textContent: "Send" };
   const attributes = {};
   let submit;
+  const measurements = [];
   const requests = [],
     redirects = [],
     events = [];
@@ -94,6 +95,7 @@ function fixture({
     require() {
       return {
         planLabelsById,
+        recordAcceptedInquiry: async receipt => { measurements.push(receipt); return true; },
       };
     },
     document: {
@@ -108,7 +110,9 @@ function fixture({
     },
     sessionStorage: { getItem: () => stored },
     history,
+    URL,
     URLSearchParams,
+    setTimeout,
     AbortSignal,
     FormData: class {
       forEach(fn) {
@@ -132,6 +136,7 @@ function fixture({
   sandbox.exports.initContactForm();
   return {
     fields,
+    measurements,
     status,
     receipt,
     context,
@@ -165,7 +170,7 @@ test("plan and campaign links populate the inquiry with first-touch context", ()
   );
 });
 test("existing campaign links select their replacement plan", () => {
-  for (const [plan, label] of [["lite", "Foundation"], ["starter", "Foundation"], ["growth", "Connect"], ["foundation", "Foundation"], ["leader", "Leader"]]) {
+  for (const [plan, label] of [["lite", "Foundation"], ["starter", "Foundation"], ["growth", "Connect"], ["foundation", "Foundation"], ["leader", "Local Marketing"], ["marketing", "Local Marketing"]]) {
     const f = fixture({ query: "?plan=" + plan });
     assert.equal(f.fields.get("planInterest").value, label);
   }
@@ -187,7 +192,7 @@ test("unknown and prototype plan names keep the default recommendation", () => {
 test("unavailable session storage data falls back to current campaign details", () => {
   const f = fixture({ stored: "not-json", query: "?utm_campaign=local" });
   assert.equal(f.fields.get("utm_campaign").value, "local");
-  assert.equal(f.fields.get("referrer").value, "https://referrer.test/page");
+  assert.equal(f.fields.get("referrer").value, "https://referrer.test");
 });
 
 test('invalid stored campaign shapes never disable the contact form', async () => {
@@ -314,4 +319,15 @@ test("Coolify inquiries use the local endpoint and require explicit acceptance",
     assert.equal(f.redirects.length, confirmed ? 1 : 0);
     assert.equal(f.status.hidden, confirmed);
   }
+});
+
+test('only a server-confirmed receipt reaches measurement; failure and absent receipts never count', async () => {
+ const receipt='hb1_'+'x'.repeat(32);
+ for (const confirmed of [true,false]) {
+  const f=fixture({endpoint:'/api/contact',result:{ok:true,json:async()=>({ok:confirmed,receipt})}});
+  await f.submit();
+  assert.deepEqual(f.measurements,confirmed?[receipt]:[]);
+ }
+ const noReceipt=fixture({endpoint:'/api/contact',result:{ok:true,json:async()=>({ok:true})}});
+ await noReceipt.submit(); assert.deepEqual(noReceipt.measurements,[]);
 });

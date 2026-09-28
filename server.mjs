@@ -5,6 +5,7 @@ import { createServer } from "node:http";
 import { fileURLToPath } from "node:url";
 import { createGzip } from "node:zlib";
 import { pipeline } from "node:stream/promises";
+import { randomBytes } from "node:crypto";
 
 const defaultRoot = fileURLToPath(new URL("./dist/", import.meta.url));
 // Preserve published links from the previous live site when the rocket site replaces it.
@@ -257,7 +258,7 @@ export function createAppServer({
         // Release the upstream response without storing inquiry details or logging them.
         await result.body?.cancel();
         if (wantsJson(req))
-          json(res, 200, { ok: true });
+          json(res, 200, { ok: true, receipt: `hb1_${randomBytes(24).toString('base64url')}` });
         else send(res, 303, "", { Location: "/thank-you/" });
       } catch (error) {
         if (!res.headersSent && !res.destroyed)

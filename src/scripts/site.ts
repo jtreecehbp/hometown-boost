@@ -26,7 +26,7 @@ try {
     const params = new URLSearchParams(location.search);
     const attribution: Record<string, string> = {
       landing_page: location.pathname,
-      referrer: document.referrer.split("?")[0],
+      referrer: document.referrer ? new URL(document.referrer).origin : "",
     };
     [
       "utm_source",

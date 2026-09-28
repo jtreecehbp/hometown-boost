@@ -1,0 +1,17 @@
+---
+import {integrationScopeNote} from '../data/pricingPlans';
+const steps=[['01','An inquiry arrives','A customer requests a quote on your website.'],['02','Details reach your tools','The agreed connection creates or updates a lead in your supported system.'],['03','A reply goes out','An acknowledgment and agreed follow-up help keep the conversation moving.'],['04','You take it from there','Handle the quote or appointment with the details already in place.']];
+---
+<ol class="connect-flow" aria-label="Example Connect inquiry workflow">{steps.map(([number,title,copy])=><li><span>{number}</span><h3>{title}</h3><p>{copy}</p></li>)}</ol>
+<p class="note">Example workflow; the tools, triggers, messages, and included adjustments are agreed for your business before setup.</p>
+<div class="connect-scope"><div><h3>What we connect</h3><p>Booking and calendars, compatible CRM or job-management software, and inquiry email follow-up. Tell us the product and subscription you use so we can confirm its connection options.</p></div><div><h3>What the monthly upgrade covers</h3><p>Setup, testing, monitoring, troubleshooting, and adjustments within your agreed workflow. {integrationScopeNote}</p></div></div>
+<p class="note"><strong>Reviews in Foundation:</strong> review requests use the completed-customer details you provide. Connect can use a supported system’s completion trigger when that connection is in your agreed scope.</p>
+<style>
+  .connect-flow{list-style:none;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:0 0 20px}
+  .connect-flow li{padding:26px;background:#fff;border:1px solid var(--line);border-radius:16px}
+  .connect-flow span{font-weight:750;color:#c84a1a;font-size:.85rem}
+  .connect-flow h3{font-size:1.1rem;margin:14px 0 10px}.connect-flow p{font-size:.93rem}
+  .connect-scope{display:grid;grid-template-columns:1fr 1fr;gap:36px;margin:32px 0}.connect-scope h3{font-size:1.15rem;margin-bottom:12px}
+  @media(max-width:900px){.connect-flow{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.connect-flow,.connect-scope{grid-template-columns:1fr}.connect-flow li{padding:20px}}
+</style>

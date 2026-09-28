@@ -8,7 +8,7 @@ import { sceneLoaders } from '../src/scripts/page-scenes/loaders.ts';
 import { disposeModel } from '../src/scripts/page-scenes/kit.ts';
 import { framePageCamera } from '../src/scripts/page-scene-renderer.ts';
 
-test('every supporting page, including individual guides, has a unique scene and one reserved window', () => {
+test('editorial pages retain scenes while conversion pages avoid optional 3D', () => {
   const ids = Object.keys(pageScenes);
   assert.equal(ids.length, 17);
   assert.deepEqual(Object.keys(sceneLoaders).sort(), [...ids].sort());
@@ -17,6 +17,7 @@ test('every supporting page, including individual guides, has a unique scene and
     assert.equal(pageSceneForPath(config.path), id);
     assert.equal(pageSceneForPath(config.path.slice(0, -1)), id);
     const html = readFileSync(id === 'notfound' ? 'dist/404.html' : 'dist' + config.path + 'index.html', 'utf8');
+    if (['pricing','contact'].includes(id)) { assert.doesNotMatch(html,/data-page-scene="|data-scene-window/); continue; }
     assert.equal((html.match(/data-page-scene="/g) || []).length, 1, config.path);
     assert.ok(html.includes('data-page-scene="' + id + '"'), config.path);
     assert.equal((html.match(/data-scene-window/g) || []).length, 1, config.path);

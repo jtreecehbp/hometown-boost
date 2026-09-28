@@ -108,7 +108,9 @@ test("valid inquiries forward only registered fields and confirm after the provi
     unknownSecret: "do-not-forward",
   });
   assert.equal(response.status, 200);
-  assert.deepEqual(await response.json(), { ok: true });
+  const accepted = await response.json();
+  assert.equal(accepted.ok, true);
+  assert.match(accepted.receipt, /^hb1_[A-Za-z0-9_-]{32,128}$/);
   assert.equal(f.requests.length, 1);
   const forwarded = new URLSearchParams(f.requests[0].body);
   assert.equal(forwarded.get("email"), valid.email);

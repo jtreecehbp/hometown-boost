@@ -51,7 +51,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "Which plan is right for my business?",
         answer:
-          "Foundation combines a website of up to five pages with ongoing Google Business Profile management, review requests, and monthly care and reporting. Connect adds supported integrations, booking, and automatic inquiry follow-up. Leader focuses on expanded service-area coverage, ongoing SEO, and priority updates. If you’re unsure, tell us about your business and we’ll recommend a starting point.",
+          "Foundation combines a website of up to five pages with ongoing Google Business Profile management, review requests, and monthly care and reporting. Connect adds supported integrations, booking, and automatic inquiry follow-up. Local Marketing includes everything in Connect plus one managed Google Search Ads campaign, call/form tracking where supported, and ongoing local SEO and landing-page improvements. It is $699 per month plus ad spend. If you’re unsure, tell us about your business and we’ll recommend a starting point.",
       },
       {
         question: "Is hosting included?",
@@ -75,7 +75,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "Can I update my site?",
         answer:
-          "We handle updates according to your plan. Foundation and Connect include one monthly batch of routine text and photo updates. Leader includes priority monthly updates.",
+          "We handle updates according to your plan. Foundation and Connect include one monthly batch of routine text and photo updates. Local Marketing also includes ongoing landing-page improvements.",
       },
       {
         question: "Are all integrations and software fees included?",
@@ -109,7 +109,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "What is local SEO foundation?",
         answer:
-          "It’s the website structure and page setup that helps search engines understand what you do and where you work. Every plan includes this foundation; Leader adds ongoing SEO improvements and service-area pages.",
+          "It’s the website structure and page setup that helps search engines understand what you do and where you work. Every plan includes this foundation; Local Marketing adds ongoing local SEO and landing-page improvements.",
       },
     ],
   },
@@ -118,7 +118,7 @@ export const faqCategories: FAQCategory[] = [
     items: [
       {
         question: "How does Google Ads pricing work?",
-        answer: `Google Ads management is ${googleAdsPricing.formulaLabel}. ${googleAdsPricing.note}`,
+        answer: `Local Marketing is $699/month and includes management of one primary Google Search campaign. Foundation and Connect can add standalone management at ${googleAdsPricing.formulaLabel}. The standalone fee is not added to Local Marketing for its included campaign. ${googleAdsPricing.note}`,
       },
       {
         question: "Who pays the Google Ads budget?",
@@ -142,12 +142,12 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "Is Google Ads included?",
         answer:
-          "No. Google Ads management is optional. Ad spend is separate and paid directly to Google, and the management fee is separate from website plan pricing unless a written scope says otherwise.",
+          "Local Marketing includes management of one primary Google Search Ads campaign in its $699 monthly plan fee. It is optional and priced separately for Foundation and Connect. Ad spend is always additional and paid directly to Google.",
       },
       {
         question: "Can I add Google Ads?",
         answer:
-          "Yes. Google Ads management is optional for businesses with a suitable website, landing page, and advertising budget. We can help you assess your services, service area, and website before you start.",
+          "Yes. Foundation and Connect can add Google Ads management when the website, landing page, and budget are ready. Local Marketing already includes one primary Google Search campaign. We can help assess your readiness before starting.",
       },
     ],
   },
@@ -157,7 +157,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "How do updates work?",
         answer:
-          "Update support depends on the plan. Foundation and Connect include one monthly batch of routine text and photo updates. Leader includes priority monthly updates. Larger redesigns, major copywriting, new page builds, advanced integrations, or rush requests may be quoted separately.",
+          "Update support depends on the plan. Foundation and Connect include one monthly batch of routine text and photo updates. Local Marketing also includes ongoing landing-page improvements. Larger redesigns, major copywriting, new page builds, advanced integrations, or rush requests may be quoted separately.",
       },
     ],
   },

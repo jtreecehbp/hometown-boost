@@ -1,0 +1,17 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import LeadForm from '../components/LeadForm.astro';
+import Section from '../components/ui/Section.astro';
+import Button from '../components/ui/Button.astro';
+import ProjectExamples from '../components/ProjectExamples.astro';
+---
+<MainLayout title="Website + Google Profile Management from $129/month | Hometown Boost" description="A managed website, Google Business Profile, review requests, and ongoing care from $129/month. $0 setup, 12-month minimum. Get a recommendation from Jordan." quiet>
+  <section class="start-hero"><div class="container start-grid"><div class="start-offer"><span class="eyebrow">FOR THE BUSINESSES THAT MAKE A HOMETOWN</span><h1>Your website.<br />Your Google profile.<br /><em>Handled.</em></h1><p class="start-price">From <strong>$129</strong> / month</p><p class="start-terms">$0 setup · 12-month minimum · $1,548 minimum commitment</p><div class="start-jump"><Button href="#request">Get my recommendation ↓</Button></div><p class="start-summary">A professional website and a Google Business Profile that stay current—without adding another job to your workday.</p><ul class="check-list"><li>Up to five website pages, hosting, and maintenance</li><li>Google profile management + two posts each month</li><li>Review requests, monthly updates, and reporting</li></ul><p class="note">Need booking, connected tools, or automatic follow-up? <a href="/pricing/#connect">Connect is $249/month.</a></p></div><LeadForm heading="Let’s find your starting point." defaultPlan="Foundation"/></div></section>
+  <Section variant="light" eyebrow="SEE THE WORK" title="Built around real local businesses."><ProjectExamples/></Section>
+  <Section><div class="split"><div><span class="eyebrow">A PERSON BEHIND YOUR PLAN</span><h2 style="margin:20px 0">Work directly with Jordan.</h2><p>I’m Jordan Treece, the owner of Hometown Boost. I bring your website, Google profile, and ongoing updates together so you can spend more time running your business.</p><p style="margin-top:16px">Tell me what you do and what needs to work better. I’ll recommend a plan and explain the scope before you decide.</p><a class="text-link" href="/about/">Meet Hometown Boost ↗</a></div><div class="card"><h3>What happens next?</h3><ol class="start-next"><li>Send your business name, email, and service area.</li><li>Receive a recommendation with the price, scope, and expected timeline.</li><li>Review your website before it goes live.</li></ol><p class="note">Sending an inquiry does not start a subscription.</p><Button href="#request">Get my recommendation ↗</Button></div></div></Section>
+</MainLayout>
+<style>
+.start-hero{padding:64px 0;background:#f7f5ee}.start-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}.start-offer h1{font-size:clamp(2.7rem,4.4vw,4.5rem);margin:20px 0}.start-offer h1 em{color:#c84a1a;font-style:normal}.start-price{font-size:1.2rem}.start-price strong{font-family:var(--font-display);font-size:3rem;color:#10253f}.start-terms{font-size:.84rem;margin:8px 0 24px}.start-summary{max-width:490px}.start-jump{margin:18px 0}.start-next{padding-left:22px;margin:22px 0}.start-next li{padding-bottom:12px}
+@media(max-width:980px){.start-grid{gap:32px}.start-offer h1{font-size:3rem}}
+@media(max-width:760px){.start-hero{padding:36px 0}.start-grid{grid-template-columns:1fr}.start-offer h1{font-size:2.7rem}.start-offer .check-list{margin:18px 0}.start-offer .note{margin-top:12px}}
+</style>

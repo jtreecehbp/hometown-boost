@@ -1,4 +1,5 @@
 import { planLabelsById } from "../data/pricingPlans";
+import { recordAcceptedInquiry } from './monitoring';
 export function initContactForm() {
   const form = document.querySelector<HTMLFormElement>(".lead-form");
   if (!form) return;
@@ -59,7 +60,7 @@ export function initContactForm() {
         : key === "landing_page"
           ? firstTouch || location.pathname
           : key === "referrer"
-            ? firstTouch || document.referrer.split("?")[0]
+            ? firstTouch || (document.referrer ? new URL(document.referrer).origin : "")
             : firstTouch || params.get(key) || "";
     input.value = value.slice(0, key.startsWith('utm_') ? 200 : 1000);
   }
@@ -97,6 +98,7 @@ export function initContactForm() {
     form.setAttribute("aria-busy", "true");
     const originalText = button.innerHTML;
     button.textContent = "Sending your request…";
+    let acceptedReceipt = '';
     try {
       const payload = new URLSearchParams();
       new FormData(form).forEach((value, key) => {
@@ -114,8 +116,11 @@ export function initContactForm() {
       });
       if (!response.ok)
         throw new Error("The form service did not accept the request.");
-      if (endpoint === "/api/contact" && (await response.json()).ok !== true)
-        throw new Error("The form service did not confirm the request.");
+      if (endpoint === "/api/contact") {
+        const confirmation = await response.json();
+        if (confirmation.ok !== true) throw new Error("The form service did not confirm the request.");
+        if (typeof confirmation.receipt === 'string') acceptedReceipt = confirmation.receipt;
+      }
     } catch {
       status.textContent =
         "Your request could not be confirmed. Your details are still here. Please try again, or email hello@hometownboost.com.";
@@ -150,6 +155,11 @@ export function initContactForm() {
     try {
       window.dispatchEvent(new CustomEvent("hometown:conversion", { detail }));
     } catch { /* Confirmation does not depend on event listeners. */ }
+    // Bound optional measurement so a blocked provider never holds up the receipt.
+    if (acceptedReceipt) {
+      try { await Promise.race([recordAcceptedInquiry(acceptedReceipt), new Promise(resolve => setTimeout(resolve, 300))]); }
+      catch { /* The inquiry remains accepted even when measurement fails. */ }
+    }
     try { location.assign("/thank-you/"); }
     catch { receipt.focus(); }
   });

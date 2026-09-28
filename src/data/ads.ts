@@ -7,9 +7,9 @@ export const adsOffer = {
     "An optional add-on for businesses that want to test or grow lead generation through simple Google Search campaigns.",
   terms: [
     "Available for clients with an advertising-ready website",
-    "Foundation, Connect, and Leader clients can discuss campaign readiness",
+    "Included in Local Marketing; optional for Foundation and Connect",
     "Client pays ad spend directly to Google",
-    "Hometown Boost charges the management fee separately",
+    "Standalone management is charged separately; the included Local Marketing campaign has no additional management fee",
     "3-month minimum recommended",
     "Google Search Ads only to start",
     "Basic call/form conversion tracking included where possible",

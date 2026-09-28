@@ -6,7 +6,7 @@ const {plan,featureLimit,showNotIncluded=false} = Astro.props;
 const compactFeatures = {
   foundation: [plan.websiteSize, 'Ongoing Google profile management', 'Review requests & response support', 'Monthly updates & reporting', 'Hosting, security & maintenance'],
   connect: ['Everything in Foundation', 'CRM & business-tool connections', 'Online booking & calendar sync', 'Automatic inquiry follow-up', 'Ongoing integration management'],
-  leader: [plan.websiteSize, 'Managed Google profile & reviews', 'Service-area SEO pages', 'Ongoing SEO improvements', 'Priority updates & strategy'],
+  marketing: ['Everything in Connect', 'One Google Search Ads campaign', 'Call/form tracking where supported', 'Landing-page & local SEO improvements', 'Combined monthly reporting'],
 };
 const features = typeof featureLimit === 'number' ? compactFeatures[plan.id].slice(0,featureLimit) : plan.highlights;
 ---
@@ -14,9 +14,11 @@ const features = typeof featureLimit === 'number' ? compactFeatures[plan.id].sli
   <div class="pricing-card__topline"><h3>{plan.shortName}</h3>{plan.featured && <span class="pill">{plan.badge || "Recommended"}</span>}</div>
   <p class="pricing-card__for">{plan.bestFor}</p>
   <div class="pricing-card__price">${plan.price}<span>/ month</span></div>
+  {plan.priceNote && <p class="pricing-card__ad-budget">{plan.priceNote}</p>}
   <p class="pricing-card__terms">$0 setup · {plan.minimumMonths}-month minimum</p>
   <Button href={plan.ctaHref} variant={plan.featured ? 'primary' : 'outline'}>{plan.ctaLabel} <span aria-hidden="true">↗</span></Button>
   <ul class="check-list">{features.map(feature => <li>{feature}</li>)}</ul>
   {showNotIncluded && <details class="plan-exclusions"><summary>What’s outside this plan?</summary><ul>{plan.notIncluded.map(feature => <li>{feature}</li>)}</ul></details>}
-  <p class="pricing-card__commitment">{plan.minimumCommitment} total minimum commitment</p>
+  <p class="pricing-card__commitment">{plan.minimumCommitment} total minimum commitment{plan.priceNote ? ' in plan fees; ad spend is additional' : ''}</p>
 </article>
+<style>.pricing-card__ad-budget {font-size:.84rem;font-weight:650;color:var(--navy);margin:0 0 12px;}</style>

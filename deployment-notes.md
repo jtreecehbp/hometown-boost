@@ -28,3 +28,11 @@ Safe application settings and the three preexisting non-secret environment value
 To roll back, restore this app's previous Nixpacks configuration (`npm ci`, `npm run build`, `npm run start`, Node 22), and deploy the previous commit or retained image through Coolify. Keep the same domains and non-www redirect. The rocket-only environment variables can remain unused by the old app. Verify the old homepage, HTTPS, and its original robots configuration. Do not change credentials or other applications.
 
 Production deployment UUIDs, final commit, public checks, and remaining limitations are recorded in the central project task `20260928t122128z-b871fefa` under `hometown-boost-v4--1283167b`.
+
+## Advertising-readiness release, September 28
+
+The subsequent user request authorizes all review improvements and restores the latest premium offer: Local Marketing at $699/month plus ad spend. This release adds the focused /start/ landing page, shared inquiry form, project/owner proof, sample report, clearer integrations, social card, Search Console verification tag, and an initially disabled consent-controlled measurement adapter. Public analytics build variables and remaining setup gates are documented in MONITORING.md.
+
+Before promotion, retain current rocket image `g13cs3l4ds0nv8cz1hop7ohw:95d4b5a0954f2795a87e3ff9486c77d94376f83c` as `hometown-boost-rollback:pre-readiness-20260928`. This nearer rollback uses the same Dockerfile settings and domain configuration; it does not need the earlier Nixpacks restoration. Keep the functioning Netlify notification hook in either case. If optional measurement is enabled in a later release, disable its build gate and rebuild during rollback as appropriate.
+
+Verify preview first, then push the tested commit to main (observed production auto-deploy). Check exact deployed SHA, health, sitemap and indexing, new routes and plan links, social image, and form availability. The one real inbox test is already verified; use simulated submissions for further repeated QA. Re-check PageSpeed after production promotion; do not treat failed lab measurements as valid scores.

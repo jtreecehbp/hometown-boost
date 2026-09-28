@@ -1,0 +1,9 @@
+---
+const projects=[
+ {name:"Bobby’s Cycle Works",category:'Equipment & dealership',url:'https://bobbyscycleworks.com/',copy:'A searchable inventory, individual equipment pages, and clear paths to contact the shop.'},
+ {name:'Star Septic Services',category:'Home & commercial services',url:'https://starsepticservice.com/',copy:'Service and area pages, prominent calling options, and a straightforward service-request path.'},
+];
+---
+<div class="project-examples">{projects.map(project=><article class="project-example"><span class="eyebrow">{project.category}</span><h3>{project.name}</h3><p>{project.copy}</p><a class="text-link" href={project.url} target="_blank" rel="noopener noreferrer">Visit the live website <span aria-hidden="true">↗</span><span class="sr-only"> (opens a new tab)</span></a></article>)}</div>
+<p class="note project-caption">Live website examples. Each project has its own scope; custom features shown here may require a separate quote.</p>
+<style>.project-examples{display:grid;grid-template-columns:1fr 1fr;gap:24px}.project-example{padding:34px;border:1px solid var(--line);border-radius:20px;background:white}.project-example h3{margin:18px 0;font-size:1.45rem}.project-example a{margin-top:22px}.project-caption{margin-top:20px}@media(max-width:680px){.project-examples{grid-template-columns:1fr}.project-example{padding:26px}}</style>

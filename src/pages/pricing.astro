@@ -1,40 +1,40 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import PageHero from '../components/PageHero.astro';
 import Section from '../components/ui/Section.astro';
 import Button from '../components/ui/Button.astro';
 import PricingCard from '../components/ui/PricingCard.astro';
 import PricingComparisonTable from '../components/ui/PricingComparisonTable.astro';
-import PlanSelector from '../components/infographics/PlanSelector.astro';
+import ConnectWorkflow from '../components/ConnectWorkflow.astro';
 import FAQAccordion from '../components/ui/FAQAccordion.astro';
 import CTASection from '../components/ui/CTASection.astro';
-import {pricingPlans,googleAdsPricing,everyPlanFeatures,integrationScopeNote} from '../data/pricingPlans';
-import {addOns,addOnScopeNote} from '../data/addOns';
+import {pricingPlans,googleAdsPricing} from '../data/pricingPlans';
 import {selectFaqs} from '../data/faqs';
 import {pageMetadata} from '../data/metadata';
 const faqs=selectFaqs(['Why are there minimum terms?','What happens after the minimum term?','What happens if I cancel?','Can I upgrade later?','Do I own the website?','Is Google Ads included?']);
 const schema={'@context':'https://schema.org','@type':'FAQPage',mainEntity:faqs.map(f=>({'@type':'Question',name:f.question,acceptedAnswer:{'@type':'Answer',text:f.answer}}))};
 ---
-<MainLayout {...pageMetadata.pricing} schema={schema}>
-  <PageHero eyebrow="CLEAR PRICING. ONGOING SUPPORT." title="Build your foundation. Connect your business." description={`Your website and Google Business Profile, managed together from $${pricingPlans[0].price}/month. Add supported business-tool integrations and automated follow-up with Connect. $0 setup and a 12-month minimum for each plan.`}>
-    <div class="actions"><Button href="#plans">Find your plan <span aria-hidden="true">↓</span></Button><Button href="#compare" variant="outline">Compare what’s included</Button></div>
-  </PageHero>
-  <Section id="plans" class="section--compact"><div class:list={["grid", "pricing-grid", pricingPlans.length === 2 ? "grid--2" : "grid--3"]}>{pricingPlans.map(plan=><PricingCard plan={plan} showNotIncluded/>)}</div>
-    <p class="pricing-footnote">Your website build and support are spread across the minimum term. Each plan’s total minimum commitment is shown above. After the minimum term is complete and the account is paid in full, plans continue month to month unless canceled with 30 days’ written notice. <a href="/terms/">Read the terms ↗</a></p>
+<MainLayout {...pageMetadata.pricing} schema={schema} quiet>
+  <section class="pricing-intro"><div class="container"><span class="eyebrow">ONE FOUNDATION. THREE LEVELS OF SUPPORT.</span><h1>Website + Google profile.<br /><em>One clear monthly plan.</em></h1><p>Start with the essentials. Add connected tools and follow-up. Bring in managed advertising when you’re ready.</p><p class="pricing-intro__terms">$0 setup · 12-month minimum · GBP management in every plan</p></div></section>
+  <Section id="plans" class="section--compact"><div class="grid pricing-grid grid--3">{pricingPlans.map(plan=><PricingCard plan={plan} featureLimit={5} showNotIncluded/>)}</div>
+    <p class="pricing-footnote">Every plan includes one managed Google Business Profile, two profile posts per month, review requests, monthly website updates, hosting, and reporting. After the minimum term, service continues month to month with 30 days’ written notice to cancel. <a href="/terms/">Read the terms ↗</a></p>
   </Section>
-  <Section variant="light" eyebrow="INCLUDED IN EVERY PLAN" title="Your website and Google presence, handled together." align="center">
-    <div class="grid grid--3">{everyPlanFeatures.map(feature => <article class="card"><p>{feature}</p></article>)}</div>
+  <Section variant="light" id="connect" eyebrow="THE $120 UPGRADE" title="Connect the inquiry to the next step." description="Connect adds the setup and ongoing care of your agreed customer workflow. You spend less time copying details between tools and keeping track of who needs a reply."><ConnectWorkflow/></Section>
+  <Section id="compare" class="section--compact"><span id="plan-comparison"></span>
+    <details class="pricing-details"><summary>Compare every included feature</summary><div class="pricing-details__body"><PricingComparisonTable/></div></details>
+    <details class="pricing-details"><summary>Extra work, software costs, and standalone ads</summary><div class="pricing-details__body"><p>Additional pages, a second business location, extra workflows, and custom development are scoped and priced before work begins. Third-party software subscriptions, messaging, and call-tracking usage are separate unless your written scope includes them.</p><p>Foundation and Connect can add Google Search Ads management at <strong>{googleAdsPricing.formulaLabel}</strong>. Local Marketing already includes management of one primary Google Search campaign; that separate management fee is not added again. In every case, ad spend is paid directly to Google.</p><Button href="/google-ads/" variant="outline">See Google Ads details ↗</Button></div></details>
   </Section>
-  <Section variant="light" eyebrow="CONNECT YOUR WEBSITE TO YOUR WORKDAY" title="Add integrations and automation for $120 more per month." description="Choose Connect to send inquiries into your supported CRM or job software, connect your booking calendar, and automate customer follow-up.">
-    <div class="grid grid--3"><article class="card"><h3>Keep inquiries together</h3><p>Send website requests and customer details into the tools your business uses.</p></article><article class="card"><h3>Make the next step easier</h3><p>Set up booking, acknowledgments, and follow-up around your agreed customer workflow.</p></article><article class="card"><h3>Keep connections working</h3><p>We configure, test, monitor, and support the integrations included in your scope.</p></article></div>
-    <p class="pricing-footnote">{integrationScopeNote}</p>
-  </Section>
-  <Section variant="light" eyebrow="CHOOSE BY WHAT YOU NEED." title="Start with your business priorities." align="center"><PlanSelector/></Section>
-  <Section id="compare" eyebrow="KNOW WHAT YOU’RE GETTING." title="Compare every plan." description="Every plan includes website care, ongoing Google Business Profile management, review requests, and monthly reporting. Connect adds the integrations and automation that help your business follow up."><span id="plan-comparison"></span><PricingComparisonTable/></Section>
-  <Section variant="light" eyebrow="MORE HELP, WHEN YOU NEED IT." title="Add the support your business needs." description={addOnScopeNote}>
-    <div class="grid grid--3">{addOns.map(addOn=><article class="card"><h3>{addOn.name}</h3><p>{addOn.price}</p></article>)}</div>
-  </Section>
-  <Section><div class="split"><div><span class="eyebrow">REACH PEOPLE SEARCHING FOR YOUR SERVICES.</span><h2 style="margin-top:20px">Add Google Search Ads.</h2><p style="margin-top:22px">Pair your website with a focused search campaign for your services and area. We’ll help you assess whether your website, budget, and business are ready for paid search.</p></div><div class="card"><h3>{googleAdsPricing.formulaLabel}</h3><p>{googleAdsPricing.note} Website plan fees are separate.</p><Button href="/google-ads/" variant="primary">Explore Google Ads <span aria-hidden="true">↗</span></Button></div></div></Section>
-  <Section variant="light" title="Understand the commitment." align="center"><FAQAccordion items={faqs}/></Section>
-  <CTASection title="Not sure which plan fits?" description="Tell us what you do, where you work, and what your website needs to do better. We’ll recommend a starting point by email, with no obligation." primaryCta={{label:'Get my recommendation',href:'/contact/'}}/>
+  <Section variant="light" title="Know the commitment before you start." align="center"><FAQAccordion items={faqs}/></Section>
+  <CTASection title="A clear recommendation, without the guesswork." description="Tell us about your business and the tools you use. Jordan will help you choose the right scope before you commit." primaryCta={{label:'Get my recommendation',href:'/contact/'}}/>
 </MainLayout>
+<style>
+  .pricing-intro {padding:72px 0 28px;background:#f7f5ee}
+  .pricing-intro h1 {font-size:clamp(2.2rem,4.2vw,3.8rem);max-width:980px;margin:18px 0}
+  .pricing-intro h1 em {color:#c84a1a;font-style:normal}
+  .pricing-intro p {max-width:680px}
+  .pricing-intro__terms {font-size:.9rem;font-weight:650;margin-top:20px}
+  .pricing-details {border-top:1px solid var(--line);padding:24px 0}
+  .pricing-details summary {cursor:pointer;font-family:var(--font-display);font-size:1.2rem;font-weight:700;min-height:44px}
+  .pricing-details__body {padding-top:20px}
+  .pricing-details__body p {max-width:800px;margin-bottom:20px}
+  @media(max-width:680px){.pricing-intro{padding-top:40px}}
+</style>
