@@ -88,7 +88,7 @@ export function initContactForm() {
     status.hidden = true;
     if (form.dataset.formEnabled !== "true") {
       status.textContent =
-        "This preview does not send inquiries. You can reach us at hello@hometownboost.com.";
+        "This preview does not send inquiries. You can reach us at jordan@hometownboost.com.";
       status.hidden = false;
       status.focus();
       return;
@@ -123,7 +123,7 @@ export function initContactForm() {
       }
     } catch {
       status.textContent =
-        "Your request could not be confirmed. Your details are still here. Please try again, or email hello@hometownboost.com.";
+        "Your request could not be confirmed. Your details are still here. Please try again, or email jordan@hometownboost.com.";
       status.hidden = false;
       status.focus();
       button.disabled = false;

@@ -205,7 +205,7 @@ test("native form failures offer a readable recovery page without exposing submi
     assert.match(html, /<html lang="en">/);
     assert.match(html, /<h1>We couldn’t confirm your request\.<\/h1>/);
     assert.match(html, /href="\/contact\/"/);
-    assert.match(html, /href="mailto:hello@hometownboost\.com"/);
+    assert.match(html, /href="mailto:jordan@hometownboost\.com"/);
     assert.match(html, /Back button/);
     assert.doesNotMatch(html, /Private form answer|owner@example\.test|<script/);
   }

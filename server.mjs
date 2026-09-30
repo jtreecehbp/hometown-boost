@@ -109,7 +109,7 @@ a:focus-visible{outline:3px solid #d95b0b;outline-offset:4px}.label{font-size:.7
 </style></head><body><header><a href="/">Hometown Boost</a></header><main>
 <p class="label">LET’S GET YOU CONNECTED</p><h1>We couldn’t confirm your request.</h1>
 <p>${escapeHtml(explanation)}</p><p>Use your browser’s Back button to review your details, or open the contact form to start again.</p>
-<div class="actions"><a href="/contact/">Return to contact form</a><a href="mailto:hello@hometownboost.com">Email Hometown Boost</a></div>
+<div class="actions"><a href="/contact/">Return to contact form</a><a href="mailto:jordan@hometownboost.com">Email Hometown Boost</a></div>
 </main></body></html>`, {
     "Content-Type": "text/html; charset=utf-8",
     "X-Robots-Tag": "noindex, nofollow",
@@ -263,7 +263,7 @@ export function createAppServer({
       } catch (error) {
         if (!res.headersSent && !res.destroyed)
           contactError(req, res, error.message === "too-large" ? 413 : 502,
-            "Your inquiry could not be confirmed. Please try again or email hello@hometownboost.com.");
+            "Your inquiry could not be confirmed. Please try again or email jordan@hometownboost.com.");
       }
       return;
     }

@@ -9,7 +9,7 @@ export const siteConfig = {
   description:
     `Website and Google Business Profile management for local businesses from ${startingPriceMonthly} with $0 setup. Compare plans, support, and minimum terms.`,
   url: configuredUrl.replace(/\/$/, ""),
-  email: "hello@hometownboost.com",
+  email: "jordan@hometownboost.com",
   phone: "",
   social: {
     facebook: "",
