@@ -1,6 +1,6 @@
 # Hometown Boost
 
-A full Astro marketing-site rebuild around “Big things start local.” The homepage follows the Hometown Boost water tower as it launches from a three-dimensional town. The site has 19 content pages plus a recovery page. Foundation is $129/month, Connect is $249/month, and Local Marketing is $699/month plus ad spend. All plans include ongoing Google Business Profile management; Connect adds supported integrations and automated inquiry follow-up. Local Marketing includes Connect plus one Google Search campaign, call/form tracking where supported, and local SEO/landing-page improvements. The existing 12-month minimums and Netlify form field contract are retained.
+A full Astro marketing-site rebuild around “Big things start local.” The homepage follows the Hometown Boost water tower as it launches from a three-dimensional town. The site has 19 content pages plus a recovery page. Foundation is $99/month, Connect is $249/month, and Local Marketing is $699/month plus ad spend. All plans include ongoing Google Business Profile management; Connect adds supported integrations and automated inquiry follow-up. Local Marketing includes Connect plus one Google Search campaign, call/form tracking where supported, and local SEO/landing-page improvements. The existing 12-month minimums and Netlify form field contract are retained.
 
 ## Active hosting: Coolify
 
@@ -41,7 +41,7 @@ The site-output tests inspect `dist`, so build first. For the active Coolify con
 - Supporting scenes begin in a reserved space beside the introduction, then move toward the edge and soften as readers scroll. Prices, articles, legal text, and form fields remain normal HTML. The background cannot capture scrolling or cover links. One shared renderer and one model module load near the scene's viewport; the graphics library is shared with the homepage and cached across routes.
 - Reduced-motion and data-saving preferences keep the static emblem and skip the supporting scene download until Play is chosen. Pause freezes the choreography. Background tabs, the footer, page-cache suspension, and form or comparison-table focus stop the render loop. Motion controls hide during form/table interaction. Context failure retains the emblem and useful page content.
 - The supplied logo was developed into a 3D image and an image-generation cutout. The source cutout is `public/images/hometown-boost/hb-rocket-emblem.png`; optimized display and navigation assets are `hb-rocket-emblem.webp` and `hb-rocket-mark.webp` in the same directory. `public/favicon.png` uses the same tower. The 3D scene itself uses native geometry, not the flat image.
-- The 1200x630 social-preview-v2 image uses the approved rocket emblem and the current $129 website/GBP offer.
+- The 1200x630 social-preview-v2 image uses the approved rocket emblem and the current $99 website/GBP offer.
 - The sample landscaping website is explicitly labeled as an illustrative concept, not a client project.
 
 ## Page animations
@@ -114,6 +114,6 @@ The 3D runtime is loaded separately from the page. Text, navigation, pricing, an
 
 ## September 28 advertising-readiness update
 
-`/start/` is the focused $129 website/GBP landing page for launch traffic. `/sample-report/` is a clearly labeled illustrative report, excluded from search indexing. About and the landing page introduce Jordan and link to live website examples; no testimonials or performance results were invented. Specific supported software and delivery-time promises still need the owner's confirmed details.
+`/start/` is the focused $99 website/GBP landing page for launch traffic. `/sample-report/` is a clearly labeled illustrative report, excluded from search indexing. About and the landing page introduce Jordan and link to live website examples; no testimonials or performance results were invented. Specific supported software and delivery-time promises still need the owner's confirmed details.
 
 The single authorized live test HB-20260928-01 was stored in Netlify and delivered to jordan@hometownboost.com after adding the missing submission notification. See MONITORING.md for receiver/hook identifiers. Analytics remains off pending Google account setup; the footer explains its state. The homepage waits for two paint opportunities and an idle callback before importing the optional rocket scene.

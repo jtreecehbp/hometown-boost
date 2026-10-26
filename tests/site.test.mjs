@@ -80,10 +80,10 @@ test('all pages expose native mobile navigation and discoverable supporting rout
 test("plan commitments and form registration remain consistent", () => {
   const pricing = readFileSync(join(root, "pricing/index.html"), "utf8");
   for (const amount of [
-    "$129",
+    "$99",
     "$249",
     "$699",
-    "$1,548",
+    "$1,188",
     "$2,988",
     "$8,388",
   ])
@@ -116,7 +116,7 @@ test("one continuous launch scene loads separately from useful HTML content", ()
   assert.equal((home.match(/data-flight-cue=/g) || []).length, 3);
   assert.match(home, /data-launch-controls hidden/);
   assert.match(home, /Pause motion/);
-  for (const amount of ["$129", "$249", "$699"])
+  for (const amount of ["$99", "$249", "$699"])
     assert.ok(home.includes(amount));
   assert.doesNotMatch(
     readFileSync(join(root, "contact/index.html"), "utf8"),

@@ -48,7 +48,7 @@ export const pricingPlans: PricingPlan[] = [
     id: "foundation",
     name: "Hometown Foundation",
     shortName: "Foundation",
-    price: 129,
+    price: 99,
     minimumMonths: 12,
     websiteSize: "Up to 5-page website",
     bestFor: "Your website and Google Business Profile, handled together.",

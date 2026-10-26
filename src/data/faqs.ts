@@ -26,7 +26,7 @@ export const faqCategories: FAQCategory[] = [
       {
         question: "What does Connect add?",
         answer:
-          "Connect includes everything in Foundation, plus supported CRM or job-software connections, online booking, automatic inquiry follow-up, and ongoing integration management. The upgrade is $120 per month. We agree on the tools and workflow before work begins.",
+          "Connect includes everything in Foundation, plus supported CRM or job-software connections, online booking, automatic inquiry follow-up, and ongoing integration management. The upgrade is $150 per month. We agree on the tools and workflow before work begins.",
       },
       {
         question: "Can I upgrade later?",
