@@ -53,8 +53,8 @@ export function mountLaunch(root: HTMLElement, { forcePlay = false } = {}) {
   const setPauseLabel = () => {
     pauseButton.setAttribute("aria-pressed", String(paused));
     pauseButton.innerHTML = paused
-      ? 'Play motion <span aria-hidden="true">▶</span>'
-      : 'Pause motion <span aria-hidden="true">Ⅱ</span>';
+      ? '<span class="launch-controls__text">Play motion</span><span aria-hidden="true">▶</span>'
+      : '<span class="launch-controls__text">Pause motion</span><span aria-hidden="true">Ⅱ</span>';
   };
   const canAnimate = () =>
     active &&

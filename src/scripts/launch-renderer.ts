@@ -17,11 +17,12 @@ export function createLaunchRenderer(viewport: HTMLElement, compact: boolean) {
     Math.min(window.devicePixelRatio || 1, compact ? 1.25 : 1.75),
   );
   renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
+  // Neutral tone mapping keeps the brand navy and orange true instead of washing them out.
+  renderer.toneMapping = THREE.NeutralToneMapping;
+  renderer.toneMappingExposure = 1;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
-  renderer.setClearColor(0xd5ecfa, 0);
+  renderer.setClearColor(0x6ea7da, 0);
   renderer.domElement.setAttribute("aria-hidden", "true");
   viewport.appendChild(renderer.domElement);
   const world = createLaunchWorld(compact);
@@ -45,9 +46,9 @@ export function createLaunchRenderer(viewport: HTMLElement, compact: boolean) {
     }
   };
   refreshEnvironment();
-  world.scene.environmentIntensity = 0.45;
   renderer.domElement.addEventListener("webglcontextrestored", refreshEnvironment);
-  const camera = new THREE.PerspectiveCamera(39, 1, 0.1, 240);
+  // The far plane reaches the farmland horizon; the haze hides its edge.
+  const camera = new THREE.PerspectiveCamera(39, 1, 0.1, 720);
   let width = 1,
     height = 1;
   return {
@@ -63,11 +64,7 @@ export function createLaunchRenderer(viewport: HTMLElement, compact: boolean) {
     },
     render(pose: FlightPose, time: number, centered = false) {
       updateLaunchWorld(world, pose, time, width / height < 0.9);
-      frameLaunchCamera(camera, pose, width, height, centered);
-      if (!centered) {
-        viewport.parentElement?.style.setProperty("--cloud-cover", String(pose.cloud));
-        viewport.parentElement?.style.setProperty("--scene-open", String(pose.sceneOpen));
-      }
+      frameLaunchCamera(camera, pose, width, height, centered, time);
       renderer.render(world.scene, camera);
     },
     dispose() {

@@ -53,15 +53,17 @@ const stops = [
   // A cloud curtain opens onto a wide, sunlit view above the town.
   shot(0.51, 34, { x: 0, z: 1.4, bank: -0.2, pitch: 0.05, orbit: 0.35, distance: 21, elevation: 5, lookHeight: 3.8, fov: 45, cloud: 0.97 }),
   shot(0.555, 41, { x: 2.2, z: 3.4, bank: -0.1, orbit: 0.7, distance: 30, elevation: 15, lookHeight: 1.4, fov: 44, cloud: 0.04 }),
-  shot(0.6, 44, { x: 3, z: 2.3, orbit: 0.58, distance: 26, elevation: 10, lookHeight: 3, fov: 41 }),
-  // Keep the comparison and FAQ stretches steady.
-  shot(0.69, 46, { x: 3, z: 2.3, ignition: 0.8, orbit: 0.55, distance: 24, elevation: 8, lookHeight: 3.4, fov: 41 }),
-  shot(0.82, 48, { x: 3, z: 2.3, ignition: 0.8, orbit: 0.55, distance: 24, elevation: 8, lookHeight: 3.4, fov: 41 }),
-  shot(0.865, 49, { x: 4, z: 3, ignition: 0.85, orbit: 0.56, distance: 27, elevation: 10, lookHeight: 3.2, fov: 42 }),
-  // Pull away from the tower and look back at the connected hometown below.
-  shot(0.93, 53, { x: 8, z: 2, orbit: 0.56, distance: 44, elevation: 65, lookHeight: -18, fov: 43, overlook: 0.6 }),
-  shot(0.985, 56, { x: 14, z: 0, ignition: 0.65, orbit: 0.56, distance: 69, elevation: 105, lookHeight: -46, fov: 43, overlook: 1 }),
-  shot(1, 56, { x: 14, z: 0, ignition: 0.65, orbit: 0.56, distance: 69, elevation: 105, lookHeight: -46, fov: 43, overlook: 1 }),
+  shot(0.6, 44, { x: 3, z: 2.3, orbit: 0.58, distance: 26, elevation: 6, lookHeight: 3.2, fov: 41 }),
+  // Keep the comparison and FAQ stretches steady, looking up into the night-blue sky.
+  shot(0.69, 46, { x: 3, z: 2.3, ignition: 0.8, orbit: 0.55, distance: 24, elevation: -3.5, lookHeight: 4.5, fov: 41 }),
+  shot(0.82, 48, { x: 3, z: 2.3, ignition: 0.8, orbit: 0.55, distance: 24, elevation: -3.5, lookHeight: 4.5, fov: 41 }),
+  shot(0.865, 49, { x: 3.4, z: 2.6, ignition: 0.85, orbit: 0.56, distance: 27, elevation: 2, lookHeight: 3.6, fov: 42 }),
+  // Homecoming: the tank flies back down at sunset and settles onto its own tower legs.
+  shot(0.9, 31, { x: 1.6, z: 1.2, ignition: 0.95, orbit: 0.6, distance: 33, elevation: 8, lookHeight: 0.5, fov: 43, overlook: 0.3 }),
+  shot(0.935, 13, { x: 0.4, z: 0.3, ignition: 1, smoke: 0.08, orbit: 0.6, distance: 40, elevation: 10, lookHeight: -4.5, fov: 43, overlook: 0.62 }),
+  shot(0.965, 2.2, { ignition: 0.9, smoke: 0.5, orbit: 0.58, distance: 42, elevation: 9.5, lookHeight: 0.6, fov: 43, overlook: 0.86 }),
+  shot(0.985, 0, { ignition: 0, smoke: 0.42, orbit: 0.56, distance: 42, elevation: 8, lookHeight: 2, fov: 43, overlook: 1 }),
+  shot(1, 0, { ignition: 0, smoke: 0.3, orbit: 0.56, distance: 42, elevation: 8, lookHeight: 2, fov: 43, overlook: 1 }),
 ];
 export function sampleFlight(progress: number): FlightPose {
   const p = clamp(progress);
@@ -70,12 +72,14 @@ export function sampleFlight(progress: number): FlightPose {
   if (right > 0) {
     const start = stops[right - 1], end = stops[right];
     const t = smooth((p - start.at) / (end.at - start.at));
+    // Land exactly on each stop so held shots (pricing, FAQ) stay perfectly still.
     for (const key of Object.keys(result) as (keyof FlightPose)[])
-      result[key] = start.pose[key] + (end.pose[key] - start.pose[key]) * t;
+      result[key] = t >= 1 ? end.pose[key] : start.pose[key] + (end.pose[key] - start.pose[key]) * t;
   }
   result.progress = p;
   result.shutters = smoothRange(0, 0.075, p);
-  result.birds = smoothRange(0.12, 0.25, p);
+  // Startled birds circle during the flight and settle back on the rooftops by dusk.
+  result.birds = smoothRange(0.12, 0.25, p) * (1 - smoothRange(0.9, 0.98, p));
   result.network = smoothRange(0.9, 0.985, p);
   result.sceneOpen = Math.max(
     smoothRange(0.18, 0.23, p) * (1 - smoothRange(0.27, 0.35, p)),

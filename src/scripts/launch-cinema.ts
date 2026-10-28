@@ -3,10 +3,14 @@ import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { sculpt } from "./scene-sculpt.ts";
 import { REST_HEIGHT, sampleFlight, smoothRange } from "./launch-motion.ts";
 import type { FlightPose } from "./launch-motion.ts";
+import { commitParticles, createParticles, setParticle } from "./launch-particles.ts";
 
 export interface Storefront { position: THREE.Vector3; rotation: number; width: number; }
+interface TrailPuff { at: number; x: number; y: number; z: number; spin: number; }
 const dummy = new THREE.Object3D();
 const vector = new THREE.Vector3();
+const nozzleOffset = new THREE.Vector3();
+const tilt = new THREE.Euler();
 const wingRotation = new THREE.Quaternion();
 const axis = new THREE.Vector3(0, 0, 1);
 const seed = (n: number) => { const value = Math.sin(n * 87.13 + 13.47) * 43758.5453; return value - Math.floor(value); };
@@ -37,16 +41,25 @@ function mechanic(compact: boolean) {
   return { root, arm };
 }
 
-/** Sample the exact flight path rather than accumulating a trail over time. */
-class ExhaustPath extends THREE.Curve<THREE.Vector3> {
-  constructor() { super(); }
-  getPoint(t: number, target = new THREE.Vector3()) {
-    const pose = sampleFlight(0.19 + t * 0.795);
-    target.set(0, -0.95, 0).applyEuler(new THREE.Euler(pose.pitch, 0, pose.bank));
-    return target.add(new THREE.Vector3(pose.x, REST_HEIGHT + pose.lift, pose.z));
+/**
+ * Sample the exact flight path rather than accumulating a trail over time: each puff is
+ * pinned where the engine passed, then grows, drifts on the wind, and thins with age.
+ */
+function trailPuffs(spacing: number) {
+  const puffs: TrailPuff[] = [];
+  const point = new THREE.Vector3(), last = new THREE.Vector3(Infinity, 0, 0);
+  // Only the climb leaves a trail; on the way home the flame points at the ground it is landing on.
+  for (let k = 0; k <= 2400; k++) {
+    const at = 0.19 + (k / 2400) * 0.675;
+    const pose = sampleFlight(at);
+    if (pose.ignition < 0.25 || pose.lift < 0.4) continue;
+    point.set(0, -1.25, 0).applyEuler(tilt.set(pose.pitch, 0, pose.bank))
+      .add(nozzleOffset.set(pose.x, REST_HEIGHT + pose.lift, pose.z));
+    if (point.distanceTo(last) < spacing) continue;
+    puffs.push({ at, x: point.x, y: point.y, z: point.z, spin: seed(puffs.length + 3) * Math.PI * 2 });
+    last.copy(point);
   }
-  getPointAt(t: number, target = new THREE.Vector3()) { return this.getPoint(t, target); }
-  getTangentAt(t: number, target = new THREE.Vector3()) { return this.getTangent(t, target); }
+  return puffs;
 }
 
 function vanRoute() {
@@ -63,7 +76,7 @@ function vanRoute() {
   return route;
 }
 
-export function createCinema(compact: boolean, fronts: Storefront[], businesses: THREE.Vector3[], satellite: THREE.Group) {
+export function createCinema(compact: boolean, fronts: Storefront[], businesses: THREE.Vector3[], satellite: THREE.Group, puff: THREE.Texture) {
   const root = new THREE.Group();
   root.name = "hometown-cinematic-details";
   const groundMechanic = mechanic(compact);
@@ -101,14 +114,11 @@ export function createCinema(compact: boolean, fronts: Storefront[], businesses:
     root.add(object);
   }
 
-  const trailSegments = compact ? 140 : 210;
-  const trail = [0.35, 0.115].map((radius, index) => {
-    const object = new THREE.Mesh(new THREE.TubeGeometry(new ExhaustPath(), trailSegments, radius, 6, false),
-      new THREE.MeshBasicMaterial({ color: index ? "#ffd084" : "#f78b36", transparent: true, opacity: 0, depthWrite: false }));
-    object.name = index ? "exhaust-trail-core" : "curved-orange-exhaust-trail";
-    root.add(object);
-    return object;
-  });
+  const puffs = trailPuffs(compact ? 0.78 : 0.6);
+  const smokeTrail = createParticles({ name: "soft-exhaust-trail", count: puffs.length, map: puff, renderOrder: 3 });
+  smokeTrail.visible = false;
+  root.add(smokeTrail);
+  const trail = [smokeTrail];
 
   const paths = businesses.slice(0, 10).map((end, i) => new THREE.CatmullRomCurve3([
     new THREE.Vector3(0, 0.31, 0),
@@ -127,7 +137,7 @@ export function createCinema(compact: boolean, fronts: Storefront[], businesses:
   pulses.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
   pulses.frustumCulled = false;
   root.add(connections, pulses);
-  return { root, groundMechanic, satelliteMechanic, shutters, fronts, birds, wings, trail, trailSegments,
+  return { root, groundMechanic, satelliteMechanic, shutters, fronts, birds, wings, trail, puffs,
     connections, paths, pulses, vanRoute: vanRoute() };
 }
 export type Cinema = ReturnType<typeof createCinema>;
@@ -164,13 +174,26 @@ export function updateCinema(cinema: Cinema, pose: FlightPose, time: number) {
   cinema.birds.instanceMatrix.needsUpdate = true;
   cinema.wings.instanceMatrix.needsUpdate = true;
 
-  const trailProgress = THREE.MathUtils.clamp((pose.progress - 0.19) / 0.795, 0, 1);
-  const segments = Math.floor(trailProgress * cinema.trailSegments);
-  cinema.trail.forEach((object, i) => {
-    object.visible = pose.lift > 1;
-    object.geometry.setDrawRange(0, segments * 6 * 6);
-    object.material.opacity = (i ? 0.55 : 0.32) * (1 - pose.overlook * 0.45);
+  const [smokeTrail] = cinema.trail;
+  let shown = 0;
+  cinema.puffs.forEach((puff, i) => {
+    const age = pose.progress - puff.at;
+    if (age <= 0 || age > 0.5) { setParticle(smokeTrail, i, puff.x, puff.y, puff.z, 0, 0); return; }
+    const grow = smoothRange(0, 0.2, age);
+    const alpha = smoothRange(0, 0.002, age) * (1 - smoothRange(0.14, 0.5, age)) * 0.6;
+    if (alpha > 0.004) shown++;
+    setParticle(smokeTrail, i,
+      puff.x + age * 9 + Math.sin(puff.spin + time * 0.2) * grow * 0.25,
+      puff.y + age * 3.5,
+      puff.z - age * 4.5,
+      0.85 + grow * 3.3,
+      alpha,
+      puff.spin + time * 0.04,
+      1 - smoothRange(0, 0.012, age),
+      grow * 0.08);
   });
+  smokeTrail.visible = shown > 0;
+  commitParticles(smokeTrail);
   const network = pose.network;
   cinema.connections.visible = cinema.pulses.visible = network > 0.005;
   cinema.connections.material.opacity = 0.88 * network;

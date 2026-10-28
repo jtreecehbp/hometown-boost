@@ -14,14 +14,16 @@ import {
   updateLaunchWorld,
 } from "../src/scripts/launch-model.ts";
 
-test("the rocket ignites on the ground, lifts, and retraces the same flight when scrolling back", () => {
+test("the rocket ignites on the ground, climbs, lands back home, and retraces the same flight when scrolling back", () => {
   const ignition = sampleFlight(1 / 6);
   assert.equal(ignition.lift, 0);
   assert.ok(ignition.ignition > 0.8 && ignition.smoke > 0.8);
+  const peak = 0.865;
   let lastHeight = 0;
   const forward = Array.from({ length: 101 }, (_, i) => {
     const pose = sampleFlight(i / 100);
-    assert.ok(pose.lift >= lastHeight, "ascent must never jump downward");
+    if (i / 100 <= peak) assert.ok(pose.lift >= lastHeight, "the climb must never jump downward");
+    else assert.ok(pose.lift <= lastHeight, "the homecoming descent must never bounce back up");
     assert.ok(Object.values(pose).every(Number.isFinite));
     lastHeight = pose.lift;
     return pose;
@@ -29,7 +31,9 @@ test("the rocket ignites on the ground, lifts, and retraces the same flight when
   for (let i = 100; i >= 0; i--)
     assert.deepEqual(sampleFlight(i / 100), forward[i]);
   assert.equal(sampleFlight(0).ignition, 0);
-  assert.ok(sampleFlight(1).lift >= 48);
+  assert.ok(sampleFlight(peak).lift >= 48);
+  assert.equal(sampleFlight(1).lift, 0, "the tank lands back on its own tower");
+  assert.equal(sampleFlight(1).ignition, 0, "the engine is off after touchdown");
   assert.equal(sampleFlight(0.5).smoke, 0);
   assert.ok(
     sampleFlight(chapterProgress[5]).lift - sampleFlight(chapterProgress[4]).lift <= 2,
@@ -154,7 +158,7 @@ test("the rocket overtakes world-anchored landmarks and reversing scroll retrace
     updateLaunchWorld(world, encounter, 5);
     const planePose = plane.matrixWorld.clone();
     const bladePose = propeller.matrixWorld.clone();
-    updateLaunchWorld(world, sampleFlight(1), 5);
+    updateLaunchWorld(world, sampleFlight(chapterProgress[5]), 5);
     assert.deepEqual(stationary.map(actor => actor.position.y), altitudes);
     assert.ok(stationary.every(actor => new THREE.Box3().setFromObject(actor).max.y < world.rocket.position.y));
     assert.notDeepEqual(plane.matrixWorld, planePose);
@@ -249,7 +253,8 @@ test("street activity, the trail, and business lights follow the story and freez
     assert.ok(openScale.y < closedScale.y * 0.1);
     assert.ok(Math.abs(world.van.position.x - vanStart.x) > 0.3, "the van must round the corner");
     updateLaunchWorld(world, sampleFlight(0.42), 4);
-    assert.ok(cinema.trail[0].geometry.drawRange.count > 0);
+    assert.equal(cinema.trail[0].visible, true, "a soft smoke trail follows the climb");
+    assert.ok([...cinema.trail[0].params.array].some((value, i) => i % 4 === 0 && value > 0.05));
     const pausedBirds = [...cinema.birds.instanceMatrix.array];
     const pausedArm = cinema.groundMechanic.arm.matrixWorld.clone();
     updateLaunchWorld(world, sampleFlight(0.42), 4);

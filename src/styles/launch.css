@@ -36,57 +36,28 @@ body.has-launch-story {
   z-index: -1;
   pointer-events: none;
   contain: paint;
-  background: #d5ecfa;
+  background: #f3d3ad;
 }
+/* Shown only until the opening still loads: the same golden-morning sky as the 3D. */
 .launch-stage__sky {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse at 82% 16%, #fffbef 0, #fff9ee00 34%),
-    linear-gradient(165deg, #eaf6ff 8%, #b5def5 52%, #e9f5fc 95%);
+  background: linear-gradient(180deg, #74abdc 0%, #b9d2e7 36%, #ffdcb0 70%, #f4c18f 100%);
 }
 .launch-stage__canvas { position: absolute; inset: 0; opacity: 0; transition: opacity .65s; }
 .launch-stage__canvas canvas { width: 100%; height: 100%; display: block; }
 .launch-stage.is-ready .launch-stage__canvas { opacity: 1; }
 .launch-stage__fallback {
   position: absolute;
-  top: 15%;
-  right: 4%;
-  width: 46%;
-  height: 77%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  inset: 0;
   transition: opacity .5s;
 }
 .launch-stage__fallback img {
   height: 100%;
   width: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 24px 36px #356b9726);
+  object-fit: cover;
 }
 .launch-stage.is-ready .launch-stage__fallback { opacity: 0; }
-.launch-stage__cloud-pass {
-  position: absolute;
-  inset: 0;
-  background: #f8fcff;
-  opacity: var(--cloud-cover, 0);
-  pointer-events: none;
-}
-.launch-stage:not(.is-ready) .launch-stage__cloud-pass { opacity: 0; }
-.launch-stage__shade {
-  position: absolute;
-  inset: 0;
-  opacity: calc(1 - var(--scene-open, 0) * .8);
-  background:
-    linear-gradient(90deg, #f7fbff 0, #f7fbfff7 23%, #f7fbffb8 40%, #f7fbff12 62%, transparent 78%),
-    linear-gradient(0deg, #edf7fc9c, transparent 25%, transparent 87%, #f5faff4d);
-}
-.launch-stage__horizon {
-  position: absolute;
-  inset: 0;
-  box-shadow: inset 0 -45px 90px -55px #f5faff;
-}
 .film-beat {
   min-height: 85svh;
   display: flex;
@@ -122,6 +93,15 @@ body.has-launch-story {
 .flight-chapter__inner { width: min(calc(100% - 112px), 1240px); }
 .launch-hero { min-height: calc(100svh - 96px); padding: 55px 0 135px; }
 .launch-copy { max-width: 560px; }
+.launch-hero .launch-copy { position: relative; }
+.launch-hero .launch-copy::before {
+  content: "";
+  position: absolute;
+  inset: -120px -200px -170px -260px;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(closest-side, #fff7ece6, #fff7ecad 55%, #fff7ec00);
+}
 .launch-copy .eyebrow,
 .launch-section-heading .eyebrow,
 .launch-questions .eyebrow {
@@ -209,18 +189,18 @@ body.has-launch-story {
   border-radius: 12px;
   backdrop-filter: blur(10px);
 }
-.launch-scroll { display: flex; align-items: center; gap: 16px; font-size: .875rem; color: var(--launch-ink); }
+.launch-scroll { display: flex; align-items: center; gap: 16px; font-size: .875rem; color: var(--launch-ink); padding: 10px 16px 10px 12px; background: #ffffffc9; border: 1px solid #ffffffd9; border-radius: 12px; backdrop-filter: blur(10px); }
 .launch-scroll__line { width: 1px; height: 44px; background: linear-gradient(#b7481000, #b74810); }
 .launch-copy--panel {
-  background: linear-gradient(140deg, #fffffff5, #f8fcfff0);
+  background: linear-gradient(140deg, #fffffff2, #f8fcffeb);
   border: 1px solid #fff;
   border-radius: 26px;
-  padding: 44px;
-  max-width: 560px;
+  padding: 38px;
+  max-width: 500px;
   backdrop-filter: blur(20px);
   box-shadow: 0 24px 65px #22577712, 0 3px 14px #22577706;
 }
-.launch-copy--panel h2 { font-size: clamp(2.5rem, 3.6vw, 3.55rem); }
+.launch-copy--panel h2 { font-size: clamp(2.35rem, 3.3vw, 3.25rem); }
 .launch-copy--panel > p { font-size: 1rem; }
 .launch-copy--panel .launch-text-link { margin-top: 23px; }
 .launch-features {
@@ -352,33 +332,43 @@ body.has-launch-story {
 .launch-chapters__label { position: absolute; right: 42px; white-space: nowrap; font-size: .75rem; color: var(--launch-ink); opacity: 0; pointer-events: none; background: #fffffff5; border: 1px solid #d6e5ef; border-radius: 8px; padding: 6px 11px; box-shadow: 0 4px 12px #1848710b; }
 .launch-chapters a:hover .launch-chapters__label,
 .launch-chapters a:focus-visible .launch-chapters__label { opacity: 1; }
+/* A small round corner control, clear of buttons and cards. */
 .launch-controls {
   position: fixed;
+  right: 18px;
   bottom: 18px;
-  left: 50%;
-  transform: translateX(-50%);
   z-index: 16;
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  background: #fffffff0;
-  border: 1px solid #d3e3ef;
-  border-radius: 30px;
-  padding: 4px 7px 4px 20px;
-  color: #385b77;
-  box-shadow: 0 6px 30px #194e7317;
   opacity: 0;
   transition: opacity .3s;
-  backdrop-filter: blur(16px);
 }
 .launch-world.is-active .launch-controls { opacity: 1; }
 .launch-controls[hidden] { display: none; }
 .launch-world:not(.is-active) .launch-controls,
 .launch-world:not(.is-active) .launch-chapters { visibility: hidden; pointer-events: none; }
-.launch-controls__chapter { font-size: .8125rem; white-space: nowrap; }
-.launch-controls__divider { height: 15px; width: 1px; background: #bfd2e1; }
-.launch-controls button { min-height: 44px; padding: 7px 12px; border: 0; border-radius: 25px; background: #eaf3fa; color: var(--launch-ink); font-size: .875rem; display: flex; gap: 12px; align-items: center; white-space: nowrap; }
-.launch-controls button:hover { background: #dbeaf6; }
+.launch-controls__chapter, .launch-controls__divider { display: none; }
+.launch-controls__text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.launch-controls button {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid #ffffffb3;
+  border-radius: 50%;
+  background: #ffffffd9;
+  color: var(--launch-ink);
+  font-size: .9375rem;
+  box-shadow: 0 6px 22px #0f2a4926;
+  backdrop-filter: blur(12px);
+}
+.launch-controls button:hover { background: #fff; }
 .has-launch-story .footer { position: relative; background: #fff; border-color: #d6e5ef; }
 .has-launch-story .footer p,
 .has-launch-story .footer li a { color: #4c677e; }
@@ -400,6 +390,15 @@ body.has-launch-story {
   .launch-hero__bottom { bottom: 30px; }
 }
 @media (max-width: 900px) {
+  /* The sunset sits behind the closing copy on narrower screens; give it the same glass panel. */
+  .launch-world:has(> .launch-stage.is-ready) .launch-finale .launch-copy {
+    background: #0b1f3ad1;
+    border: 1px solid #ffffff1f;
+    border-radius: 22px;
+    padding: 28px 24px;
+    backdrop-filter: blur(12px);
+    text-shadow: none;
+  }
   .has-launch-story .nav { background: #fff; border-color: #d6e5ef; box-shadow: 0 18px 30px #194e7312; }
   .launch-hero { min-height: calc(100svh - 80px); }
   .flight-chapter__inner { width: calc(100% - 64px); }
@@ -409,7 +408,6 @@ body.has-launch-story {
   .launch-copy--panel { max-width: 430px; padding: 31px; }
   .launch-questions .faq-split { gap: 30px; padding: 32px; }
   .launch-hero__bottom > p { max-width: 230px; }
-  .launch-stage__shade { background: linear-gradient(90deg, #f7fbfffa, #f7fbffd9 40%, #f7fbff1a 78%); }
 }
 @media (max-width: 680px) {
   .film-beat { min-height: 85svh; padding-bottom: 16svh; }
@@ -430,8 +428,6 @@ body.has-launch-story {
   .launch-hero__bottom > p { font-size: .75rem; letter-spacing: .05em; max-width: 180px; padding: 8px 10px; }
   .launch-scroll { font-size: .8125rem; gap: 10px; }
   .launch-scroll__line { height: 30px; }
-  .launch-stage__fallback { top: 39%; right: -6%; height: 58%; width: 75%; }
-  .launch-stage__shade { background: linear-gradient(180deg, #f7fbff 0, #f7fbfff2 28%, #f7fbffb3 44%, #f7fbff0d 70%, #f5faff66 100%); }
   .launch-copy--panel { max-width: 100%; padding: 29px 24px; background: #fffffff5; backdrop-filter: blur(13px); border-radius: 22px; margin-top: 80px; }
   .launch-copy--panel h2 { font-size: clamp(2.3rem, 9vw, 3.2rem); line-height: 1.13; }
   .launch-copy--panel > p { font-size: 1rem; }
@@ -455,11 +451,27 @@ body.has-launch-story {
   .launch-finale .launch-copy > p { font-size: 1.0625rem; }
   .launch-finale .actions .btn { font-size: .875rem; gap: 15px; }
   .launch-chapters { display: none; }
-  .launch-controls { bottom: 10px; gap: 10px; padding-left: 14px; }
-  .launch-controls button { min-height: 44px; }
+  .launch-controls { right: 12px; bottom: 12px; }
   .launch-replay { margin-top: 28px; }
   .launch-plans { background: #f5faff66; }
+  /* Over the night sky the plan heading gets its own glass panel so it never fights the rocket. */
+  .launch-world:has(> .launch-stage.is-ready) .launch-plans .launch-section-heading {
+    background: #0b1f3ad1;
+    border: 1px solid #ffffff1f;
+    border-radius: 22px;
+    padding: 26px 22px;
+    backdrop-filter: blur(12px);
+  }
 }
+/* Once the 3D sky is running, the plans float in navy space and the finale sits over a sunset. */
+.launch-world:has(> .launch-stage.is-ready) .launch-plans { background: none; }
+.launch-world:has(> .launch-stage.is-ready) :is(.launch-plans .launch-section-heading, .launch-finale .launch-copy) h2 { color: #fff; }
+.launch-world:has(> .launch-stage.is-ready) :is(.launch-plans .launch-section-heading, .launch-finale .launch-copy) :is(em, .eyebrow) { color: #ffb070; }
+.launch-world:has(> .launch-stage.is-ready) :is(.launch-plans .launch-section-heading p, .launch-finale .launch-copy > p, .launch-plans__note, .launch-finale .launch-smallprint) { color: #d9e6f4 !important; }
+.launch-world:has(> .launch-stage.is-ready) :is(.launch-plans__note a, .launch-ads-note > a, .launch-finale .launch-text-link) { color: #fff; }
+.launch-world:has(> .launch-stage.is-ready) :is(.launch-ads-note, .launch-finale .launch-text-link) { border-color: #ffffff4d; }
+.launch-world:has(> .launch-stage.is-ready) :is(.launch-ads-note > span, .launch-replay) { color: #c9d8ea; }
+.launch-world:has(> .launch-stage.is-ready) .launch-finale .launch-copy { text-shadow: 0 2px 18px #081a3366; }
 @media (prefers-reduced-motion: reduce) {
   .film-beat { display: none; }
   .flight-chapter:not(.launch-hero) { min-height: auto; padding-block: 65px; }

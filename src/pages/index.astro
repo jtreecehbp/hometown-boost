@@ -18,7 +18,7 @@ const serviceSchema={'@context':'https://schema.org','@type':'Service',name:'Web
     <nav class="launch-chapters" aria-label="Homepage sections">
       {chapters.map(([id,label],i)=><a href={`#${id}`} aria-label={label} data-chapter-link={i} aria-current={i===0?'step':undefined}><span class="launch-chapters__dot"></span><span class="launch-chapters__label">{label}</span></a>)}
     </nav>
-    <div class="launch-controls" data-launch-controls hidden><span class="launch-controls__chapter" data-launch-label>Your hometown</span><span class="launch-controls__divider"></span><button type="button" data-launch-pause aria-pressed="false">Pause motion <span aria-hidden="true">Ⅱ</span></button></div>
+    <div class="launch-controls" data-launch-controls hidden><span class="launch-controls__chapter" data-launch-label>Your hometown</span><span class="launch-controls__divider"></span><button type="button" data-launch-pause aria-pressed="false"><span class="launch-controls__text">Pause motion</span><span aria-hidden="true">Ⅱ</span></button></div>
     <section class="flight-chapter launch-hero" id="home" data-flight-stop="0">
       <div class="container flight-chapter__inner">
         <div class="launch-copy">

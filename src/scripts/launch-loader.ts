@@ -39,7 +39,7 @@ export function loadLaunch(root: HTMLElement, loader = defaultLoader) {
     controls.hidden = false;
     button.disabled = false;
     button.setAttribute('aria-pressed', 'true');
-    button.innerHTML = 'Play motion <span aria-hidden="true">▶</span>';
+    button.innerHTML = '<span class="launch-controls__text">Play motion</span><span aria-hidden="true">▶</span>';
     active();
   }
   async function start(forcePlay = false) {
@@ -48,7 +48,7 @@ export function loadLaunch(root: HTMLElement, loader = defaultLoader) {
     loading = true;
     const version = preferenceVersion;
     button.disabled = true;
-    if (waiting) button.innerHTML = 'Loading motion…';
+    if (waiting) button.innerHTML = '<span class="launch-controls__text">Loading motion…</span><span aria-hidden="true">…</span>';
     try {
       const { mountLaunch } = await loader();
       if (disposed) return;

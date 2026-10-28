@@ -1,10 +1,13 @@
 <div class="launch-stage" data-launch-stage aria-hidden="true">
   <div class="launch-stage__sky"></div>
-  <div class="launch-stage__fallback"><img src="/images/hometown-boost/hb-rocket-emblem.webp" alt="" width="962" height="1000" fetchpriority="high" /></div>
+  <!-- The opening still is rendered from the same 3D scene, so starting the motion never swaps the picture. -->
+  <div class="launch-stage__fallback">
+    <picture>
+      <source media="(max-width: 680px)" srcset="/images/hometown-boost/launch-poster-phone.webp" width="488" height="1055" />
+      <img src="/images/hometown-boost/launch-poster.webp" alt="" width="2000" height="1250" fetchpriority="high" />
+    </picture>
+  </div>
   <div class="launch-stage__canvas" data-launch-canvas></div>
-  <div class="launch-stage__cloud-pass"></div>
-  <div class="launch-stage__shade"></div>
-  <div class="launch-stage__horizon"></div>
 </div>
 <script>
   import { loadLaunch } from '../scripts/launch-loader';

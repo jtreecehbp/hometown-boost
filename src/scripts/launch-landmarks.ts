@@ -129,7 +129,8 @@ export function updateSkyLandmarks(landmarks: SkyLandmarks, lift: number, time: 
   const [warm, cool] = landmarks.balloons;
   warm.scale.setScalar(portrait ? 0.82 : 1);
   cool.scale.setScalar(portrait ? 0.55 : 0.67);
-  place(warm, portrait ? -2.75 : -4.5, 12.8 + Math.sin(time * 0.32) * 0.12, -5.5);
+  // Low enough to sit fully under the header in the opening shot.
+  place(warm, portrait ? -2.75 : -4.5, 11.3 + Math.sin(time * 0.32) * 0.12, -5.5);
   place(cool, portrait ? 3.2 : 5.6, 18.5 + Math.sin(time * 0.27 + 2) * 0.14, -9);
   warm.rotation.set(0.015, -0.15, Math.sin(time * 0.25) * 0.025);
   cool.rotation.set(0, 0.3, Math.sin(time * 0.22 + 1) * 0.025);

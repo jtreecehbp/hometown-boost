@@ -189,7 +189,7 @@ test("pause freezes the flight and ambient effects while scrolling and links rem
     assert.equal(app.navigation.inert, false);
     app.button.emit("click");
     app.advance();
-    assert.ok(app.renders.at(-1).pose.lift > frozen.pose.lift);
+    assert.ok(app.renders.at(-1).pose.progress > frozen.pose.progress, "playing again catches up with the scroll");
     app.scroll(0);
     app.advance();
     assert.equal(app.renders.at(-1).pose.lift, 0);
@@ -209,7 +209,9 @@ test("reduced motion starts grounded and stationary until the visitor explicitly
     assert.equal(app.pendingFrames, 0);
     app.button.emit("click");
     app.advance();
-    assert.ok(app.renders.at(-1).pose.lift > 40);
+    // Playing jumps to the visitor's place in the story: the sunset homecoming.
+    assert.ok(app.renders.at(-1).pose.progress > 0.95);
+    assert.ok(app.renders.at(-1).pose.overlook > 0.9);
   } finally {
     app.cleanup();
   }
