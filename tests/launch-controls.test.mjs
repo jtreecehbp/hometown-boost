@@ -282,7 +282,9 @@ test("cinematic interludes land on their own cues and retrace without changing n
     assert.ok(app.renders.at(-1).pose.cloud > 0.5);
     app.scroll(5965);
     app.advance();
-    assert.ok(app.renders.at(-1).pose.overlook > 0.6);
+    // The homecoming line plays over the approach to the moon, with Earth behind.
+    assert.equal(app.renders.at(-1).pose.moon, 1);
+    assert.ok(app.renders.at(-1).pose.overlook >= 0.5);
     app.scroll(1365);
     app.advance();
     assert.equal(app.renders.at(-1).pose.progress, 0.24);

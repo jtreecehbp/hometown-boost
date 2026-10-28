@@ -60,6 +60,13 @@ const space: Omit<SkyKey, "at"> = {
   skyLight: "#5577a6", groundLight: "#22314a", ambient: 0.5,
   rimColor: "#93ccff", rim: 2.2, stars: 1, nightLights: 0, reflections: 0.26,
 };
+const lunar: Omit<SkyKey, "at"> = {
+  zenith: "#010409", horizon: "#03070f", glow: "#000000", glowStrength: 0,
+  fog: "#020509", fogDensity: 0.0004,
+  sun: "#ffffff", sunIntensity: 4.6, sunAzimuth: -1.3, sunElevation: 0.3,
+  skyLight: "#46506a", groundLight: "#5c5c60", ambient: 0.42,
+  rimColor: "#a9cbff", rim: 1.4, stars: 1, nightLights: 0, reflections: 0.14,
+};
 const keys: SkyKey[] = [
   morning,
   { ...morning, at: 0.17, sunElevation: 0.36, glowStrength: 0.72, fogDensity: 0.0098 },
@@ -97,22 +104,9 @@ const keys: SkyKey[] = [
   },
   { ...space, at: 0.665 },
   { ...space, at: 0.85 },
-  {
-    at: 0.935,
-    zenith: "#0d2147", horizon: "#f2925a", glow: "#ff9c52", glowStrength: 1,
-    fog: "#8f6873", fogDensity: 0.0062,
-    sun: "#ff9b57", sunIntensity: 1.9, sunAzimuth: -2.55, sunElevation: 0.08,
-    skyLight: "#5b5f9b", groundLight: "#3b3039", ambient: 0.78,
-    rimColor: "#ffa66b", rim: 1.7, stars: 0.45, nightLights: 0.75, reflections: 0.2,
-  },
-  {
-    at: 1,
-    zenith: "#081833", horizon: "#e47c4d", glow: "#ff9a56", glowStrength: 0.85,
-    fog: "#6c5269", fogDensity: 0.0066,
-    sun: "#ff8a4b", sunIntensity: 1.25, sunAzimuth: -2.6, sunElevation: 0.035,
-    skyLight: "#46528c", groundLight: "#2b2533", ambient: 0.62,
-    rimColor: "#ff9e63", rim: 1.5, stars: 0.75, nightLights: 1, reflections: 0.16,
-  },
+  // Beyond the atmosphere: black sky to the horizon, hard white sun, and a little earthshine.
+  { ...lunar, at: 0.889 },
+  { ...lunar, at: 1 },
 ];
 
 const colorFields = ["zenith", "horizon", "glow", "fog", "sun", "skyLight", "groundLight", "rimColor"] as const;
@@ -197,7 +191,7 @@ const fragmentShader = /* glsl */ `
       vec3 cell = floor(direction * 210.0);
       float seed = hash(cell);
       vec3 local = fract(direction * 210.0) - 0.5;
-      float star = step(0.9962, seed) * smoothstep(0.36, 0.0, length(local));
+      float star = step(0.9946, seed) * smoothstep(0.36, 0.0, length(local));
       float twinkle = 0.72 + 0.28 * sin(uTime * 1.7 + seed * 91.0);
       color += vec3(star * twinkle * uStars * smoothstep(0.02, 0.3, up) * (0.6 + 0.8 * fract(seed * 37.0)));
     }

@@ -390,15 +390,7 @@ body.has-launch-story {
   .launch-hero__bottom { bottom: 30px; }
 }
 @media (max-width: 900px) {
-  /* The sunset sits behind the closing copy on narrower screens; give it the same glass panel. */
-  .launch-world:has(> .launch-stage.is-ready) .launch-finale .launch-copy {
-    background: #0b1f3ad1;
-    border: 1px solid #ffffff1f;
-    border-radius: 22px;
-    padding: 28px 24px;
-    backdrop-filter: blur(12px);
-    text-shadow: none;
-  }
+  .launch-world:has(> .launch-stage.is-ready) .launch-finale .launch-copy { padding: 28px 24px; }
   .has-launch-story .nav { background: #fff; border-color: #d6e5ef; box-shadow: 0 18px 30px #194e7312; }
   .launch-hero { min-height: calc(100svh - 80px); }
   .flight-chapter__inner { width: calc(100% - 64px); }
@@ -471,7 +463,14 @@ body.has-launch-story {
 .launch-world:has(> .launch-stage.is-ready) :is(.launch-plans__note a, .launch-ads-note > a, .launch-finale .launch-text-link) { color: #fff; }
 .launch-world:has(> .launch-stage.is-ready) :is(.launch-ads-note, .launch-finale .launch-text-link) { border-color: #ffffff4d; }
 .launch-world:has(> .launch-stage.is-ready) :is(.launch-ads-note > span, .launch-replay) { color: #c9d8ea; }
-.launch-world:has(> .launch-stage.is-ready) .launch-finale .launch-copy { text-shadow: 0 2px 18px #081a3366; }
+/* The finale stands on the bright lunar surface, so the closing copy gets a dark glass panel. */
+.launch-world:has(> .launch-stage.is-ready) .launch-finale .launch-copy {
+  background: #0b1f3ad9;
+  border: 1px solid #ffffff1f;
+  border-radius: 24px;
+  padding: 38px;
+  backdrop-filter: blur(12px);
+}
 @media (prefers-reduced-motion: reduce) {
   .film-beat { display: none; }
   .flight-chapter:not(.launch-hero) { min-height: auto; padding-block: 65px; }

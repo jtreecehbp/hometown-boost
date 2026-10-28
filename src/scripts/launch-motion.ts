@@ -21,6 +21,10 @@ export interface FlightPose {
   shutters: number;
   birds: number;
   network: number;
+  /** 0 while flying over the hometown, 1 once the flight has reached the moon. */
+  moon: number;
+  /** Landing legs: 0 stowed, 1 fully deployed. */
+  legs: number;
 }
 export const chapterLabels = [
   "Your hometown", "Your website", "Get found", "Keep growing",
@@ -35,6 +39,7 @@ const ground: FlightPose = {
   progress: 0, lift: 0, x: 0, z: 0, bank: 0, pitch: 0, ignition: 0, smoke: 0,
   orbit: 0.44, distance: 22, elevation: 3.5, lookHeight: 3.8, fov: 43,
   cameraRoll: 0, overlook: 0, cloud: 0, sceneOpen: 0, shutters: 0, birds: 0, network: 0,
+  moon: 0, legs: 0,
 };
 const shot = (at: number, lift: number, pose: Partial<FlightPose>) => ({
   at, pose: { ...ground, lift, ignition: lift > 0 ? 1 : 0, ...pose },
@@ -57,13 +62,18 @@ const stops = [
   // Keep the comparison and FAQ stretches steady, looking up into the night-blue sky.
   shot(0.69, 46, { x: 3, z: 2.3, ignition: 0.8, orbit: 0.55, distance: 24, elevation: -3.5, lookHeight: 4.5, fov: 41 }),
   shot(0.82, 48, { x: 3, z: 2.3, ignition: 0.8, orbit: 0.55, distance: 24, elevation: -3.5, lookHeight: 4.5, fov: 41 }),
-  shot(0.865, 49, { x: 3.4, z: 2.6, ignition: 0.85, orbit: 0.56, distance: 27, elevation: 2, lookHeight: 3.6, fov: 42 }),
-  // Homecoming: the tank flies back down at sunset and settles onto its own tower legs.
-  shot(0.9, 31, { x: 1.6, z: 1.2, ignition: 0.95, orbit: 0.6, distance: 33, elevation: 8, lookHeight: 0.5, fov: 43, overlook: 0.3 }),
-  shot(0.935, 13, { x: 0.4, z: 0.3, ignition: 1, smoke: 0.08, orbit: 0.6, distance: 40, elevation: 10, lookHeight: -4.5, fov: 43, overlook: 0.62 }),
-  shot(0.965, 2.2, { ignition: 0.9, smoke: 0.5, orbit: 0.58, distance: 42, elevation: 9.5, lookHeight: 0.6, fov: 43, overlook: 0.86 }),
-  shot(0.985, 0, { ignition: 0, smoke: 0.42, orbit: 0.56, distance: 42, elevation: 8, lookHeight: 2, fov: 43, overlook: 1 }),
-  shot(1, 0, { ignition: 0, smoke: 0.3, orbit: 0.56, distance: 42, elevation: 8, lookHeight: 2, fov: 43, overlook: 1 }),
+  // Onward to the moon: the camera tilts up until only the tank and the stars are in view.
+  shot(0.86, 55, { x: 2.2, z: 1.6, ignition: 0.95, orbit: 0.6, distance: 21, elevation: -8, lookHeight: 5, fov: 42 }),
+  shot(0.885, 62, { x: 1, z: 0.8, orbit: 0.66, distance: 18, elevation: -11, lookHeight: 5.5, fov: 43 }),
+  // The hometown is swapped for the moon at this instant; nothing but sky is behind the tank.
+  shot(0.889, 62.4, { x: 0.9, z: 0.75, orbit: 0.665, distance: 18, elevation: -11, lookHeight: 5.5, fov: 43 }),
+  shot(0.8891, 62.4, { x: 0.9, z: 0.75, orbit: 0.665, distance: 18, elevation: -11, lookHeight: 5.5, fov: 43, moon: 1 }),
+  // Descend over the craters with Earth rising behind, unfold the legs, and touch down.
+  shot(0.91, 50, { x: 0.6, z: 0.5, orbit: 0.64, distance: 22, elevation: -2, lookHeight: 2, fov: 43, moon: 1 }),
+  shot(0.935, 24, { x: 0.3, z: 0.2, orbit: 0.6, distance: 30, elevation: 3, lookHeight: 1, fov: 43, moon: 1, overlook: 0.5 }),
+  shot(0.965, 3.5, { ignition: 0.85, smoke: 0.55, orbit: 0.58, distance: 28, elevation: 4.5, lookHeight: 2, fov: 42, moon: 1, overlook: 0.8, legs: 1 }),
+  shot(0.985, 0, { ignition: 0, smoke: 0.4, orbit: 0.56, distance: 27, elevation: 5, lookHeight: 2.6, fov: 42, moon: 1, overlook: 1, legs: 1 }),
+  shot(1, 0, { ignition: 0, smoke: 0.12, orbit: 0.56, distance: 27, elevation: 5, lookHeight: 2.6, fov: 42, moon: 1, overlook: 1, legs: 1 }),
 ];
 export function sampleFlight(progress: number): FlightPose {
   const p = clamp(progress);

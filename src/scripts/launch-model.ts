@@ -15,6 +15,8 @@ import { commitParticles, createGlowTexture, createParticles, createPuffTexture,
 import type { Particles } from "./launch-particles.ts";
 import { createCountryside, updateCountryside } from "./launch-land.ts";
 import type { Countryside } from "./launch-land.ts";
+import { createMoonWorld, updateMoonWorld } from "./launch-moon.ts";
+import type { MoonWorld } from "./launch-moon.ts";
 import { sculpt } from "./scene-sculpt.ts";
 
 export { REST_HEIGHT } from "./launch-motion.ts";
@@ -46,6 +48,8 @@ export interface LaunchWorld {
   };
   glows: { nozzle: Particles; lamps: Particles; pools: THREE.InstancedMesh; pad: THREE.Mesh };
   people: { bodies: THREE.InstancedMesh; heads: THREE.InstancedMesh; walkers: Walker[] };
+  moon: MoonWorld;
+  legs: { struts: THREE.InstancedMesh; feet: THREE.InstancedMesh; hinges: THREE.Vector3[] };
   dispose: () => void;
 }
 
@@ -54,6 +58,10 @@ const dummy = new THREE.Object3D();
 const direction = new THREE.Vector3();
 const nozzle = new THREE.Vector3();
 const euler = new THREE.Euler();
+const foot = new THREE.Vector3();
+const downward = new THREE.Vector3(0, -1, 0);
+const lunarDust = new THREE.Color().setRGB(0.6, 0.58, 0.55);
+const lunarShadow = new THREE.Color().setRGB(0.11, 0.11, 0.12);
 const morningWindow = new THREE.Color("#cfe6f2");
 const connectedWindow = new THREE.Color("#ffc574");
 const coolGlow = new THREE.Color("#e6f7ff");
@@ -804,6 +812,23 @@ export function createLaunchWorld(compact = false): LaunchWorld {
   engineLight.position.set(0, -1.2, 0);
   rocket.add(engineLight);
 
+  // Landing legs fold out from under the tank for the moon touchdown.
+  const hinges = [0, 1, 2, 3].map((i) => {
+    const angle = Math.PI / 4 + (i * Math.PI) / 2;
+    return new THREE.Vector3(Math.sin(angle) * 1.3, 0.28, Math.cos(angle) * 1.3);
+  });
+  const struts = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.07, 0.09, 1, 8).translate(0, -0.5, 0), steel, 4);
+  struts.name = "landing-legs";
+  const footpads = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.26, 0.32, 0.08, 14), ivory, 4);
+  footpads.name = "landing-feet";
+  for (const part of [struts, footpads]) {
+    part.castShadow = true;
+    part.frustumCulled = false;
+    part.visible = false;
+    part.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    rocket.add(part);
+  }
+
   const nozzleGlow = createParticles({ name: "engine-glow", count: 1, map: glowTexture, additive: true, renderOrder: 8 });
   nozzleGlow.material.uniforms.uLit.value.set("#ffb45c");
   nozzleGlow.material.uniforms.uShade.value.set("#ff8a3a");
@@ -957,6 +982,8 @@ export function createLaunchWorld(compact = false): LaunchWorld {
 
   const land = createCountryside(compact);
   scene.add(land.root);
+  const moon = createMoonWorld(compact);
+  scene.add(moon.root);
   const sky = createSkyDome();
   scene.add(sky);
 
@@ -1001,6 +1028,8 @@ export function createLaunchWorld(compact = false): LaunchWorld {
     lights: { hemisphere, sun, rim, fill },
     glows: { nozzle: nozzleGlow, lamps, pools, pad: padGlow },
     people: { bodies, heads, walkers },
+    moon,
+    legs: { struts, feet: footpads, hinges },
     dispose,
   };
   cloudPlacement.set(world, cloudLayout);
@@ -1068,6 +1097,34 @@ export function updateLaunchWorld(
 ) {
   const sky = sampleSky(pose.progress, world.skyState);
   const night = sky.nightLights;
+  // The hometown and the moon share the same spot; only one of them is ever shown.
+  const onMoon = pose.moon >= 0.5;
+  world.moon.root.visible = onMoon;
+  for (const home of [world.town, world.gantry, world.land.root, world.landmarks.root, world.cinema.root,
+    world.clouds, world.van, world.people.bodies, world.people.heads]) home.visible = !onMoon;
+  if (onMoon) updateMoonWorld(world.moon, sky, pose.network, time);
+  const { struts, feet, hinges } = world.legs;
+  struts.visible = feet.visible = pose.legs > 0.01;
+  if (struts.visible) {
+    hinges.forEach((hinge, i) => {
+      foot.set(hinge.x * 2, -REST_HEIGHT + 0.06, hinge.z * 2);
+      direction.subVectors(foot, hinge);
+      const length = direction.length();
+      direction.normalize();
+      dummy.position.copy(hinge);
+      dummy.quaternion.setFromUnitVectors(downward, direction);
+      dummy.scale.set(1, length * pose.legs, 1);
+      dummy.updateMatrix();
+      struts.setMatrixAt(i, dummy.matrix);
+      dummy.position.copy(hinge).addScaledVector(direction, length * pose.legs);
+      dummy.quaternion.identity();
+      dummy.scale.setScalar(Math.min(1, pose.legs * 1.5));
+      dummy.updateMatrix();
+      feet.setMatrixAt(i, dummy.matrix);
+    });
+    struts.instanceMatrix.needsUpdate = true;
+    feet.instanceMatrix.needsUpdate = true;
+  }
   updateSkyLandmarks(world.landmarks, pose.lift, time, portrait);
   updateCinema(world.cinema, pose, time);
   world.rocket.position.set(pose.x, REST_HEIGHT + pose.lift, pose.z);
@@ -1131,9 +1188,14 @@ export function updateLaunchWorld(
   scratch.copy(sky.sun).multiplyScalar(0.42 * Math.min(1.25, sky.sunIntensity / 3.4));
   smokeUniforms.uLit.value.copy(sky.skyLight).multiplyScalar(0.55 * sky.ambient).add(scratch);
   smokeUniforms.uShade.value.copy(sky.skyLight).multiplyScalar(0.42 * sky.ambient).lerp(sky.groundLight, 0.3);
-  // At dusk the town's own glow keeps the smoke from reading as soot.
+  // At dusk the town's own glow keeps the smoke from reading as soot; on the moon it is grey dust.
   smokeUniforms.uLit.value.lerp(sky.glow, night * 0.35);
   smokeUniforms.uShade.value.lerp(sky.horizon, night * 0.25);
+  if (onMoon) {
+    smokeUniforms.uLit.value.copy(lunarDust);
+    smokeUniforms.uShade.value.copy(lunarShadow);
+  }
+  const dusty = onMoon ? 1 : 0;
   const trail = world.cinema.trail[0];
   trail.material.uniforms.uLit.value.copy(smokeUniforms.uLit.value);
   trail.material.uniforms.uShade.value.copy(smokeUniforms.uShade.value);
@@ -1143,11 +1205,12 @@ export function updateLaunchWorld(
     for (let i = 0; i < world.smoke.count; i++) {
       const spread = seed(i + 17) ** 0.75;
       const angle = i * 2.399 + Math.sin(time * 0.13 + i) * 0.05;
-      const reach = pose.smoke * (1 + spread * 11);
-      const size = (2.4 + seed(i + 51) * 3.4) * (0.4 + pose.smoke * 0.6) * (0.85 + spread * 0.75);
+      const reach = pose.smoke * (1 + spread * (11 + dusty * 5));
+      const size = (2.4 + seed(i + 51) * 3.4) * (0.4 + pose.smoke * 0.6) * (0.85 + spread * 0.75) * (1 + dusty * 0.15);
       setParticle(world.smoke, i,
         Math.sin(angle) * reach,
-        0.7 + seed(i + 33) * 2.6 * (0.35 + pose.smoke * 0.65) * (1 - spread * 0.5) + Math.sin(time * 0.6 + i) * 0.08,
+        0.7 + seed(i + 33) * 2.6 * (0.35 + pose.smoke * 0.65) * (1 - spread * 0.5) * (1 - dusty * 0.7)
+          + Math.sin(time * 0.6 + i) * 0.08,
         Math.cos(angle) * reach,
         size,
         pose.smoke * (0.62 + seed(i + 71) * 0.36) * (1 - spread * 0.3),
@@ -1177,9 +1240,9 @@ export function updateLaunchWorld(
   const lamps = world.glows.lamps, lampParams = lamps.params.array as Float32Array;
   for (let i = 0; i < lamps.count; i++) lampParams[i * 4] = night * (0.75 + 0.25 * Math.sin(time * 1.3 + i * 1.7) ** 2);
   lamps.params.needsUpdate = true;
-  lamps.visible = night > 0.01;
+  lamps.visible = night > 0.01 && !onMoon;
   (world.glows.pools.material as THREE.MeshBasicMaterial).opacity = night * 0.55;
-  world.glows.pools.visible = night > 0.01;
+  world.glows.pools.visible = night > 0.01 && !onMoon;
 
   const { bodies, heads, walkers } = world.people;
   walkers.forEach((walker, i) => {

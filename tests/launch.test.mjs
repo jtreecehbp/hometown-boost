@@ -13,27 +13,32 @@ import {
   REST_HEIGHT,
   updateLaunchWorld,
 } from "../src/scripts/launch-model.ts";
+import { EARTH_POSITION } from "../src/scripts/launch-moon.ts";
 
-test("the rocket ignites on the ground, climbs, lands back home, and retraces the same flight when scrolling back", () => {
+test("the rocket ignites on the ground, climbs, lands on the moon, and retraces the same flight when scrolling back", () => {
   const ignition = sampleFlight(1 / 6);
   assert.equal(ignition.lift, 0);
   assert.ok(ignition.ignition > 0.8 && ignition.smoke > 0.8);
-  const peak = 0.865;
-  let lastHeight = 0;
-  const forward = Array.from({ length: 101 }, (_, i) => {
-    const pose = sampleFlight(i / 100);
-    if (i / 100 <= peak) assert.ok(pose.lift >= lastHeight, "the climb must never jump downward");
-    else assert.ok(pose.lift <= lastHeight, "the homecoming descent must never bounce back up");
+  const forward = Array.from({ length: 1001 }, (_, i) => sampleFlight(i / 1000));
+  const peak = forward.reduce((best, pose, i) => (pose.lift > forward[best].lift ? i : best), 0);
+  forward.forEach((pose, i) => {
     assert.ok(Object.values(pose).every(Number.isFinite));
-    lastHeight = pose.lift;
-    return pose;
+    if (i === 0) return;
+    if (i <= peak) assert.ok(pose.lift >= forward[i - 1].lift, "the climb must never jump downward");
+    else assert.ok(pose.lift <= forward[i - 1].lift, "the moon descent must never bounce back up");
   });
-  for (let i = 100; i >= 0; i--)
-    assert.deepEqual(sampleFlight(i / 100), forward[i]);
+  for (let i = 1000; i >= 0; i -= 10)
+    assert.deepEqual(sampleFlight(i / 1000), forward[i]);
   assert.equal(sampleFlight(0).ignition, 0);
-  assert.ok(sampleFlight(peak).lift >= 48);
-  assert.equal(sampleFlight(1).lift, 0, "the tank lands back on its own tower");
-  assert.equal(sampleFlight(1).ignition, 0, "the engine is off after touchdown");
+  assert.ok(forward[peak].lift >= 48);
+  const cut = forward.findIndex(pose => pose.moon >= 0.5);
+  assert.ok(cut > 0 && Math.abs(cut - peak) <= 2, "the switch to the moon happens at the top of the flight");
+  const landed = sampleFlight(1);
+  assert.equal(landed.moon, 1, "the finale is on the moon");
+  assert.equal(landed.lift, 0, "the tank touches down on the lunar surface");
+  assert.equal(landed.legs, 1, "the landing legs are out");
+  assert.equal(landed.ignition, 0, "the engine is off after touchdown");
+  assert.equal(sampleFlight(0.7).moon, 0, "pricing still happens above the hometown");
   assert.equal(sampleFlight(0.5).smoke, 0);
   assert.ok(
     sampleFlight(chapterProgress[5]).lift - sampleFlight(chapterProgress[4]).lift <= 2,
@@ -97,6 +102,19 @@ test("the actual 3D tank separates from a stationary gantry, with finite geometr
     assert.equal(world.exhaust.parent, world.rocket);
     assert.equal(world.exhaust.visible, true);
     assert.ok(world.engineLight.intensity > 0);
+    // Only one world is ever drawn: the hometown during the flight, the moon for the finale.
+    assert.equal(world.town.visible, true);
+    assert.equal(world.moon.root.visible, false);
+    updateLaunchWorld(world, sampleFlight(1), 2);
+    assert.equal(world.town.visible, false);
+    assert.equal(world.land.root.visible, false);
+    assert.equal(world.moon.root.visible, true);
+    assert.equal(world.legs.struts.visible, true);
+    assert.ok([...world.legs.struts.instanceMatrix.array].every(Number.isFinite));
+    updateLaunchWorld(world, sampleFlight(0), 2);
+    assert.equal(world.town.visible, true);
+    assert.equal(world.moon.root.visible, false);
+    assert.equal(world.legs.struts.visible, false);
   } finally {
     world.dispose();
   }
@@ -200,7 +218,7 @@ test("every fly-past has a visible interval beside the tower on portrait and lan
   }
 });
 
-test("the film opens with a clear tower, banks through clouds, and settles for pricing before looking home", () => {
+test("the film opens with a clear tower, banks through clouds, settles for pricing, and lands on the moon with Earth in view", () => {
   const opening = sampleFlight(0), reveal = sampleFlight(0.555), end = sampleFlight(1);
   const world = createLaunchWorld(true);
   try {
@@ -227,13 +245,17 @@ test("the film opens with a clear tower, banks through clouds, and settles for p
     assert.equal(plan[key], faq[key], `${key} should stay calm while comparing plans`);
   assert.equal(end.overlook, 1);
   assert.equal(end.network, 1);
-  for (const [width, height] of [[320, 740], [768, 1024], [1440, 900]]) {
-    const camera = new THREE.PerspectiveCamera();
+  for (const [width, height] of [[320, 740], [768, 1024], [1440, 900], [1920, 1080]]) {
+    const camera = new THREE.PerspectiveCamera(39, 1, 0.1, 720);
     frameLaunchCamera(camera, end, width, height);
-    for (const x of [-12, 12]) for (const z of [-10, 10]) {
-      const point = new THREE.Vector3(x, 0.2, z).project(camera);
-      assert.ok(Math.abs(point.x) < 0.98 && Math.abs(point.y) < 0.98,
-        `the hometown must be visible during the payoff at ${width}×${height}`);
+    for (const [point, name] of [
+      [new THREE.Vector3(0, 0.2, 0), "the landing site"],
+      [new THREE.Vector3(0, REST_HEIGHT + 4.84, 0), "the top of the tank"],
+      [EARTH_POSITION.clone(), "Earth"],
+    ]) {
+      const projected = point.project(camera);
+      assert.ok(Math.abs(projected.x) < 0.98 && Math.abs(projected.y) < 0.98 && projected.z < 1,
+        `${name} must be in the finale shot at ${width}×${height}: ${projected.toArray()}`);
     }
   }
 });

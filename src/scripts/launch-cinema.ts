@@ -15,7 +15,7 @@ const wingRotation = new THREE.Quaternion();
 const axis = new THREE.Vector3(0, 0, 1);
 const seed = (n: number) => { const value = Math.sin(n * 87.13 + 13.47) * 43758.5453; return value - Math.floor(value); };
 
-function mechanic(compact: boolean) {
+export function mechanic(compact: boolean) {
   const material = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.57 });
   const body = sculpt(material, compact);
   for (const side of [-1, 1]) {
