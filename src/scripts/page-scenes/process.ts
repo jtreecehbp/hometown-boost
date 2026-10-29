@@ -13,7 +13,9 @@ export function create(compact: boolean) {
   const approved = k.check('review-approved');
   const gantry = k.part('assembly-arm', b => { b.box(0.18, 2.8, 0.2, colors.orange, 0, 1.4, 0); b.box(1.15, 0.18, 0.2, colors.gold, 0.46, 2.7, 0); });
   gantry.position.set(-0.5, 0.4, -1);
-  const parcel = k.part('launch-ready', b => { b.box(1.15, 0.9, 1, colors.white, 0, 0.45, 0); b.box(0.2, 0.93, 1.03, colors.orange, 0, 0.45, 0); });
+  // What comes off the line is the HB tank itself, ready for its launch pad.
+  const parcel = k.tank('launch-ready');
+  parcel.scale.setScalar(0.62);
   return { root: k.root, update(p: number, t: number) {
     const intro = smooth(0, 1.4, t);
     idea.position.set(-2.3, 0.8 + (1 - intro) * 1.8, 0);

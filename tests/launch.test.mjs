@@ -41,7 +41,7 @@ test("the rocket ignites on the ground, climbs, lands on the moon, and retraces 
   assert.equal(sampleFlight(0.7).moon, 0, "pricing still happens above the hometown");
   assert.equal(sampleFlight(0.5).smoke, 0);
   assert.ok(
-    sampleFlight(chapterProgress[5]).lift - sampleFlight(chapterProgress[4]).lift <= 2,
+    sampleFlight(chapterProgress[4]).lift - sampleFlight(chapterProgress[3]).lift <= 2,
     "pricing and FAQ ascent stays calm",
   );
   assert.deepEqual(sampleFlight(-1), sampleFlight(0));
@@ -176,7 +176,7 @@ test("the rocket overtakes world-anchored landmarks and reversing scroll retrace
     updateLaunchWorld(world, encounter, 5);
     const planePose = plane.matrixWorld.clone();
     const bladePose = propeller.matrixWorld.clone();
-    updateLaunchWorld(world, sampleFlight(chapterProgress[5]), 5);
+    updateLaunchWorld(world, sampleFlight(chapterProgress[4]), 5);
     assert.deepEqual(stationary.map(actor => actor.position.y), altitudes);
     assert.ok(stationary.every(actor => new THREE.Box3().setFromObject(actor).max.y < world.rocket.position.y));
     assert.notDeepEqual(plane.matrixWorld, planePose);
@@ -240,7 +240,7 @@ test("the film opens with a clear tower, banks through clouds, settles for prici
   assert.ok(sampleFlight(0.33).bank < -0.2 && sampleFlight(0.41).bank > 0.2);
   assert.ok(sampleFlight(0.51).cloud > 0.9 && reveal.cloud < 0.1);
   assert.ok(reveal.distance > sampleFlight(0.465).distance * 1.35);
-  const plan = sampleFlight(chapterProgress[4]), faq = sampleFlight(chapterProgress[5]);
+  const plan = sampleFlight(chapterProgress[3]), faq = sampleFlight(chapterProgress[4]);
   for (const key of ["orbit", "distance", "elevation", "lookHeight", "bank", "cameraRoll"])
     assert.equal(plan[key], faq[key], `${key} should stay calm while comparing plans`);
   assert.equal(end.overlook, 1);

@@ -28,21 +28,22 @@ export async function createPageRenderer(viewport: HTMLElement, id: PageSceneId,
   } catch (error) { disposeModel(model.root); throw error; }
   const scene = new THREE.Scene();
   scene.add(model.root);
-  scene.add(new THREE.HemisphereLight(0xf5fbff, 0x6c95b4, 2.5));
-  const sun = new THREE.DirectionalLight(0xfff2d8, 3.2);
-  sun.position.set(-4, 9, 7);
+  // The same golden-morning light as the home page: a warm low sun and a sky-and-earth fill.
+  scene.add(new THREE.HemisphereLight(0xcfe0f0, 0xb39572, 1.7));
+  const sun = new THREE.DirectionalLight(0xffd29a, 3.3);
+  sun.position.set(-5, 7.5, 7);
   sun.castShadow = true;
   sun.shadow.mapSize.setScalar(compact ? 512 : 1024);
   Object.assign(sun.shadow.camera, { left: -6, right: 6, top: 7, bottom: -6, near: 0.5, far: 25 });
   sun.shadow.bias = -0.001;
   sun.shadow.normalBias = 0.04;
   scene.add(sun);
-  const rim = new THREE.DirectionalLight(0xaadfff, 1.7);
+  const rim = new THREE.DirectionalLight(0xffe2b8, 1.25);
   rim.position.set(5, 4, -5);
   scene.add(rim);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
+  renderer.toneMapping = THREE.NeutralToneMapping;
+  renderer.toneMappingExposure = 1;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFShadowMap;
   renderer.setClearColor(0x000000, 0);

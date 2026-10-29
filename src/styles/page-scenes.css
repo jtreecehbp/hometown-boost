@@ -1,14 +1,17 @@
 .has-page-scene main { position: relative; isolation: isolate; background: #f7fbff; }
 .page-content { position: relative; z-index: 1; }
-.page-scene { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 90% 5%, #d6edff 0, #edf7ff 32%, #f7fbff 70%); }
-.page-scene[data-scene-mood="paper"] { background: radial-gradient(ellipse at 90% 5%, #ffebd1, #f7fbff 50%); }
-.page-scene[data-scene-mood="town"] { background: radial-gradient(ellipse at 90% 5%, #daeee7, #e7f4ff 32%, #f7fbff 70%); }
-.page-scene[data-scene-mood="workshop"] { background: radial-gradient(ellipse at 88% 8%, #d6e9fb, #fff2e4 40%, #f7fbff 65%); }
+/* The same golden-morning sky as the home page, glowing behind each page's piece of the hometown. */
+.page-scene { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 88% 6%, #ffe9cf 0, #f6eee5 22%, #e6f0f9 44%, #f7fbff 72%); }
+.page-scene[data-scene-mood="paper"] { background: radial-gradient(ellipse at 88% 6%, #ffe6cc, #fcf2e8 32%, #f7fbff 64%); }
+.page-scene[data-scene-mood="town"] { background: radial-gradient(ellipse at 88% 6%, #ffebd0 0, #f0f3e3 26%, #eaf4f0 46%, #f7fbff 72%); }
+.page-scene[data-scene-mood="workshop"] { background: radial-gradient(ellipse at 88% 8%, #ffe4c4, #fff2e4 34%, #f7fbff 64%); }
 .page-scene__pin { position: sticky; top: var(--header-height); z-index: 0; width: 100%; height: calc(100svh - var(--header-height)); overflow: hidden; }
 .page-scene__viewport { position: absolute; inset: 0; }
 .page-scene__viewport canvas { display: block; width: 100%; height: 100%; }
 .page-scene__controls { position: fixed; z-index: 45; bottom: 18px; right: 20px; pointer-events: auto; }
-.page-scene__controls button { min-height: 44px; padding: 9px 15px; display: flex; align-items: center; gap: 15px; border: 1px solid #c7dce8; border-radius: 30px; background: #ffffffed; color: #153e64; font: 550 14px var(--font-body); box-shadow: 0 5px 24px #173e6410; cursor: pointer; }
+/* The same small round control as the home page. */
+.page-scene__controls button { width: 46px; height: 46px; padding: 0; display: grid; place-items: center; border: 1px solid #c7dce8; border-radius: 50%; background: #ffffffe6; color: #153e64; font: 550 15px var(--font-body); box-shadow: 0 6px 22px #0f2a4920; cursor: pointer; backdrop-filter: blur(12px); }
+.page-scene__text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .page-scene__controls button:hover { background: #fff0e2; }
 .page-scene__controls button:focus-visible { outline: 3px solid #dd6b20; outline-offset: 3px; }
 .scene-window { min-width: 0; width: 100%; height: clamp(320px, 36vw, 490px); position: relative; pointer-events: none; }
@@ -43,7 +46,6 @@
   .has-page-scene .page-hero h1 { font-size: clamp(2.6rem, 10vw, 3.6rem); }
   .scene-window { height: 290px; max-width: 460px; margin-inline: auto; }
   .page-scene__controls { right: 12px; bottom: 12px; }
-  .page-scene__controls button { font-size: 14px; padding-inline: 13px; }
   .has-page-scene .contact-intro .scene-window { height: 205px; }
   .has-page-scene .success-panel { padding-bottom: 15px; }
   .has-page-scene .prose { padding: 20px; }

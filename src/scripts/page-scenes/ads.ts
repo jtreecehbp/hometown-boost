@@ -5,7 +5,7 @@ export function create(compact: boolean) {
   const map = k.part('local-search-map', b => {
     for (let i = -2; i <= 2; i++) { b.box(6.3, 0.035, 0.055, colors.pale, 0, 0.02, i * 1.1); b.box(0.055, 0.035, 6.3, colors.pale, i * 1.1, 0.02, 0); }
   });
-  const business = k.shop('search-destination', colors.orange); business.position.set(0, 0, -0.4);
+  const business = k.shop('search-destination', colors.brick); business.position.set(0, 0, -0.4);
   const rings = [1.3, 2.2, 3.2].map((r, i) => { const ring = k.ring('search-radius-' + i, r, i % 2 ? colors.blue : colors.orange); ring.rotation.x = -Math.PI / 2; ring.position.y = 0.07; return ring; });
   const sweep = k.part('search-sweep', b => { b.rod([0, 0.11, 0], [0, 0.11, 3.3], 0.07, colors.gold); b.sphere(colors.orange, [0, 0.14, 3.3], [0.15, 0.15, 0.15]); });
   const signals = Array.from({ length: 5 }, (_, i) => k.orb('local-search-signal-' + i, colors.orange, 0.12));

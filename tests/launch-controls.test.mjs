@@ -73,13 +73,14 @@ function fixture({ reduced = false, unavailable = false, withBeats = false } = {
     button = element(),
     label = element(),
     navigation = element();
-  const heights = [0, 1000, 2000, 3000, 4000, 5500, 6500];
+  // Home, what you get, real work, plans, FAQ, and the finale, in page order.
+  const heights = [0, 1700, 3400, 4300, 5500, 7000];
   const chapters = heights.map((top) => ({
     ...element(),
     getBoundingClientRect: () => ({ top: top - window.scrollY }),
   }));
   const links = heights.map(() => element());
-  const beats = withBeats ? [[1500, 0.24], [2500, 0.525], [6100, 0.935]].map(([top, at]) => ({
+  const beats = withBeats ? [[900, 0.24], [2600, 0.525], [6300, 0.935]].map(([top, at]) => ({
     ...element(), offsetHeight: 600, dataset: { flightCue: String(at) },
     getBoundingClientRect: () => ({ top: top - window.scrollY }),
   })) : [];
@@ -202,7 +203,7 @@ test("pause freezes the flight and ambient effects while scrolling and links rem
 test("reduced motion starts grounded and stationary until the visitor explicitly plays", () => {
   const app = fixture({ reduced: true });
   try {
-    app.scroll(6500);
+    app.scroll(7400);
     app.advance();
     assert.equal(app.renders.at(-1).pose.lift, 0);
     assert.equal(app.renders.at(-1).time, 0);
@@ -272,20 +273,23 @@ test("WebGL failure keeps the emblem fallback and hides unavailable animation co
 test("cinematic interludes land on their own cues and retrace without changing navigation", () => {
   const app = fixture({ withBeats: true });
   try {
-    app.scroll(1365);
+    app.scroll(765);
     app.advance();
     assert.equal(app.renders.at(-1).pose.progress, 0.24);
-    assert.equal(app.label.textContent, "Your website");
+    assert.equal(app.label.textContent, "Your hometown", "the liftoff beat belongs to the opening chapter");
     assert.ok(app.renders.at(-1).pose.smoke > 0.9);
-    app.scroll(2365);
+    app.scroll(1565);
+    app.advance();
+    assert.equal(app.label.textContent, "What you get");
+    app.scroll(2465);
     app.advance();
     assert.ok(app.renders.at(-1).pose.cloud > 0.5);
-    app.scroll(5965);
+    app.scroll(6165);
     app.advance();
     // The homecoming line plays over the approach to the moon, with Earth behind.
     assert.equal(app.renders.at(-1).pose.moon, 1);
     assert.ok(app.renders.at(-1).pose.overlook >= 0.5);
-    app.scroll(1365);
+    app.scroll(765);
     app.advance();
     assert.equal(app.renders.at(-1).pose.progress, 0.24);
     assert.equal(app.renders.at(-1).pose.network, 0);

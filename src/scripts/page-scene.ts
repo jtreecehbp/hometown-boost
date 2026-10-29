@@ -26,7 +26,9 @@ export function mountPageScene(host: HTMLElement, factory = loadGraphics) {
   let frame = 0, last = 0, time = 0, progress = 0, target = 0;
   let box: SceneFrame = { x: 0, y: 0, width: 1, height: 1 };
   const label = () => {
-    button.innerHTML = paused ? 'Play motion <span aria-hidden="true">▶</span>' : 'Pause motion <span aria-hidden="true">Ⅱ</span>';
+    button.innerHTML = paused
+      ? '<span class="page-scene__text">Play motion</span><span aria-hidden="true">▶</span>'
+      : '<span class="page-scene__text">Pause motion</span><span aria-hidden="true">Ⅱ</span>';
     button.setAttribute('aria-label', paused ? 'Play background animation' : 'Pause background animation');
     button.setAttribute('aria-pressed', String(paused));
   };

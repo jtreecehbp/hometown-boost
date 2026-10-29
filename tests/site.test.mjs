@@ -112,7 +112,7 @@ test("plan commitments and form registration remain consistent", () => {
 test("one continuous launch scene loads separately from useful HTML content", () => {
   const home = readFileSync(join(root, "index.html"), "utf8");
   assert.equal((home.match(/data-launch-stage/g) || []).length, 1);
-  assert.equal((home.match(/data-flight-stop=/g) || []).length, 7);
+  assert.equal((home.match(/data-flight-stop=/g) || []).length, 6);
   assert.equal((home.match(/data-flight-cue=/g) || []).length, 3);
   assert.match(home, /data-launch-controls hidden/);
   assert.match(home, /Pause motion/);

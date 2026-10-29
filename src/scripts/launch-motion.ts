@@ -26,11 +26,11 @@ export interface FlightPose {
   /** Landing legs: 0 stowed, 1 fully deployed. */
   legs: number;
 }
+/** Home page chapters: the pad, what you get (the climb), real work (above the clouds), plans, FAQ, and the moon. */
 export const chapterLabels = [
-  "Your hometown", "Your website", "Get found", "Keep growing",
-  "Your plan", "Good questions", "Let’s launch",
+  "Your hometown", "What you get", "Real work", "Your plan", "Good questions", "Let’s launch",
 ];
-export const chapterProgress = [0, 0.16, 0.37, 0.6, 0.69, 0.82, 1];
+export const chapterProgress = [0, 0.37, 0.6, 0.69, 0.82, 1];
 export const clamp = (value: number, min = 0, max = 1) =>
   Math.max(min, Math.min(max, Number.isFinite(value) ? value : min));
 const smooth = (value: number) => { const t = clamp(value); return t * t * (3 - 2 * t); };

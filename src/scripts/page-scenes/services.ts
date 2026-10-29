@@ -2,6 +2,13 @@ import { kit, colors, mix, smooth } from './kit.ts';
 export function create(compact: boolean) {
   const k = kit(compact);
   k.platform();
+  // The website takes shape in front of the Main Street storefront it is being built for.
+  const storefront = k.shop('main-street-storefront', colors.cream);
+  storefront.position.set(-2.7, 0, -0.55);
+  storefront.rotation.y = 0.5;
+  storefront.scale.setScalar(0.85);
+  const lamp = k.lamp('main-street-lamp');
+  lamp.position.set(2.6, 0, -1.15);
   const desk = k.part('workshop-table', b => {
     b.box(5.1, 0.22, 2.5, colors.blue, 0, 0.55, 0);
     for (const x of [-2, 2]) b.box(0.18, 0.55, 1.75, colors.navy, x, 0.18, 0);
@@ -28,6 +35,7 @@ export function create(compact: boolean) {
     gear.rotation.z = -t * 0.22 - p * 2;
     screen.rotation.y = Math.sin(t * 0.25) * 0.025;
     desk.position.y = p * 0.08;
+    lamp.rotation.y = Math.sin(t * 0.3) * 0.02;
     k.root.rotation.y = -0.12 + p * 0.45;
   } };
 }

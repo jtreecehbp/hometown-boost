@@ -10,7 +10,7 @@ const { scene } = Astro.props;
     <div class="page-scene__viewport" data-page-viewport></div>
   </div>
   <div class="page-scene__controls" data-page-scene-controls hidden>
-    <button type="button" data-page-scene-pause aria-pressed="false" aria-label={`Pause background animation: ${pageScenes[scene].label}`}>Pause motion <span aria-hidden="true">Ⅱ</span></button>
+    <button type="button" data-page-scene-pause aria-pressed="false" aria-label={`Pause background animation: ${pageScenes[scene].label}`}><span class="page-scene__text">Pause motion</span><span aria-hidden="true">Ⅱ</span></button>
   </div>
 </div>
 <script>

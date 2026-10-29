@@ -6,11 +6,17 @@ export function create(compact: boolean) {
   const roots = [-1, 0, 1].map((side, i) => {
     const x = side * 2.4, z = i === 1 ? 2.5 : -0.7;
     const root = k.path('root-to-business-' + i, [[0, 0.2, 0], [x * 0.5, 0.3, z * 0.4], [x, 0.1, z]], colors.orange, 0.09);
-    const shop = k.shop('rooted-local-shop-' + i, [colors.navy, colors.orange, colors.blue][i]);
+    const shop = k.shop('rooted-local-shop-' + i, [colors.brick, colors.cream, colors.sage][i]);
     shop.position.set(x, 0, z); shop.scale.setScalar(0.6);
     return { root, shop, light: k.orb('neighbor-light-' + i, colors.gold, 0.15) };
   });
   const leaves = Array.from({ length: 5 }, (_, i) => k.orb('new-leaf-' + i, i % 2 ? colors.gold : colors.green, 0.18));
+  // Home is where the HB water tower stands, just behind the roots.
+  const home = k.tower('hometown-tower');
+  const homeTank = k.tank('hometown-tank', home);
+  homeTank.position.y = 1.66;
+  home.position.set(-2.15, 0, 1.15);
+  home.scale.setScalar(0.72);
   return { root: k.root, update(p: number, t: number) {
     tree.scale.y = 1.52 + smooth(0, 1, p) * 0.28;
     tree.rotation.z = Math.sin(t * 0.5) * 0.012;

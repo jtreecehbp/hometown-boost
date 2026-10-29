@@ -348,6 +348,18 @@ select:focus-visible {
   display: grid;
   gap: 20px;
 }
+/* Text for screen readers only, such as "(opens a new tab)". */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
 .grid--2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -1588,6 +1600,7 @@ select:focus-visible {
   .footer__top {
     grid-template-columns: 1.4fr 1fr 1fr;
   }
+  .grid--4,
   .grid--5 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -1729,8 +1742,14 @@ select:focus-visible {
   .grid--4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  /* Once the menu collapses, side-by-side columns get too narrow to read: stack them.
+     Pricing cards keep their own two-up grid. */
+  .grid--3:not(.pricing-grid) {
+    grid-template-columns: 1fr;
+  }
   .faq-split {
-    gap: 45px;
+    grid-template-columns: 1fr;
+    gap: 30px;
   }
   .steps {
     gap: 30px;
@@ -1742,7 +1761,12 @@ select:focus-visible {
     font-size: 24px;
   }
   .contact-layout {
+    grid-template-columns: 1fr;
     gap: 30px;
+  }
+  .contact-intro {
+    position: static;
+    max-width: 640px;
   }
   .lead-form {
     padding: 28px;
@@ -1755,6 +1779,9 @@ select:focus-visible {
   }
   .page-intro {
     gap: 30px;
+  }
+  .split {
+    gap: 40px;
   }
   .editorial-row {
     grid-template-columns: 40px 0.8fr 1fr;
@@ -2187,7 +2214,9 @@ select:focus-visible {
     gap: 15px;
     padding: 30px 0;
   }
-  .editorial-row > div:last-child {
+  /* The description sits under the title, never in the narrow number column
+     (How it works and Google Ads use a plain <p>, Services wraps it in a <div>). */
+  .editorial-row > :nth-child(n + 3) {
     grid-column: 2;
   }
   .editorial-row h3 {
@@ -2229,6 +2258,12 @@ select:focus-visible {
     padding: 26px;
   }
 }
+@media (max-width: 560px) {
+  /* Two cards side by side leave about 110px for text on a phone: one card per row. */
+  .grid--4 {
+    grid-template-columns: 1fr;
+  }
+}
 @media (max-width: 380px) {
   .container {
     width: calc(100% - 32px);
@@ -2255,9 +2290,6 @@ select:focus-visible {
   .scene-card--bottom {
     right: 0;
     bottom: 45px;
-  }
-  .grid--4 {
-    grid-template-columns: 1fr;
   }
   .form-grid {
     grid-template-columns: 1fr;

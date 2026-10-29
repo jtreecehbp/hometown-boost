@@ -26,7 +26,7 @@ body.has-launch-story {
 .has-launch-story .menu-toggle { border-color: #bdd2e3; }
 .has-launch-story .menu-toggle span { background: var(--launch-ink); }
 .has-launch-story .nav__mobile-cta { background: var(--accent); color: var(--launch-ink); }
-.launch-world { position: relative; isolation: isolate; }
+.launch-world { position: relative; isolation: isolate; overflow-x: clip; }
 .launch-stage {
   height: 100svh;
   position: sticky;
@@ -59,7 +59,7 @@ body.has-launch-story {
 }
 .launch-stage.is-ready .launch-stage__fallback { opacity: 0; }
 .film-beat {
-  min-height: 85svh;
+  min-height: 70svh;
   display: flex;
   align-items: flex-end;
   padding: 0 0 16svh;
@@ -80,11 +80,11 @@ body.has-launch-story {
   backdrop-filter: blur(14px);
 }
 .film-beat__caption em { font-style: normal; color: var(--launch-accent); }
-.film-beat--clouds { min-height: 95svh; }
-.film-beat--homecoming { min-height: 100svh; }
+.film-beat--clouds { min-height: 80svh; }
+.film-beat--homecoming { min-height: 85svh; }
 .flight-chapter {
   position: relative;
-  min-height: 110svh;
+  min-height: 100svh;
   padding: 110px 0;
   display: flex;
   align-items: center;
@@ -243,7 +243,55 @@ body.has-launch-story {
   flex: none;
 }
 .launch-process strong { color: var(--launch-ink); font-size: .9375rem; font-weight: 550; }
-.flight-chapter--wide { min-height: 115svh; }
+.flight-chapter--wide { min-height: 105svh; }
+/* What you get: three compact items in one reading panel. */
+.launch-offer { list-style: none; padding: 0; margin: 26px 0 0; display: grid; gap: 0; }
+.launch-offer li { display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding: 18px 0; border-top: 1px solid var(--launch-line); }
+.launch-offer svg { width: 40px; height: 40px; padding: 9px; border-radius: 11px; background: #e9f3fb; color: #245b87; }
+.launch-offer h3 { font-size: 1.0625rem; font-weight: 700; color: var(--launch-ink); margin: 0; letter-spacing: -.01em; }
+.launch-offer p { font-size: .875rem; color: var(--launch-muted); margin: 5px 0 0; line-height: 1.6; }
+.launch-offer .launch-text-link { font-size: .8125rem; padding: 7px 0 3px; margin-top: 4px; gap: 10px; }
+/* Real work: live client sites in laptop and phone frames. */
+.launch-copy--work { max-width: 620px; }
+.launch-projects { display: grid; gap: 24px; margin-top: 26px; }
+.launch-project { display: grid; grid-template-columns: 250px 1fr; gap: 24px; align-items: center; }
+.launch-project__shots { position: relative; display: block; padding: 0 28px 14px 0; }
+.device { display: block; overflow: hidden; background: #0f2236; box-shadow: 0 12px 28px #0f2a4926; }
+.device img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.device--laptop { aspect-ratio: 16 / 10; border: 6px solid #0f2236; border-bottom-width: 9px; border-radius: 10px; }
+.device--phone { position: absolute; right: 0; bottom: 0; width: 27%; aspect-ratio: 9 / 19.4; border: 4px solid #0f2236; border-radius: 13px; }
+.launch-project__copy .eyebrow { font-size: .6875rem; }
+.launch-project__copy h3 { font-size: 1.1875rem; font-weight: 700; color: var(--launch-ink); margin: 7px 0 6px; letter-spacing: -.015em; }
+.launch-project__copy p { font-size: .8125rem; line-height: 1.6; color: var(--launch-muted); margin: 0; }
+.launch-project__copy .launch-text-link { font-size: .8125rem; padding: 8px 0 3px; margin-top: 6px; gap: 10px; }
+.launch-project__shots:hover .device--laptop { box-shadow: 0 16px 34px #0f2a4938; }
+.launch-meet { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--launch-line); }
+.launch-meet p { font-size: .875rem; line-height: 1.6; color: var(--launch-muted); margin: 0; max-width: 380px; }
+.launch-meet strong { color: var(--launch-ink); }
+.launch-meet .launch-text-link { flex: none; font-size: .8125rem; }
+/* Local Marketing appears as an add-on under the two core plans. */
+.launch-world .pricing-grid.grid--2 { max-width: 860px; }
+.launch-upgrade {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  max-width: 860px;
+  margin-top: 20px;
+  padding: 18px 22px;
+  border-radius: 16px;
+  background: #ffffffeb;
+  border: 1px solid #d8e6f0;
+  color: var(--launch-ink);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 30px #164a710b;
+}
+.launch-upgrade:hover { border-color: #a5c3d9; }
+.launch-upgrade__tag { flex: none; font-size: .6875rem; font-weight: 700; letter-spacing: .12em; color: #9b3c0d; background: #ffe4cf; border: 1px solid #f8cdaa; border-radius: 20px; padding: 5px 10px; }
+.launch-upgrade__copy { display: grid; gap: 2px; flex: 1; }
+.launch-upgrade__copy strong { font-size: 1rem; }
+.launch-upgrade__copy span { font-size: .8125rem; color: var(--launch-muted); }
+.launch-upgrade__arrow { color: var(--launch-accent); font-size: 1.1rem; }
+.launch-world .launch-plans__note { max-width: 860px; text-align: left; }
 .launch-section-heading { max-width: 680px; margin: 0 0 42px; }
 .launch-section-heading h2 { font-size: clamp(2.6rem, 4.1vw, 4rem); margin: 20px 0 24px; line-height: 1.12; }
 .launch-section-heading p { font-size: 1rem; color: var(--launch-muted); max-width: 530px; }
@@ -383,6 +431,8 @@ body.has-launch-story {
 @media (max-width: 1100px) {
   .launch-copy { max-width: 485px; }
   .launch-copy--panel { max-width: 480px; padding: 35px; }
+  /* The real-work panel stays wide enough for a screenshot and its text side by side. */
+  .launch-copy--work { max-width: 600px; }
   .launch-world .pricing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
   .launch-world .pricing-card__topline { min-height: 30px; }
   .launch-chapters { right: 9px; }
@@ -398,16 +448,19 @@ body.has-launch-story {
   .launch-copy h1 { font-size: 4.4rem; }
   .launch-copy > p { font-size: 1rem; }
   .launch-copy--panel { max-width: 430px; padding: 31px; }
+  .launch-copy--work { max-width: 540px; }
+  .launch-project { grid-template-columns: 190px 1fr; gap: 20px; }
   .launch-questions .faq-split { gap: 30px; padding: 32px; }
   .launch-hero__bottom > p { max-width: 230px; }
 }
 @media (max-width: 680px) {
-  .film-beat { min-height: 85svh; padding-bottom: 16svh; }
+  .film-beat { min-height: 68svh; padding-bottom: 12svh; }
   .film-beat__caption { font-size: clamp(2.2rem, 9vw, 3.1rem); padding: 16px 20px; margin-left: 0; }
-  .flight-chapter { min-height: 115svh; padding: 75px 0; scroll-margin-top: 70px; }
+  .flight-chapter { min-height: 100svh; padding: 64px 0; scroll-margin-top: 70px; }
   .flight-chapter__inner { width: calc(100% - 40px); }
   .launch-hero { min-height: calc(115svh - 74px); align-items: flex-start; padding: 44px 0 270px; }
   .launch-copy { max-width: 100%; }
+  .launch-hero .launch-copy::before { inset: -70px -24px -100px -24px; background: radial-gradient(closest-side, #fff7ecbf, #fff7ec73 55%, #fff7ec00); }
   .launch-copy h1 { font-size: clamp(3.65rem, 14.5vw, 5.3rem); margin: 22px 0 23px; max-width: 410px; }
   .launch-copy > p { font-size: 1rem; max-width: 430px; }
   .launch-copy .eyebrow { font-size: .75rem; letter-spacing: .11em; }
@@ -425,10 +478,15 @@ body.has-launch-story {
   .launch-copy--panel > p { font-size: 1rem; }
   .launch-features { gap: 16px; font-size: .875rem; }
   .launch-copy--panel .launch-text-link { font-size: .875rem; }
-  .flight-chapter--wide { min-height: auto; padding: 100px 0; }
+  .flight-chapter--wide { min-height: auto; padding: 80px 0; }
   .launch-section-heading h2 { font-size: 2.7rem; }
   .launch-section-heading p { font-size: 1rem; }
   .launch-world .pricing-grid { grid-template-columns: 1fr; gap: 20px; }
+  .launch-project { grid-template-columns: 1fr; gap: 14px; }
+  .launch-project__shots { max-width: 250px; }
+  .launch-meet { display: block; }
+  .launch-meet .launch-text-link { margin-top: 8px; }
+  .launch-upgrade { padding: 16px 18px; gap: 14px; }
   .launch-world .pricing-card { background: #fffffff7; backdrop-filter: blur(18px); }
   .launch-world .pricing-card--featured { background: linear-gradient(145deg, #fff6ed, #fffdfb); }
   .launch-world .pricing-card__for { min-height: 0; }
@@ -457,6 +515,7 @@ body.has-launch-story {
 }
 /* Once the 3D sky is running, the plans float in navy space and the finale sits over a sunset. */
 .launch-world:has(> .launch-stage.is-ready) .launch-plans { background: none; }
+.launch-world:has(> .launch-stage.is-ready) .launch-plans__note a { color: #fff; }
 .launch-world:has(> .launch-stage.is-ready) :is(.launch-plans .launch-section-heading, .launch-finale .launch-copy) h2 { color: #fff; }
 .launch-world:has(> .launch-stage.is-ready) :is(.launch-plans .launch-section-heading, .launch-finale .launch-copy) :is(em, .eyebrow) { color: #ffb070; }
 .launch-world:has(> .launch-stage.is-ready) :is(.launch-plans .launch-section-heading p, .launch-finale .launch-copy > p, .launch-plans__note, .launch-finale .launch-smallprint) { color: #d9e6f4 !important; }
